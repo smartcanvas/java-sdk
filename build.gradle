@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'eclipse'
 
-archivesBaseName = 'brain-client'
+archivesBaseName = 'brain-api-client'
 sourceCompatibility = 1.5
 version = '1.0.1'
 group = 'com.ciandt.brain'
