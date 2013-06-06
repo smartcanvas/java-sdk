@@ -1,0 +1,60 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'eclipse'
+
+archivesBaseName = 'brain-client'
+sourceCompatibility = 1.5
+version = '1.0.1'
+group = 'com.ciandt.brain'
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'Brain API Java Client', 'Implementation-Version': version
+	}
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	compile group: 'com.google.http-client', name: 'google-http-client', version: '1.15.0-rc'
+	compile group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.15.0-rc'
+
+	testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test { systemProperties 'property': 'value' }
+
+uploadArchives {
+	repositories {
+		flatDir { dirs 'repos' }
+		mavenDeployer {
+			repository(url: "http://localhost:8080/archiva/repository/internal/") {
+				authentication(userName: "admin", password: "1admin2")
+			}
+			pom.version = version
+			pom.artifactId = archivesBaseName
+			pom.groupId = group
+		}
+
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+		}
+	}
+	repositories {
+		maven {
+			url "http://localhost:8080/archiva/repository/internal/"
+			credentials {
+				username = 'admin'
+				password = '1admin2'
+			}
+		}
+	}
+}
