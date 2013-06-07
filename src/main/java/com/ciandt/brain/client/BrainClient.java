@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler;
+import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
@@ -86,6 +87,10 @@ public class BrainClient {
 	public void addEvent(String eventCollection, Map<String, Object> event) throws IOException {
 		addEvent(eventCollection, new Event(eventCollection, event));
 	}
+
+	public void addEvent(String eventCollection, String jsonEvent) throws IOException {
+		
+	}
 	
 	/**
 	 * @param eventCollection
@@ -116,7 +121,7 @@ public class BrainClient {
 
 		return request;
 	}
-
+	
 	public class BrainApiUrl extends GenericUrl {
 		
 		final static String url = "%s/%s/projects/%s/events/%s";

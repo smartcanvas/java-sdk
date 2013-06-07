@@ -5,7 +5,7 @@ apply plugin: 'eclipse'
 
 archivesBaseName = 'brain-api-client'
 sourceCompatibility = 1.5
-version = '1.0.1'
+version = '1.0.2'
 group = 'com.ciandt.brain'
 jar {
 	manifest {
@@ -50,10 +50,10 @@ publishing {
 	}
 	repositories {
 		maven {
-			url "http://localhost:8080/archiva/repository/internal/"
+			url "http://purva.cit:9080/archiva/repository/internal"
 			credentials {
-				username = 'admin'
-				password = '1admin2'
+				username = 'cocacola'
+				password = 'coca2011'
 			}
 		}
 	}
