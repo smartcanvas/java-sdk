@@ -5,7 +5,7 @@ apply plugin: 'eclipse'
 
 archivesBaseName = 'brain-api-client'
 sourceCompatibility = 1.5
-version = '1.0.2'
+version = '1.0.3'
 group = 'com.ciandt.brain'
 jar {
 	manifest {

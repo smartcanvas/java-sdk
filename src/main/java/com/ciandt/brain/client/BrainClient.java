@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler;
-import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
@@ -17,20 +16,21 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Preconditions;
 
 /**
- * Brain REST API Java Client
- * Easiest way to send events to the Brain within a Java application
+ * Brain REST API Java Client Easiest way to send events to the Brain within a
+ * Java application
  * 
-* <p/>
+ * <p/>
  * Example usage:
  * <p/>
+ * 
  * <pre>
- *		BrainClient brain = new BrainClient(HTTP_TRANSPORT, JSON_FACTORY, projectId);
- *		Map eventData = new HashMap();
- *		eventData.put("p1", 1231232343);
- *		eventData.put("userId", "anonymous");
- *		Event event = new Event("pin_sent", eventData);
- *		brain.addEvent(eventCollection, event);
- * </pre> 
+ * BrainClient brain = new BrainClient(HTTP_TRANSPORT, JSON_FACTORY, projectId);
+ * Map eventData = new HashMap();
+ * eventData.put(&quot;p1&quot;, 1231232343);
+ * eventData.put(&quot;userId&quot;, &quot;anonymous&quot;);
+ * Event event = new Event(&quot;pin_sent&quot;, eventData);
+ * brain.addEvent(eventCollection, event);
+ * </pre>
  * 
  * @author fabio
  * @version 1.0
@@ -38,28 +38,21 @@ import com.google.api.client.util.Preconditions;
 public class BrainClient {
 
 	private final String apiVersion = "1.0";
-	private String basePath = "https://digitalmarketingnextdev.appspot.com/";
+	private String basePath;
 	private HttpTransport transport;
 	private JsonFactory jsonFactory;
 	private String projectId;
+	private String apiKey;
 	private HttpExecuteInterceptor executeInterceptor;
 
-
 	public BrainClient(HttpTransport httpTransport, JsonFactory jsonFactory,
-			String projectId, String basePath) {
+			String projectId, String basePath, String apiKey) {
 		super();
 		this.transport = httpTransport;
 		this.jsonFactory = jsonFactory;
 		this.projectId = projectId;
 		this.basePath = basePath;
-	}
-	
-	public BrainClient(HttpTransport httpTransport, JsonFactory jsonFactory,
-			String projectId) {
-		super();
-		this.transport = httpTransport;
-		this.jsonFactory = jsonFactory;
-		this.projectId = projectId;
+		this.apiKey = apiKey;
 	}
 
 	/**
@@ -84,14 +77,16 @@ public class BrainClient {
 		}
 	}
 
-	public void addEvent(String eventCollection, Map<String, Object> event) throws IOException {
+	public void addEvent(String eventCollection, Map<String, Object> event)
+			throws IOException {
 		addEvent(eventCollection, new Event(eventCollection, event));
 	}
 
-	public void addEvent(String eventCollection, String jsonEvent) throws IOException {
-		
+	public void addEvent(String eventCollection, String jsonEvent)
+			throws IOException {
+		throw new RuntimeException("Not Implemented");
 	}
-	
+
 	/**
 	 * @param eventCollection
 	 * @param event
@@ -121,9 +116,9 @@ public class BrainClient {
 
 		return request;
 	}
-	
+
 	public class BrainApiUrl extends GenericUrl {
-		
+
 		final static String url = "%s/%s/projects/%s/events/%s";
 
 		public BrainApiUrl(String projectId, String eventCollection) {
@@ -136,6 +131,7 @@ public class BrainClient {
 		return transport.createRequestFactory(new HttpRequestInitializer() {
 			public void initialize(HttpRequest request) {
 				request.setNumberOfRetries(5);
+				request.getHeaders().setAuthorization(apiKey);
 				if (executeInterceptor != null) {
 					request.setInterceptor(executeInterceptor);
 				}
