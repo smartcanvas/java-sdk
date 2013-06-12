@@ -16,7 +16,7 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Preconditions;
 
 /**
- * Brain REST API Java Client Easiest way to send events to the Brain within a
+ * Brain REST API Java Client: the easiest way to send events to the Brain within a
  * Java application
  * 
  * <p/>
@@ -24,7 +24,7 @@ import com.google.api.client.util.Preconditions;
  * <p/>
  * 
  * <pre>
- * BrainClient brain = new BrainClient(HTTP_TRANSPORT, JSON_FACTORY, projectId);
+ * BrainClient brain = new BrainClient(HTTP_TRANSPORT, JSON_FACTORY, projectId, basePath, apiKey);
  * Map eventData = new HashMap();
  * eventData.put(&quot;p1&quot;, 1231232343);
  * eventData.put(&quot;userId&quot;, &quot;anonymous&quot;);
@@ -37,7 +37,7 @@ import com.google.api.client.util.Preconditions;
  */
 public class BrainClient {
 
-	private final String apiVersion = "1.0";
+	private static final String apiVersion = "1.0";
 	private String basePath;
 	private HttpTransport transport;
 	private JsonFactory jsonFactory;
@@ -70,19 +70,19 @@ public class BrainClient {
 	 * @param events
 	 * @throws IOException
 	 */
-	public void addEvents(String eventCollection, Event[] events)
+	public void addEvents(final String eventCollection, Event[] events)
 			throws IOException {
 		for (Event evt : events) {
 			addEvent(eventCollection, evt);
 		}
 	}
 
-	public void addEvent(String eventCollection, Map<String, Object> event)
+	public void addEvent(final String eventCollection, Map<String, Object> event)
 			throws IOException {
 		addEvent(eventCollection, new Event(eventCollection, event));
 	}
 
-	public void addEvent(String eventCollection, String jsonEvent)
+	public void addEvent(final String eventCollection, String jsonEvent)
 			throws IOException {
 		throw new RuntimeException("Not Implemented");
 	}
@@ -92,10 +92,10 @@ public class BrainClient {
 	 * @param event
 	 * @throws IOException
 	 */
-	public void addEvent(String eventCollection, Event event)
+	public void addEvent(final String eventCollection, Event event)
 			throws IOException {
-		Preconditions.checkNotNull(eventCollection, "");
-		Preconditions.checkNotNull(event, "");
+		Preconditions.checkNotNull(eventCollection, "eventCollection will be used as action and therefore is mandatory");
+		Preconditions.checkNotNull(event, "event is mandatory");
 		Preconditions.checkState(event.containsKey("data"),
 				"data MUST contains a data property");
 		Preconditions.checkState(event.containsKey("action"),
@@ -103,7 +103,7 @@ public class BrainClient {
 		httpRequest(eventCollection, event).execute();
 	}
 
-	private HttpRequest httpRequest(String eventCollection, Event event)
+	private HttpRequest httpRequest(final String eventCollection, Event event)
 			throws IOException {
 
 		BrainApiUrl url = new BrainApiUrl(projectId, eventCollection);
