@@ -1,4 +1,4 @@
-package com.ciandt.brain.client;
+package com.smartcanvas;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,6 +12,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Key;
+import com.smartcanvas.BrainClient;
+import com.smartcanvas.Event;
 
 public class BrainClientTests {
 

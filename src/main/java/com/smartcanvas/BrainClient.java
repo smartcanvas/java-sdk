@@ -1,4 +1,4 @@
-package com.ciandt.brain.client;
+package com.smartcanvas;
 
 import java.io.IOException;
 import java.util.Map;
@@ -32,7 +32,7 @@ import com.google.api.client.util.Preconditions;
  * brain.addEvent(eventCollection, event);
  * </pre>
  * 
- * @author fabio
+ * @author D1
  * @version 1.0
  */
 public class BrainClient {

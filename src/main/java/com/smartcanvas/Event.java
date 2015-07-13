@@ -1,4 +1,4 @@
-package com.ciandt.brain.client;
+package com.smartcanvas;
 
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
@@ -6,7 +6,7 @@ import com.google.api.client.util.Key;
 /**
  * Represents an event
  * 
- * @author fabio
+ * @author D1
  */
 public class Event extends GenericData {
 
