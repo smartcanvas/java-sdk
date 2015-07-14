@@ -1,7 +1,7 @@
 package com.smartcanvas;
 
 import java.io.IOException;
-import java.util.Map;
+
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler;
@@ -13,8 +13,9 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.client.util.Preconditions;
+
 import com.smartcanvas.model.Card;
 
 public class SmartcanvasClient {
@@ -52,13 +53,13 @@ public class SmartcanvasClient {
 	public void addCard(Card card)
 			throws IOException {
 // 		TODO fazer validacoes dos campos obrigatorios		
-//		Preconditions.checkNotNull(eventCollection, "eventCollection will be used as action and therefore is mandatory");
+//		Preconditions.checkNotNull(card.containsKey("x-client-id"), "Access token required to make this API call");
 //		Preconditions.checkNotNull(card, "event is mandatory");
 //		Preconditions.checkState(card.containsKey("data"),
 //				"data MUST contains a data property");
 //		Preconditions.checkState(card.containsKey("action"),
 //				"data MUST contains an action property");
-		httpRequest( card).execute();
+		httpRequest(card).execute();
 	}
 
 	private HttpRequest httpRequest(final Card card)
@@ -69,7 +70,6 @@ public class SmartcanvasClient {
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.put("x-client-id", apiKey);
-		headers.put("x-d1-tenant", "labs");
 		request.setHeaders(headers);
 		request.setCurlLoggingEnabled(true);
 		request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(

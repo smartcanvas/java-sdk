@@ -1,19 +1,29 @@
 package com.smartcanvas.model;
 
+import com.google.api.client.util.GenericData;
+import com.google.api.client.util.Key;
 
-
-
-
-public class ContentProvider  {
+public class ContentProvider  extends GenericData {
   
+  @Key
   private String id = null;
+  @Key
   private String contentId = null;
+  @Key
   private String contentURL = null;
+  @Key
   private String userId = null;
 
   
 
-  public String getId() {
+  public ContentProvider(String id, String contentId, String userId) {
+	super();
+	this.id = id;
+	this.contentId = contentId;
+	this.userId = userId;
+}
+  
+public String getId() {
     return id;
   }
   public void setId(String id) {
