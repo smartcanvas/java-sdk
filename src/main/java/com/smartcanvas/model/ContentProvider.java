@@ -2,6 +2,7 @@ package com.smartcanvas.model;
 
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
+import org.joda.time.DateTime;
 
 public class ContentProvider  extends GenericData {
   
@@ -13,6 +14,10 @@ public class ContentProvider  extends GenericData {
   private String contentURL = null;
   @Key
   private String userId = null;
+  @Key
+  private DateTime createDate = null;
+  @Key
+  private DateTime updateDate = null;
 
   
 
@@ -56,8 +61,25 @@ public String getId() {
     this.userId = userId;
   }
 
+  public DateTime getCreateDate() {
+	    return createDate;
+	  }
+	  public void setCreateDate(DateTime createDate) {
+	    this.createDate = createDate;
+	  }
+
+	  
+  public DateTime getUpdateDate() {
+    return updateDate;
+  }
+  public void setUpdateDate(DateTime updateDate) {
+    this.updateDate = updateDate;
+  }    
   
 
+  
+  
+  
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
