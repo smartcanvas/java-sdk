@@ -22,13 +22,12 @@ public class SmartcanvasClientTests {
 	static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 	static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private SmartcanvasClient smartcanvas;
-	private static final String BASE_PATH = "http://api.smartcanvas.com";
 	private static final String CLIENT_ID = "yYSr9igrmPkR";
 	private List<String> lista;
 
 	@Before
 	public void setUp() {
-		smartcanvas = new SmartcanvasClient(HTTP_TRANSPORT, JSON_FACTORY, BASE_PATH, CLIENT_ID);
+		smartcanvas = new SmartcanvasClient(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID);
 	}
 
 	@Test

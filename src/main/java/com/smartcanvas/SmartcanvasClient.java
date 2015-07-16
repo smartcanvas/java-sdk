@@ -2,7 +2,6 @@ package com.smartcanvas;
 
 import java.io.IOException;
 
-
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler;
 import com.google.api.client.http.HttpExecuteInterceptor;
@@ -15,24 +14,31 @@ import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.google.api.client.util.ExponentialBackOff;
-
 import com.smartcanvas.model.Card;
 
 public class SmartcanvasClient {
 
-	private static final String apiVersion = "v1";
+	private static final int NUMBER_OF_RETRIES_DEFAULT = 3;
+    private static final String X_CLIENT_ID = "x-client-id";
+	private static final String X_ACCESS_TOKEN = "x-access-token";
+    private static final String API_DEFAULT_VERSION = "v1";
+	private static final String API_DEFAULT_ENDPOINT = "http://api.smartcanvas.com";
 	private String basePath;
 	private HttpTransport transport;
 	private JsonFactory jsonFactory;
-	private String apiKey;
+	private String clientId;
 	private HttpExecuteInterceptor executeInterceptor;
 
-	public SmartcanvasClient(HttpTransport httpTransport, JsonFactory jsonFactory, String basePath, String apiKey) {
+    public SmartcanvasClient(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId) {
+        this(httpTransport, jsonFactory, API_DEFAULT_ENDPOINT, clientId);
+    }
+	
+	public SmartcanvasClient(HttpTransport httpTransport, JsonFactory jsonFactory, String basePath, String clientId) {
 		super();
 		this.transport = httpTransport;
 		this.jsonFactory = jsonFactory;
 		this.basePath = basePath;
-		this.apiKey = apiKey;
+		this.clientId = clientId;
 	}
 
 	/**
@@ -67,11 +73,6 @@ public class SmartcanvasClient {
 		SmartcanvasApiUrl url = new SmartcanvasApiUrl();
 		JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
 		HttpRequest request = requestFactory().buildPostRequest(url, content);
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.put("x-client-id", apiKey);
-		request.setHeaders(headers);
-		request.setCurlLoggingEnabled(true);
 		request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(
 				new ExponentialBackOff()));
 
@@ -79,19 +80,20 @@ public class SmartcanvasClient {
 	}
 
 	public class SmartcanvasApiUrl extends GenericUrl {
-
 		final static String url = "%s/card/%s/cards";
 
 		public SmartcanvasApiUrl() {
-			super(String.format(url, basePath, apiVersion));
+			super(String.format(url, basePath, API_DEFAULT_VERSION));
 		}
 	}
 
 	private HttpRequestFactory requestFactory() {
 		return transport.createRequestFactory(new HttpRequestInitializer() {
 			public void initialize(HttpRequest request) {
-				request.setNumberOfRetries(5);
-				request.getHeaders().setAuthorization(apiKey);
+				request.setNumberOfRetries(NUMBER_OF_RETRIES_DEFAULT);
+				request.getHeaders().put(X_CLIENT_ID, clientId);
+				//request.getHeaders().setAccept("ap");
+				request.setCurlLoggingEnabled(true);
 				if (executeInterceptor != null) {
 					request.setInterceptor(executeInterceptor);
 				}
