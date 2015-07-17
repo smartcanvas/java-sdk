@@ -2,8 +2,12 @@ package com.smartcanvas.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.joda.deser.DateTimeDeserializer;
+
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
+import org.joda.time.DateTime;
 
 public class Card extends GenericData {
 
@@ -24,10 +28,14 @@ public class Card extends GenericData {
 	
 	@Key
 	private Community community;
-	private Long createDate;
-	private Long updateDate;
-	private Long publishDate;
-	private Long expirationDate;
+	
+	@Key
+	@JsonDeserialize(using=DateTimeDeserializer.class)
+	private DateTime publishDate;
+	
+	@Key
+	@JsonDeserialize(using=DateTimeDeserializer.class)
+	private DateTime expirationDate;
 	
 	@Key
 	private Boolean autoApprove;
@@ -37,7 +45,13 @@ public class Card extends GenericData {
 	
 	@Key
 	private List<String> metaTags;
+
 	
+	
+	private DateTime createDate;
+	private DateTime updateDate;
+	
+		
 	private String jsonExtendedData;
 	private String coordinates;
 	private List<Attachment> attachments;
@@ -100,35 +114,35 @@ public class Card extends GenericData {
 		this.community = community;
 	}
 
-	public Long getCreateDate() {
+	public DateTime getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Long createDate) {
+	public void setCreateDate(DateTime createDate) {
 		this.createDate = createDate;
 	}
 
-	public Long getUpdateDate() {
+	public DateTime getUpdateDate() {
 		return updateDate;
 	}
 
-	public void setUpdateDate(Long updateDate) {
+	public void setUpdateDate(DateTime updateDate) {
 		this.updateDate = updateDate;
 	}
 
-	public Long getPublishDate() {
+	public DateTime getPublishDate() {
 		return publishDate;
 	}
 
-	public void setPublishDate(Long publishDate) {
+	public void setPublishDate(DateTime publishDate) {
 		this.publishDate = publishDate;
 	}
 
-	public Long getExpirationDate() {
+	public DateTime getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Long expirationDate) {
+	public void setExpirationDate(DateTime expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
