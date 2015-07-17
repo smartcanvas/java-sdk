@@ -2,12 +2,10 @@ package com.smartcanvas.model;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.joda.deser.DateTimeDeserializer;
+import org.joda.time.DateTime;
 
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
-import org.joda.time.DateTime;
 
 public class Card extends GenericData {
 
@@ -30,12 +28,10 @@ public class Card extends GenericData {
 	private Community community;
 	
 	@Key
-	@JsonDeserialize(using=DateTimeDeserializer.class)
-	private DateTime publishDate;
+	private String publishDate;
 	
 	@Key
-	@JsonDeserialize(using=DateTimeDeserializer.class)
-	private DateTime expirationDate;
+	private String expirationDate;
 	
 	@Key
 	private Boolean autoApprove;
@@ -46,7 +42,6 @@ public class Card extends GenericData {
 	@Key
 	private List<String> metaTags;
 
-	
 	
 	private DateTime createDate;
 	private DateTime updateDate;
@@ -131,19 +126,19 @@ public class Card extends GenericData {
 	}
 
 	public DateTime getPublishDate() {
-		return publishDate;
+		return DateTime.parse(this.publishDate);
 	}
 
 	public void setPublishDate(DateTime publishDate) {
-		this.publishDate = publishDate;
+		this.publishDate = publishDate.toString();
 	}
 
 	public DateTime getExpirationDate() {
-		return expirationDate;
+	    return DateTime.parse(this.expirationDate);
 	}
 
 	public void setExpirationDate(DateTime expirationDate) {
-		this.expirationDate = expirationDate;
+		this.expirationDate = expirationDate.toString();
 	}
 
 	public Boolean getAutoApprove() {
