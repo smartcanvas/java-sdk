@@ -41,20 +41,20 @@ public class Card extends GenericData {
 	
 	@Key
 	private List<String> metaTags;
-
+	
+	@Key
+	private List<Attachment> attachments;
 	
 	private DateTime createDate;
 	private DateTime updateDate;
-	
-		
 	private String jsonExtendedData;
 	private String coordinates;
-	private List<Attachment> attachments;
 	private UserActivity userActivities;
 	private Permission permission;
 	private List<String> locales;
 
 
+	
 	public Card(ContentProvider contentProvider) {
 		super();
 		this.contentProvider = contentProvider;

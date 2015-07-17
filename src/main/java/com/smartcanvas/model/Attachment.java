@@ -3,15 +3,32 @@ package com.smartcanvas.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.api.client.util.Key;
+import com.google.api.client.util.Value;
+
 public class Attachment  {
   
   public enum TypeEnum {
-     photo,  article,  video,  drive, 
+	  
+	  @Value("photo")
+	  PHOTO,
+	  @Value("article")
+	  ARTICLE,  
+	  @Value("video")
+	  VIDEO,  
+	  @Value("drive")
+	  DRIVE, 
   };
+  
+  @Key  
   private TypeEnum type = null;
+  @Key
   private String displayName = null;
+  @Key
   private String contentURL = null;
+  @Key
   private List<Image> images = new ArrayList<Image>() ;
+  @Key
   private String jsonExtendedData = null;
 
   

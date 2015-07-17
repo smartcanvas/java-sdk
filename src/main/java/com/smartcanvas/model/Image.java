@@ -1,16 +1,17 @@
 package com.smartcanvas.model;
 
-
-
-
-
+import com.google.api.client.util.Key;
 
 public class Image  {
-  
+  @Key
   private String url = null;
+  @Key
   private String type = null;
+  @Key
   private Integer height = null;
+  @Key
   private Integer width = null;
+  @Key
   private String originalURL = null;
 
   

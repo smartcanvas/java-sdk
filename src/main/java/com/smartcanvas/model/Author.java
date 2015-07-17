@@ -1,16 +1,17 @@
 package com.smartcanvas.model;
 
-
-
+import com.google.api.client.util.Key;
 
 public class Author  {
-  
+  @Key
   private String id = null;
+  @Key
   private String displayName = null;
+  @Key
   private String imageURL = null;
 
   
-
+  
   public String getId() {
     return id;
   }
