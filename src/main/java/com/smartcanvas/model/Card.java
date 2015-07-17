@@ -21,17 +21,25 @@ public class Card extends GenericData {
 	private Author author;
 	@Key
 	private ContentProvider contentProvider;
-
+	
+	@Key
 	private Community community;
 	private Long createDate;
 	private Long updateDate;
 	private Long publishDate;
 	private Long expirationDate;
+	
+	@Key
 	private Boolean autoApprove;
+
+	@Key
+	private List<String> categories;
+	
+	@Key
+	private List<String> metaTags;
+	
 	private String jsonExtendedData;
 	private String coordinates;
-	private List<String> categories;
-	private List<String> metaTags;
 	private List<Attachment> attachments;
 	private UserActivity userActivities;
 	private Permission permission;
