@@ -3,6 +3,10 @@ package com.smartcanvas;
 import java.io.IOException;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,6 +19,7 @@ import com.smartcanvas.SmartcanvasClient;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Community;
 import com.smartcanvas.model.ContentProvider;
+
 
 import java.util.ArrayList;
 
@@ -86,7 +91,7 @@ public class SmartcanvasClientTests {
 	}
 	
 	@Test
-	public void createDateTime() throws IOException {
+	public void addDateTime() throws IOException {
 		
 			
 		
@@ -97,10 +102,16 @@ public class SmartcanvasClientTests {
 		card.setContent("Write the content of the card here"); 
 		card.setAutoApprove(true);
 		
-		card.setCreateDate(21354L);
-		card.setExpirationDate(123L);
-		card.setPublishDate(123L);
-		card.setUpdateDate(1234L);
+		DateTime publishCard = DateTime.parse("17/07/2015 20:27:05", 
+                DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss"));
+		
+		card.setPublishDate(publishCard);
+		
+		
+		
+
+		
+
 		
 		smartcanvas.addCard(card);
 	}
