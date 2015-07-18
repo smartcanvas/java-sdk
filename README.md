@@ -2,10 +2,10 @@
 [![Coverage Status](https://coveralls.io/repos/smartcanvas/java-sdk/badge.png?branch=master)](https://coveralls.io/r/smartcanvas/java-sdk?branch=master)
 
 
-smartcancas-api-java-client
+smartcanvas-java-sdk
 =====================
 
-API Java para invocar as APIs do Smart Canvas
+Java client library for Smart Canvas APIs
 
 
 ### Setting up build tools 
@@ -15,7 +15,7 @@ API Java para invocar as APIs do Smart Canvas
 
 ```groovy
 dependencies {
-    compile "com.smartcanvas:smartcancas-api-java-client:1.0"
+    compile "com.smartcanvas:smartcanvas-java-sdk:1.0"
 }
 ```
 
@@ -24,7 +24,7 @@ dependencies {
 ```xml
 <dependency>
   <groupId>com.smartcanvas</groupId>
-  <artifactId>smartcancas-api-java-client</artifactId>
+  <artifactId>smartcanvas-java-sdk</artifactId>
   <version>1.0</version>
 </dependency>
 ```

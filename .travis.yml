@@ -9,3 +9,9 @@ env:
 
 after_success:
 - gradle jacocoTestReport coveralls
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - smartcanvas:B1SzslEHZsR4RlapGouUWJYY#development
