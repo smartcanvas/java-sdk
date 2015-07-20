@@ -133,11 +133,11 @@ public class SmartcanvasClientTests {
     }
 
     @Test
-    public void addAttachment() throws IOException {
+    public void photoAttachment() throws IOException {
         Card card = new Card(givenProvider());
-        card.setTitle("Attach URL Example");
-        card.setMnemonic("Attachment");
-        card.setSummary("Attachment Test");
+        card.setTitle("Attach Photo URL Example");
+        card.setMnemonic("photo"); // Underscore not accept
+        card.setSummary("Attachment Photo Test");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
     
@@ -146,19 +146,14 @@ public class SmartcanvasClientTests {
         Attachment attachment = new Attachment();				
    
         // attachment.set...(value)
-        attachment.setType(TypeEnum.PHOTO); 				  	// Type of Attachment: {photo,  article,  video,  drive }
-        
+        attachment.setType(TypeEnum.PHOTO); 				  	// Type of Attachment: {PHOTO,  ARTICLE,  VIDEO,  DRIVE } UPPERCASE
+         
         attachment.setDisplayName("Attachment Name");
         attachment.setContentURL("Content URL for this attachment ");     	
         attachment.setJsonExtendedData("JSON data with extra information saved with this attachment");
         
         List<Image> imageList = new ArrayList<>(); 				// Create List of Images
-        
-     
-        
-        
-        // image.set...();
-        Image image = contentImage();
+        Image image = contentPhoto();
         imageList.add(image);
         attachment.setImages(imageList);
 		listAttach.add(attachment);
@@ -167,10 +162,70 @@ public class SmartcanvasClientTests {
         smartcanvas.addCard(card);
         
     }
-    private Image contentImage(){
-    	return  new Image("https://avatars3.githubusercontent.com/u/1983873?v=3&s=460", "Image Type", 300, 600, 
-    			"https://avatars3.githubusercontent.com/u/1983873");
+    
+    @Test
+    public void videoAttachment() throws IOException {
+        Card card = new Card(givenProvider());
+        card.setTitle("Attach Video URL Example");
+        card.setMnemonic("Video");
+        card.setSummary("Attachment Video Test");
+        card.setContent("Write the content of the card here");
+        card.setAutoApprove(true);
+    
+        listAttach = new ArrayList<Attachment>(); 				// Create List of Attachment
+        
+        Attachment attachment = new Attachment();				
+   
+        // attachment.set...(value)
+        attachment.setType(TypeEnum.VIDEO); 	//  Type of Attachment: {PHOTO,  ARTICLE,  VIDEO,  DRIVE } (UPPERCASE VALUE)
+        
+        attachment.setDisplayName("Attachment Name");
+        attachment.setContentURL("Content URL for this attachment ");     	
+        attachment.setJsonExtendedData("JSON data with extra information saved with this attachment");
+        
+        List<Image> imageList = new ArrayList<>(); 				
+        Image image = contentVideo();
+        imageList.add(image);
+        attachment.setImages(imageList);
+		listAttach.add(attachment);
+		
+		card.setAttachments(listAttach);
+        smartcanvas.addCard(card);
+        
     }
+    
+    
+    
+    
+    
+    //image.set...()
+//    private Image contentPhoto(){
+//    	Image image = new Image();
+//    			return image.setUrl("https://lh4.googleusercontent.com/-bNQUAXKKh1U/AAAAAAAAAAI/AAAAAAAAAMU/MnC2eoG4Yjk/photo.jpg").setType("photo").setHeight(50).setWidth(50).setOriginalURL("https://lh4.googleusercontent.com/-bNQUAXKKh1U/AAAAAAAAAAI/AAAAAAAAAMU/MnC2eoG4Yjk/photo.jpg");
+//    			
+//    }
+//    
+    private Image contentPhoto(){
+    	Image image = new Image();
+    	image.setType("tipo");
+    	image.setHeight(300);
+    	image.setWidth(600);
+    	image.setOriginalURL("https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
+    	return image;
+    }
+    
+    
+    //image.set...()
+    private Image contentVideo(){
+    	Image image = new Image();
+    			return image.setUrl("https://www.youtube.com/watch?v=Qs_NlNJwBe8").setType("video").setHeight(300).setWidth(200).setOriginalURL("https://www.youtube.com/watch?v=Qs_NlNJwBe8");
+    			
+    			
+    			
+    
+    }
+
+    
  
 
       
