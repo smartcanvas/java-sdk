@@ -15,6 +15,21 @@ public class Image  {
   private String originalURL = null;
 
   
+  public Image() {
+	  
+}
+  public Image(String url, String type, Integer height, Integer width, String originalURL) {
+		super();
+		this.url = url;
+		this.type = type;
+		this.height = height;
+		this.width = width;
+		this.originalURL = originalURL;
+	}
+
+  
+  
+  
   /**
    * Image URL
    **/

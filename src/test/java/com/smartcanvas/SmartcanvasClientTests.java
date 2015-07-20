@@ -1,12 +1,11 @@
 package com.smartcanvas;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
-
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +13,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Key;
-import com.smartcanvas.SmartcanvasClient;
 import com.smartcanvas.model.Attachment;
 import com.smartcanvas.model.Attachment.TypeEnum;
 import com.smartcanvas.model.Author;
@@ -23,9 +20,6 @@ import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Community;
 import com.smartcanvas.model.ContentProvider;
 import com.smartcanvas.model.Image;
-import com.sun.xml.internal.ws.policy.sourcemodel.ModelNode.Type;
-
-import java.util.ArrayList;
 
 public class SmartcanvasClientTests {
 
@@ -152,7 +146,6 @@ public class SmartcanvasClientTests {
         Attachment attachment = new Attachment();				
    
         // attachment.set...(value)
-        
         attachment.setType(TypeEnum.PHOTO); 				  	// Type of Attachment: {photo,  article,  video,  drive }
         
         attachment.setDisplayName("Attachment Name");
@@ -160,26 +153,88 @@ public class SmartcanvasClientTests {
         attachment.setJsonExtendedData("JSON data with extra information saved with this attachment");
         
         List<Image> imageList = new ArrayList<>(); 				// Create List of Images
-        Image image = new Image();
+        
+     
+        
         
         // image.set...();
-        image.setUrl("http://www.ciandt.com/ciandt/images/logo-larger.jpg");   // URL IMAGE
-        image.setType("Image Type");
-        image.setHeight(200); 													// Image height
-        image.setWidth(400);													// Image width
-        image.setOriginalURL("http://www.ciandt.com/us-en/");					// Original image URL on the content provider
+        Image image = contentImage();
         imageList.add(image);
         attachment.setImages(imageList);
 		listAttach.add(attachment);
 		
 		card.setAttachments(listAttach);
-		System.out.println(card);
         smartcanvas.addCard(card);
         
-    } 
+    }
+    private Image contentImage(){
+    	return  new Image("https://avatars3.githubusercontent.com/u/1983873?v=3&s=460", "Image Type", 300, 600, 
+    			"https://avatars3.githubusercontent.com/u/1983873");
+    }
+ 
+
       
     private ContentProvider givenProvider() {
         return new ContentProvider("ID provider", "GooglePlus", "gmoneda");
     }
-
-}
+}    
+//    private Image givenImage(){
+//    	return givenImage(300, 600, "https://avatars3.githubusercontent.com/u/1983873", "image/jpg");
+//    }
+//    private Image givenImage(int height, int width, String originalURL, String mimeType) {
+//        Image image = new Image();
+//        image.setHeight(height);
+//        image.setWidth(width);
+//        image.setOriginalURL(originalURL);
+//        image.setType(mimeType);
+//        return image;
+//    }
+//    
+//    @Test
+//    public void shouldPopulatePhotoAttachments() {
+//        Author author = givenAuthor();
+//        Card input = givenCard(author, true);        
+//        Attachment attachment = givenPhotoAttachment();
+//        input.setAttachments(Lists.newArrayList(attachment));
+//        Card output = SmartcanvasClient.toDomainModel(input);
+//        assertEquals(input.getAttachments().size(), output.getAttachments().size());
+//        assertIsPhotoAttachment(output.getAttachments().get(0));
+//    }
+//    
+//    private Author givenAuthor() {
+//        return givenAuthor("author@sc.com", "Author", "http://sc.com/myavatar.jpg");
+//    }
+//    
+//    private Author givenAuthor(String id, String displayName, String avatar) {
+//        Author author = new Author();
+//        author.setId(id);
+//        author.setDisplayName(displayName);
+//        author.setImageURL(avatar);
+//        return author;
+//    }
+//    
+//    private Card givenCard() {
+//        return givenCard(givenAuthor());
+//    }    
+//    
+//    private Card givenCard(Author author) {
+//        return givenCard(author, null);
+//    }
+//
+//    private Card givenCard(Author author, Boolean autoApprove) {
+//        Card card = new Card(null);
+//        card.setAuthor(author);
+//        card.setAutoApprove(autoApprove );
+//        card.setContentProvider(givenProvider());
+//        return card;
+//    }
+//    
+//    private Attachment givenPhotoAttachment() {
+//        Attachment attachment = new Attachment();
+//        attachment.setType(TypeEnum.PHOTO);
+//        Image image = givenImage();
+//        attachment.setImages(Lists.newArrayList(image);
+//        return attachment;
+//    }
+//
+//}

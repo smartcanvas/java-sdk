@@ -60,6 +60,8 @@ public class Card extends GenericData {
 		this.contentProvider = contentProvider;
 	}
 	
+
+	
 	
 	public Long getId() {
 		return id;
