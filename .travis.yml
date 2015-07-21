@@ -13,7 +13,7 @@ after_success:
 - git config --global user.name "Travis CI"
 - export GIT_TAG=0.1.$TRAVIS_BUILD_NUMBER
 - git tag $GIT_TAG -a -m "Generated tag from TravisCI for build $TRAVIS_BUILD_NUMBER"
-- git push -q https://$TAGPERM@github.com/RlonRyan/JBasicX --tags
+- git push -q https://$TAGPERM@github.com/smartcanvas/java-sdk --tags
 - ls -R
 
 branches:
