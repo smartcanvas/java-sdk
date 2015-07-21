@@ -21,10 +21,11 @@ import com.google.api.client.testing.http.MockHttpTransport;
 public class SmartcanvasAuthenticationTest {
 
     static final String CLIENT_ID = "Aladdin";
-    static final String CLIENT_SECRET = "9515e65f46cb737cd8c191db2fd80bbd05686e5992b241e8ad7727510b7142e6";
+    static final String CLIENT_SECRET = "@51eW65f.6cb>37cd8}191db2f$8b]&b";
 
     @Test
     public void testConstructor() throws JoseException {
+        System.out.println(CLIENT_SECRET.length());
         SmartcanvasAuthentication auth = new SmartcanvasAuthentication(CLIENT_ID, CLIENT_SECRET);
         assertEquals(CLIENT_ID, auth.getClientId());
         assertEquals(CLIENT_SECRET, auth.getClientSecret());

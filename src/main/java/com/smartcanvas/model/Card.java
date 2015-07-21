@@ -1,6 +1,5 @@
 package com.smartcanvas.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -266,16 +265,5 @@ public class Card extends GenericData {
     public void addPhotoAttachment(String photoUrl) {
         Attachment photo = Attachment.photo(photoUrl);
         this.attachments.add(photo);
-
-//        Attachment attachment = Attachment.photo();
-//        attachment.setDisplayName("Attachment Name");
-//        attachment.setContentURL("Content URL for this attachment ");
-//        List<Image> imageList = new ArrayList<>(); // Create List of Images
-//        Image image = contentPhoto();
-//        imageList.add(image);
-//        attachment.setImages(imageList);
-//        listAttach.add(attachment);
-
-        
     }
 }
