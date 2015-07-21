@@ -14,8 +14,16 @@ Java client library for Smart Canvas APIs
 #### Gradle
 
 ```groovy
+
+repositories {
+	jcenter()
+    maven {
+        url  "http://dl.bintray.com/smartcanvas/maven" 
+    }
+}
+
 dependencies {
-    compile "com.smartcanvas:smartcanvas-java-sdk:1.0.0"
+    compile 'com.smartcanvas:smartcanvas-java-sdk:0.1.3'
 }
 ```
 
@@ -25,6 +33,6 @@ dependencies {
 <dependency>
   <groupId>com.smartcanvas</groupId>
   <artifactId>smartcanvas-java-sdk</artifactId>
-  <version>1.0.0</version>
+  <version>0.1.3</version>
 </dependency>
 ```
