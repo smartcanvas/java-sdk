@@ -1,11 +1,15 @@
 package com.smartcanvas.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
+import com.google.api.client.util.Lists;
+import com.google.api.client.util.Sets;
 
 public class Card extends GenericData {
 
@@ -37,10 +41,10 @@ public class Card extends GenericData {
 	private Boolean autoApprove;
 
 	@Key
-	private List<String> categories;
+	private Set<String> categories;
 	
 	@Key
-	private List<String> metaTags;
+	private Set<String> metaTags;
 	
 	@Key
 	private List<Attachment> attachments;
@@ -51,17 +55,18 @@ public class Card extends GenericData {
 	private String coordinates;
 	private UserActivity userActivities;
 	private Permission permission;
-	private List<String> locales;
-
+	
+	@Key
+	private Set<String> locales;
 
 	
 	public Card(ContentProvider contentProvider) {
 		super();
 		this.contentProvider = contentProvider;
+		this.categories = Sets.newHashSet();
+		this.metaTags = Sets.newHashSet();
+		this.attachments = Lists.newArrayList();
 	}
-	
-
-	
 	
 	public Long getId() {
 		return id;
@@ -177,19 +182,19 @@ public class Card extends GenericData {
 	// this.coordinates = coordinates;
 	// }
 
-	public List<String> getCategories() {
+	public Set<String> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(List<String> categories) {
+	public void setCategories(Set<String> categories) {
 		this.categories = categories;
 	}
 
-	public List<String> getMetaTags() {
+	public Set<String> getMetaTags() {
 		return metaTags;
 	}
 
-	public void setMetaTags(List<String> metaTags) {
+	public void setMetaTags(Set<String> metaTags) {
 		this.metaTags = metaTags;
 	}
 
@@ -233,12 +238,44 @@ public class Card extends GenericData {
 		this.permission = permission;
 	}
 
-	public List<String> getLocales() {
+	public Set<String> getLocales() {
 		return locales;
 	}
 
-	public void setLocales(List<String> locales) {
+	public void setLocales(Set<String> locales) {
 		this.locales = locales;
 	}
 
+    public void addCategories(String...categories) {
+        for (String category : categories) {
+            this.categories.add(category);
+        }
+    }
+
+    public void addMetaTags(String...metaTags) {
+        for (String tag : metaTags) {
+            this.metaTags.add(tag);
+        }
+    }
+
+    public void addVideoAttachment(String videoUrl) {
+        Attachment video = Attachment.video(videoUrl);
+        this.attachments.add(video);
+    }
+
+    public void addPhotoAttachment(String photoUrl) {
+        Attachment photo = Attachment.photo(photoUrl);
+        this.attachments.add(photo);
+
+//        Attachment attachment = Attachment.photo();
+//        attachment.setDisplayName("Attachment Name");
+//        attachment.setContentURL("Content URL for this attachment ");
+//        List<Image> imageList = new ArrayList<>(); // Create List of Images
+//        Image image = contentPhoto();
+//        imageList.add(image);
+//        attachment.setImages(imageList);
+//        listAttach.add(attachment);
+
+        
+    }
 }

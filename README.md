@@ -15,7 +15,7 @@ Java client library for Smart Canvas APIs
 
 ```groovy
 dependencies {
-    compile "com.smartcanvas:smartcanvas-java-sdk:1.0"
+    compile "com.smartcanvas:smartcanvas-java-sdk:1.0.0"
 }
 ```
 
@@ -25,6 +25,6 @@ dependencies {
 <dependency>
   <groupId>com.smartcanvas</groupId>
   <artifactId>smartcanvas-java-sdk</artifactId>
-  <version>1.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
