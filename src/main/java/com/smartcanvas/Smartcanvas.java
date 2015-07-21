@@ -23,7 +23,7 @@ public class Smartcanvas {
 
     private static final int NUMBER_OF_RETRIES_DEFAULT = 3;
     private static final String API_DEFAULT_VERSION = "v1";
-    private static final String API_DEFAULT_ENDPOINT = "http://api.smartcanvas.com";
+    private static final String API_DEFAULT_ENDPOINT = "https://api.smartcanvas.com";
     private String basePath;
     private HttpTransport transport;
     private JsonFactory jsonFactory;

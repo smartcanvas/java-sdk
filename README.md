@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/smartcanvas/java-sdk.png?branch=master)](https://travis-ci.org/smartcanvas/java-sdk)
 [![Coverage Status](https://coveralls.io/repos/smartcanvas/java-sdk/badge.png?branch=master)](https://coveralls.io/r/smartcanvas/java-sdk?branch=master)
-
+[ ![Download](https://api.bintray.com/packages/smartcanvas/maven/smartcanvas-java-sdk/images/download.svg) ](https://bintray.com/smartcanvas/maven/smartcanvas-java-sdk/_latestVersion)
 
 smartcanvas-java-sdk
 =====================
