@@ -259,11 +259,16 @@ public class Card extends GenericData {
 
     public void addVideoAttachment(String videoUrl) {
         Attachment video = Attachment.video(videoUrl);
-        this.attachments.add(video);
+        this.addAttachment(video);
     }
 
     public void addPhotoAttachment(String photoUrl) {
         Attachment photo = Attachment.photo(photoUrl);
-        this.attachments.add(photo);
+        this.addAttachment(photo);
     }
+    
+    public void addAttachment(Attachment attachment) {
+        this.attachments.add(attachment);
+    }
+    
 }
