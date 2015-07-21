@@ -68,12 +68,13 @@ jacocoTestReport {
     }
 }
 
+Properties properties = new Properties()
+try {
+	properties.load(project.rootProject.file('local.properties').newDataInputStream())
+} catch(all) {
+}
 
 bintray {
-
-	Properties properties = new Properties()
-	properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
