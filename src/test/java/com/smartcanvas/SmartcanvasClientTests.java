@@ -181,7 +181,7 @@ public class SmartcanvasClientTests {
     	card.addCategories("article");
     	card.addArticleAttachment("https://www.google.com.br/design/articles", "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
     	
-    	smartcanvas.addCard(card);
+    	smartcanvas.cards().addCard(card);
     }
     
     
