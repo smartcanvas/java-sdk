@@ -18,6 +18,7 @@
 /*.iml
 /*.ipr
 /*.iws
+*.orig
 /subprojects/*/*.iml
 /buildSrc/*.ipr
 /buildSrc/*.iws

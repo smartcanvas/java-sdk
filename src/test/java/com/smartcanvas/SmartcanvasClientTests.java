@@ -25,7 +25,6 @@ public class SmartcanvasClientTests {
     private static final String CLIENT_ID = "yYSr9igrmPkR";
     private static final String CLIENT_SECRET = "ce4a3f668a3d9ca30a6653a005f86b063906769bad7f27f1a83241c267028e89";
 
-    
     public SmartcanvasClientTests() throws JoseException {
         smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET);
     }
@@ -35,8 +34,7 @@ public class SmartcanvasClientTests {
         GetResponse response = smartcanvas.cards().search("teste");
         System.out.println(response);
     }
-    
-    
+
     @Test
     public void addSimpleCard() throws IOException {
         Card card = new Card(givenProvider());
@@ -168,26 +166,22 @@ public class SmartcanvasClientTests {
         smartcanvas.cards().addCard(card);
     }
 
-    
-    
     @Test
     public void shouldAddCardWithArticleAttachment() throws IOException {
-    	Card card = new Card(givenProvider());
-    	card.setTitle("Attach Article Example");
-    	card.setMnemonic("Article");
-    	card.setSummary("Attachment Article Summary");
-    	card.setContent("Write the content of the card here");
-    	card.setAutoApprove(true);
-    	card.addCategories("article");
-    	card.addArticleAttachment("https://www.google.com.br/design/articles", "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
-    	
-    	smartcanvas.cards().addCard(card);
+        Card card = new Card(givenProvider());
+        card.setTitle("Attach Article Example");
+        card.setMnemonic("Article");
+        card.setSummary("Attachment Article Summary");
+        card.setContent("Write the content of the card here");
+        card.setAutoApprove(true);
+        card.addCategories("article");
+        card.addArticleAttachment("https://www.google.com.br/design/articles",
+                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+
+        smartcanvas.cards().addCard(card);
     }
-    
-    
+
     private ContentProvider givenProvider() {
         return new ContentProvider("ID provider", "GooglePlus", "gmoneda");
     }
 }
-
-
