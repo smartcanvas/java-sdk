@@ -15,6 +15,7 @@ import com.smartcanvas.model.Author;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Community;
 import com.smartcanvas.model.ContentProvider;
+import com.smartcanvas.model.GetResponse;
 
 public class SmartcanvasClientTests {
 
@@ -30,6 +31,13 @@ public class SmartcanvasClientTests {
     }
 
     @Test
+    public void search() throws IOException {
+        GetResponse response = smartcanvas.cards().search("teste");
+        System.out.println(response);
+    }
+    
+    
+    @Test
     public void addSimpleCard() throws IOException {
         Card card = new Card(givenProvider());
         card.setTitle("Card Title");
@@ -41,7 +49,7 @@ public class SmartcanvasClientTests {
                                     * Moderation; The default is FALSE.
                                     */
 
-        smartcanvas.addCard(card); // Record the card
+        smartcanvas.cards().addCard(card); // Record the card
     }
 
     @Test
@@ -52,7 +60,7 @@ public class SmartcanvasClientTests {
         card.setTitle("Card Title Categories Example");
         card.setMnemonic("NikeShoes");
         card.setAutoApprove(true);
-        smartcanvas.addCard(card);
+        smartcanvas.cards().addCard(card);
     }
 
     @Test
@@ -70,7 +78,7 @@ public class SmartcanvasClientTests {
         comunities.setId("Community"); // Community ID or mnemonic
         card.setCommunity(comunities);
 
-        smartcanvas.addCard(card);
+        smartcanvas.cards().addCard(card);
     }
 
     @Test
@@ -87,7 +95,7 @@ public class SmartcanvasClientTests {
                 DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss"));
         card.setPublishDate(publishCard);
         card.setExpirationDate(expirationCard);
-        smartcanvas.addCard(card);
+        smartcanvas.cards().addCard(card);
     }
 
     @Test
@@ -116,7 +124,7 @@ public class SmartcanvasClientTests {
                                                                                     */
 
         card.setAuthor(author);
-        smartcanvas.addCard(card);
+        smartcanvas.cards().addCard(card);
 
     }
 
@@ -130,7 +138,7 @@ public class SmartcanvasClientTests {
         card.setAutoApprove(true);
         card.addCategories("junit", "java-sdk", "photo-attachment");
         card.addPhotoAttachment("https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
-        smartcanvas.addCard(card);
+        smartcanvas.cards().addCard(card);
     }
 
     @Test
@@ -143,7 +151,7 @@ public class SmartcanvasClientTests {
         card.setAutoApprove(true);
         card.addCategories("junit", "java-sdk", "youtube");
         card.addVideoAttachment("https://www.youtube.com/watch?v=3qbU8TUl2sU");
-        smartcanvas.addCard(card);
+        smartcanvas.cards().addCard(card);
     }
 
     @Test
@@ -157,7 +165,7 @@ public class SmartcanvasClientTests {
         card.addCategories("junit", "java-sdk", "vimeo");
         // FIXME checar o que deve ser preenchido para a imagem no card fechado
         card.addVideoAttachment("https://vimeo.com/133697756");
-        smartcanvas.addCard(card);
+        smartcanvas.cards().addCard(card);
     }
 
     
