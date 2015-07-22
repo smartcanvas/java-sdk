@@ -11,10 +11,10 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.smartcanvas.model.Author;
 import com.smartcanvas.model.Card;
-import com.smartcanvas.model.Community;
-import com.smartcanvas.model.ContentProvider;
+import com.smartcanvas.model.Card.Author;
+import com.smartcanvas.model.Card.Community;
+import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.GetResponse;
 
 public class SmartcanvasClientTests {

@@ -1,11 +1,8 @@
 package com.smartcanvas.model;
 
+import java.util.List;
+
 import com.google.api.client.util.Key;
-import com.smartcanvas.model.MetaResponse;
-
-import java.util.*;
-
-import com.smartcanvas.model.Card;
 
 public class GetResponse {
 

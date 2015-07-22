@@ -1,6 +1,6 @@
 package com.smartcanvas.model;
 
-import java.util.*;
+import java.util.List;
 
 import com.google.api.client.util.Key;
 
