@@ -105,11 +105,18 @@ public class Attachment {
         return photoAttachment;
     }
 
-    public static Attachment article() {
-        return new Attachment(TypeEnum.ARTICLE);
+    public static Attachment article(String articleUrl, String photoUrl) {
+    	Attachment articleAttachment = new Attachment(TypeEnum.ARTICLE);
+    	articleAttachment.setContentURL(articleUrl);
+    	articleAttachment.addImage(photoUrl);
+    	return articleAttachment;
+         
+         
     }
 
     private void addImage(String photoUrl) {
         this.images.add(new Image(photoUrl));
     }
+
+
 }

@@ -160,57 +160,26 @@ public class SmartcanvasClientTests {
         smartcanvas.addCard(card);
     }
 
+    
+    
+    @Test
+    public void shouldAddCardWithArticleAttachment() throws IOException {
+    	Card card = new Card(givenProvider());
+    	card.setTitle("Attach Article Example");
+    	card.setMnemonic("Article");
+    	card.setSummary("Attachment Article Summary");
+    	card.setContent("Write the content of the card here");
+    	card.setAutoApprove(true);
+    	card.addCategories("article");
+    	card.addArticleAttachment("https://www.google.com.br/design/articles", "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+    	
+    	smartcanvas.addCard(card);
+    }
+    
+    
     private ContentProvider givenProvider() {
         return new ContentProvider("ID provider", "GooglePlus", "gmoneda");
     }
 }
 
 
-// @Test
-// public void shouldPopulatePhotoAttachments() {
-// Author author = givenAuthor();
-// Card input = givenCard(author, true);
-// Attachment attachment = givenPhotoAttachment();
-// input.setAttachments(Lists.newArrayList(attachment));
-// Card output = SmartcanvasClient.toDomainModel(input);
-// assertEquals(input.getAttachments().size(), output.getAttachments().size());
-// assertIsPhotoAttachment(output.getAttachments().get(0));
-// }
-//
-// private Author givenAuthor() {
-// return givenAuthor("author@sc.com", "Author", "http://sc.com/myavatar.jpg");
-// }
-//
-// private Author givenAuthor(String id, String displayName, String avatar) {
-// Author author = new Author();
-// author.setId(id);
-// author.setDisplayName(displayName);
-// author.setImageURL(avatar);
-// return author;
-// }
-//
-// private Card givenCard() {
-// return givenCard(givenAuthor());
-// }
-//
-// private Card givenCard(Author author) {
-// return givenCard(author, null);
-// }
-//
-// private Card givenCard(Author author, Boolean autoApprove) {
-// Card card = new Card(null);
-// card.setAuthor(author);
-// card.setAutoApprove(autoApprove );
-// card.setContentProvider(givenProvider());
-// return card;
-// }
-//
-// private Attachment givenPhotoAttachment() {
-// Attachment attachment = new Attachment();
-// attachment.setType(TypeEnum.PHOTO);
-// Image image = givenImage();
-// attachment.setImages(Lists.newArrayList(image);
-// return attachment;
-// }
-//
-// }

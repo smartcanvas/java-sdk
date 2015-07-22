@@ -267,6 +267,11 @@ public class Card extends GenericData {
         this.addAttachment(photo);
     }
     
+    public void addArticleAttachment(String articleUrl, String photoUrl){
+    	Attachment article = Attachment.article(articleUrl, photoUrl);
+    	this.addAttachment(article);
+    }
+    
     public void addAttachment(Attachment attachment) {
         this.attachments.add(attachment);
     }
