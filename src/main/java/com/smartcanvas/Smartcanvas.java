@@ -15,31 +15,35 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 import com.smartcanvas.model.Card;
+import com.smartcanvas.model.GetResponse;
+import com.smartcanvas.model.PostResponse;
 
 public class Smartcanvas {
 
     private static final int NUMBER_OF_RETRIES_DEFAULT = 3;
-    private static final String API_DEFAULT_VERSION = "v1";
-    private static final String API_DEFAULT_ENDPOINT = "https://api.smartcanvas.com";
-    private String basePath;
+    private static final String DEFAULT_ROOT_URL = "https://api.smartcanvas.com/";
+    
+    private String rootUrl;
     private HttpTransport transport;
     private JsonFactory jsonFactory;
     private HttpExecuteInterceptor executeInterceptor;
     private HttpRequestInitializer authInitializer;
 
     public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret) throws JoseException {
-        this(httpTransport, jsonFactory, API_DEFAULT_ENDPOINT, clientId, clientSecret);
+        this(httpTransport, jsonFactory, DEFAULT_ROOT_URL, clientId, clientSecret);
     }
 
-    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String basePath, String clientId,
+    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String rootUrl, String clientId,
             String clientSecret) throws JoseException {
         super();
         this.transport = Preconditions.checkNotNull(httpTransport, "Required parameter httpTransport must be specified.");
         this.jsonFactory = Preconditions.checkNotNull(jsonFactory, "Required parameter jsonFactory must be specified.");
-        this.basePath = Preconditions.checkNotNull(basePath);
+        this.rootUrl = Preconditions.checkNotNull(rootUrl, "Required parameter rootUrl must be specified.");
         this.authInitializer = new SmartcanvasAuthentication(clientId, clientSecret);
     }
 
@@ -62,43 +66,57 @@ public class Smartcanvas {
      * The "cards" collection of methods.
      */
     public class Cards {
+        
+        public static final String DEFAULT_SERVICE_PATH = "card/v1";
 
-    }
-    
-    /**
-     * @param card
-     * @throws IOException
-     */
-    public void addCard(Card card) throws IOException {
-        // TODO fazer validacoes dos campos obrigatorios
-        // Preconditions.checkNotNull(card.containsKey("x-client-id"),
-        // "Access token required to make this API call");
-        // Preconditions.checkNotNull(card, "event is mandatory");
-        // Preconditions.checkState(card.containsKey("data"),
-        // "data MUST contains a data property");
-        // Preconditions.checkState(card.containsKey("action"),
-        // "data MUST contains an action property");
-        httpRequest(card).execute();
-    }
+        public class CardApiUrl extends GenericUrl {
+            
+            final static String url = "%s%s/cards";
+            
+            @Key("q")
+            String query;
+            
+            @Key
+            String status;
+            
+            public CardApiUrl() {
+                super(String.format(url, rootUrl, DEFAULT_SERVICE_PATH));
+            }
+        }
+        
+        public GetResponse search(String query) throws IOException {
+            return getHttpRequest(query).execute().parseAs(GetResponse.class);
+        }
+      
+        public PostResponse addCard(Card card) throws IOException {
+            return httpPostRequest(card).execute().parseAs(PostResponse.class);
+        }
 
-    private HttpRequest httpRequest(final Card card) throws IOException {
-        CardApiUrl url = new CardApiUrl();
-        JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
-        HttpRequest request = requestFactory().buildPostRequest(url, content);
-        request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
-        return request;
-    }
-
-    public class CardApiUrl extends GenericUrl {
-        final static String url = "%s/card/%s/cards";
-        public CardApiUrl() {
-            super(String.format(url, basePath, API_DEFAULT_VERSION));
+        private HttpRequest getHttpRequest(String query) throws IOException {
+            CardApiUrl url = new CardApiUrl();
+            url.query = query;
+            url.status = "approved";
+            HttpRequest request = requestFactory().buildGetRequest(url);
+            return request;
+        }
+        
+        private HttpRequest httpPostRequest(final Card card) throws IOException {
+            CardApiUrl url = new CardApiUrl();
+            JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
+            HttpRequest request = requestFactory().buildPostRequest(url, content);
+            request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
+            return request;
         }
     }
+    
+
+
+
 
     private HttpRequestFactory requestFactory() {
         return transport.createRequestFactory(new HttpRequestInitializer() {
             public void initialize(HttpRequest request) throws IOException {
+                request.setParser(new JsonObjectParser(jsonFactory));
                 request.setNumberOfRetries(NUMBER_OF_RETRIES_DEFAULT);
                 request.setCurlLoggingEnabled(true);
                 authInitializer.initialize(request);

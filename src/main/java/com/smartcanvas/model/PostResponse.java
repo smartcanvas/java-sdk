@@ -1,42 +1,30 @@
 package com.smartcanvas.model;
 
+import com.google.api.client.util.Key;
 
 
-
-
-
-public class PostResponse  {
+public class PostResponse {
   
-  private String cardId = null;
-  private String cardMnemonic = null;
-
+  @Key
+  private Long id;
   
+  @Key
+  private String mnemonic;
 
-  public String getCardId() {
-    return cardId;
-  }
-  public void setCardId(String cardId) {
-    this.cardId = cardId;
+  public Long id() {
+    return id;
   }
 
-  
-
-  public String getCardMnemonic() {
-    return cardMnemonic;
+  public String mnemonic() {
+    return mnemonic;
   }
-  public void setCardMnemonic(String cardMnemonic) {
-    this.cardMnemonic = cardMnemonic;
-  }
-
-  
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class PostResponse {\n");
-    
-    sb.append("  cardId: ").append(cardId).append("\n");
-    sb.append("  cardMnemonic: ").append(cardMnemonic).append("\n");
+    sb.append("  id: ").append(id).append("\n");
+    sb.append("  mnemonic: ").append(mnemonic).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
