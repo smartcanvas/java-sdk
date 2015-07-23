@@ -5,13 +5,13 @@ import com.google.api.client.util.Key;
 
 public class PostResponse {
   
-  @Key
-  private Long id;
+  @Key("cardId")
+  private String id;
   
-  @Key
+  @Key("cardMnemonic")
   private String mnemonic;
 
-  public Long id() {
+  public String id() {
     return id;
   }
 

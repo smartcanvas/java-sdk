@@ -1,6 +1,13 @@
 package com.smartcanvas;
 
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import java.io.IOException;
+
+
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -11,11 +18,13 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.smartcanvas.model.Attachment;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.GetResponse;
+import com.smartcanvas.model.PostResponse;
 
 public class SmartcanvasClientTests {
 
@@ -39,7 +48,7 @@ public class SmartcanvasClientTests {
     public void addSimpleCard() throws IOException {
         Card card = new Card(givenProvider());
         card.setTitle("Card Title");
-        card.setMnemonic("Meme"); // URL Mnemonic
+        card.setMnemonic("Memes"); // URL Mnemonic
         card.setSummary("This is the summary");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true); /*
@@ -47,7 +56,7 @@ public class SmartcanvasClientTests {
                                     * Moderation; The default is FALSE.
                                     */
 
-        smartcanvas.cards().addCard(card); // Record the card
+        smartcanvas.cards().insert(card); // Record the card
     }
 
     @Test
@@ -58,7 +67,7 @@ public class SmartcanvasClientTests {
         card.setTitle("Card Title Categories Example");
         card.setMnemonic("NikeShoes");
         card.setAutoApprove(true);
-        smartcanvas.cards().addCard(card);
+        smartcanvas.cards().insert(card);
     }
 
     @Test
@@ -76,7 +85,7 @@ public class SmartcanvasClientTests {
         comunities.setId("Community"); // Community ID or mnemonic
         card.setCommunity(comunities);
 
-        smartcanvas.cards().addCard(card);
+        smartcanvas.cards().insert(card);
     }
 
     @Test
@@ -93,7 +102,7 @@ public class SmartcanvasClientTests {
                 DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss"));
         card.setPublishDate(publishCard);
         card.setExpirationDate(expirationCard);
-        smartcanvas.cards().addCard(card);
+        smartcanvas.cards().insert(card);
     }
 
     @Test
@@ -122,7 +131,7 @@ public class SmartcanvasClientTests {
                                                                                     */
 
         card.setAuthor(author);
-        smartcanvas.cards().addCard(card);
+        smartcanvas.cards().insert(card);
 
     }
 
@@ -136,7 +145,7 @@ public class SmartcanvasClientTests {
         card.setAutoApprove(true);
         card.addCategories("junit", "java-sdk", "photo-attachment");
         card.addPhotoAttachment("https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
-        smartcanvas.cards().addCard(card);
+        smartcanvas.cards().insert(card);
     }
 
     @Test
@@ -149,7 +158,7 @@ public class SmartcanvasClientTests {
         card.setAutoApprove(true);
         card.addCategories("junit", "java-sdk", "youtube");
         card.addVideoAttachment("https://www.youtube.com/watch?v=3qbU8TUl2sU");
-        smartcanvas.cards().addCard(card);
+        smartcanvas.cards().insert(card);
     }
 
     @Test
@@ -163,14 +172,14 @@ public class SmartcanvasClientTests {
         card.addCategories("junit", "java-sdk", "vimeo");
         // FIXME checar o que deve ser preenchido para a imagem no card fechado
         card.addVideoAttachment("https://vimeo.com/133697756");
-        smartcanvas.cards().addCard(card);
+        smartcanvas.cards().insert(card);
     }
 
     @Test
     public void shouldAddCardWithArticleAttachment() throws IOException {
         Card card = new Card(givenProvider());
         card.setTitle("Attach Article Example");
-        card.setMnemonic("Article");
+        card.setMnemonic("updateCard");
         card.setSummary("Attachment Article Summary");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
@@ -178,9 +187,31 @@ public class SmartcanvasClientTests {
         card.addArticleAttachment("https://www.google.com.br/design/articles",
                 "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
-        smartcanvas.cards().addCard(card);
+        PostResponse response = smartcanvas.cards().insert(card);
+        
+        assertNotNull(response);
+        assertNotNull(response.id());
+        assertNotNull(response.mnemonic());
+        
+        System.out.println(response);
     }
-
+    @Test
+    public void updateCard() throws IOException {
+    	Card card = new Card(givenProvider());    	
+    	card.setTitle("Attach Article Example");
+        card.setMnemonic("updateCard");
+        card.setSummary("Attachment balabalabal balabalabalbalabalabal balabalabal balabalabalArticle Summary");
+        card.setContent("Write the content of the card here");
+        card.setAutoApprove(true);
+        card.addCategories("article");
+        card.addArticleAttachment("https://www.google.com.br/design/articles",
+                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+        //Mnemonic or ID card
+        String id = "updateCard";
+        smartcanvas.cards().update(card, id);
+    	
+    }
+    
     private ContentProvider givenProvider() {
         return new ContentProvider("ID provider", "GooglePlus", "gmoneda");
     }

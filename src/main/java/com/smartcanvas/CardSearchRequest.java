@@ -30,7 +30,7 @@ public class CardSearchRequest {
     private final List<String> categories;
 
     private final List<String> metaTags;
-
+		
     private final List<String> authorIds;
 
     private final List<String> communityIds;

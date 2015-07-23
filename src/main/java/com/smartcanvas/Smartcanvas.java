@@ -23,6 +23,7 @@ import com.smartcanvas.model.Card;
 import com.smartcanvas.model.GetResponse;
 import com.smartcanvas.model.PostResponse;
 
+
 public class Smartcanvas {
 
     private static final int NUMBER_OF_RETRIES_DEFAULT = 3;
@@ -68,11 +69,13 @@ public class Smartcanvas {
     public class Cards {
         
         public static final String DEFAULT_SERVICE_PATH = "card/v1";
-
+        
+        	
+        		
         public class CardApiUrl extends GenericUrl {
             
             final static String url = "%s%s/cards";
-            
+            final static String urlUpdate = "%s%s/cards/%s";
             @Key("q")
             String query;
             
@@ -81,17 +84,28 @@ public class Smartcanvas {
             
             public CardApiUrl() {
                 super(String.format(url, rootUrl, DEFAULT_SERVICE_PATH));
+            }    
+            
+            public CardApiUrl(String id) {
+            	super(String.format(urlUpdate, rootUrl, DEFAULT_SERVICE_PATH,id));
             }
+            
         }
+        
+        
         
         public GetResponse search(String query) throws IOException {
             return getHttpRequest(query).execute().parseAs(GetResponse.class);
         }
       
-        public PostResponse addCard(Card card) throws IOException {
+        public PostResponse insert(Card card) throws IOException {
             return httpPostRequest(card).execute().parseAs(PostResponse.class);
         }
-
+        
+	    public PostResponse update(Card card, String id) throws IOException {
+	      	return httpPutRequest(card, id).execute().parseAs(PostResponse.class);
+	        }
+        
         private HttpRequest getHttpRequest(String query) throws IOException {
             CardApiUrl url = new CardApiUrl();
             url.query = query;
@@ -107,11 +121,21 @@ public class Smartcanvas {
             request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
             return request;
         }
+        
+        
+        private HttpRequest httpPutRequest(final Card card, String id) throws IOException {
+        	
+            CardApiUrl url = new CardApiUrl(id);
+            JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
+            HttpRequest request = requestFactory().buildPutRequest(url, content);
+            request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
+            return request;
+            
+        }
+        
+     
     }
     
-
-
-
 
     private HttpRequestFactory requestFactory() {
         return transport.createRequestFactory(new HttpRequestInitializer() {
