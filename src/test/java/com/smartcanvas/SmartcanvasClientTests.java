@@ -179,7 +179,7 @@ public class SmartcanvasClientTests {
     public void shouldAddCardWithArticleAttachment() throws IOException {
         Card card = new Card(givenProvider());
         card.setTitle("Attach Article Example");
-        card.setMnemonic("updateCard");
+        card.setMnemonic("article");
         card.setSummary("Attachment Article Summary");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
@@ -199,19 +199,32 @@ public class SmartcanvasClientTests {
     public void updateCard() throws IOException {
     	Card card = new Card(givenProvider());    	
     	card.setTitle("Attach Article Example");
-        card.setMnemonic("updateCard");
-        card.setSummary("Attachment balabalabal balabalabalbalabalabal balabalabal balabalabalArticle Summary");
+        card.setMnemonic("article");
+        card.setSummary("~~~~~~Article Summary updated~~~~ ");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
         card.addCategories("article");
         card.addArticleAttachment("https://www.google.com.br/design/articles",
                 "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+        
         //Mnemonic or ID card
         String id = "updateCard";
         smartcanvas.cards().update(card, id);
     	
     }
     
+//    @Test
+//    public void deleteCard() throws IOException {
+//    	Card card = new Card(givenProvider());    	
+//        card.setAutoApprove(true);
+//        
+//        //Mnemonic or ID card
+//        String id = "5233755344076800";
+//        smartcanvas.cards().delete(id);
+//        
+//    	
+//    }
+//    
     private ContentProvider givenProvider() {
         return new ContentProvider("ID provider", "GooglePlus", "gmoneda");
     }

@@ -20,6 +20,7 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
 import com.smartcanvas.model.Card;
+
 import com.smartcanvas.model.GetResponse;
 import com.smartcanvas.model.PostResponse;
 
@@ -105,6 +106,10 @@ public class Smartcanvas {
 	    public PostResponse update(Card card, String id) throws IOException {
 	      	return httpPutRequest(card, id).execute().parseAs(PostResponse.class);
 	        }
+	    
+	    public PostResponse delete(String id) throws IOException {
+	    	return httpDeleteRequest(id).execute().parseAs(PostResponse.class);
+	    }
         
         private HttpRequest getHttpRequest(String query) throws IOException {
             CardApiUrl url = new CardApiUrl();
@@ -124,15 +129,19 @@ public class Smartcanvas {
         
         
         private HttpRequest httpPutRequest(final Card card, String id) throws IOException {
-        	
             CardApiUrl url = new CardApiUrl(id);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             HttpRequest request = requestFactory().buildPutRequest(url, content);
             request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
-            return request;
-            
+            return request;   
         }
         
+        private HttpRequest httpDeleteRequest(String id) throws IOException {
+        	CardApiUrl url = new CardApiUrl(id);
+        	HttpRequest request = requestFactory().buildDeleteRequest(url);
+        	request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
+        	return request;
+        }
      
     }
     
