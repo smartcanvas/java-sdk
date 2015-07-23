@@ -200,7 +200,7 @@ public class SmartcanvasClientTests {
     	Card card = new Card(givenProvider());    	
     	card.setTitle("Attach Article Example");
         card.setMnemonic("articleUpdate");
-        card.setSummary("~~~~~~Article Summary updated~~~~ ");
+        card.setSummary("~~~~~~Article Summary updated~~~ ");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
         card.addCategories("novacategoria");
@@ -208,7 +208,7 @@ public class SmartcanvasClientTests {
                 "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
         
         //Mnemonic or ID card
-        String id = "articleorigin";
+        String id = "5233755344076800";
         smartcanvas.cards().update(card, id);
     	
     }
