@@ -1,13 +1,9 @@
 package com.smartcanvas;
 
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
-
-
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -18,7 +14,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.smartcanvas.model.Attachment;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.Community;
@@ -38,11 +33,11 @@ public class SmartcanvasClientTests {
         smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET);
     }
 
-//    @Test
-//    public void search() throws IOException {
-//        GetResponse response = smartcanvas.cards().search("teste");
-//        System.out.println(response);
-//    }
+    @Test
+    public void search() throws IOException {
+        GetResponse response = smartcanvas.cards().search("teste");
+        System.out.println(response);
+    }
 
     @Test
     public void addSimpleCard() throws IOException {
@@ -219,7 +214,7 @@ public class SmartcanvasClientTests {
 //        card.setAutoApprove(true);
 //        
 //        //Mnemonic or ID card
-//        String id = "updateCard";
+//        String id = "5233755344076800";
 //        smartcanvas.cards().delete(id);
 //        
 //    	
