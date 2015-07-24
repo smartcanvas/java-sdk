@@ -33,11 +33,11 @@ public class SmartcanvasClientTests {
         smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET);
     }
 
-    @Test
-    public void search() throws IOException {
-        GetResponse response = smartcanvas.cards().search("teste");
-        System.out.println(response);
-    }
+//    @Test
+//    public void search() throws IOException {
+//        GetResponse response = smartcanvas.cards().search("teste");
+//        System.out.println(response);
+//    }
 
     @Test
     public void addSimpleCard() throws IOException {
