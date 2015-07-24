@@ -77,6 +77,7 @@ public class Smartcanvas {
             
             final static String url = "%s%s/cards";
             final static String urlUpdate = "%s%s/cards/%s";
+            
             @Key("q")
             String query;
             
@@ -98,6 +99,9 @@ public class Smartcanvas {
         public GetResponse search(String query) throws IOException {
             return getHttpRequest(query).execute().parseAs(GetResponse.class);
         }
+        public GetResponse search(String query, String status) throws IOException {
+        	return getHttpRequest(query, status).execute().parseAs(GetResponse.class);
+        }
       
         public PostResponse insert(Card card) throws IOException {
             return httpPostRequest(card).execute().parseAs(PostResponse.class);
@@ -112,12 +116,30 @@ public class Smartcanvas {
 	    }
         
         private HttpRequest getHttpRequest(String query) throws IOException {
-            CardApiUrl url = new CardApiUrl();
-            url.query = query;
-            url.status = "approved";
-            HttpRequest request = requestFactory().buildGetRequest(url);
-            return request;
+        	if (query == "approved" || query == "unapproved"){
+        		CardApiUrl url = new CardApiUrl();
+        		url.status = query;
+        		HttpRequest request = requestFactory().buildGetRequest(url);
+        		System.out.println(request);
+        		return request;
+        	}else {
+	            CardApiUrl url = new CardApiUrl();
+	            url.query = query;
+	            url.status = "approved";
+	            HttpRequest request = requestFactory().buildGetRequest(url);
+	            return request;
+        	}
         }
+        
+        private HttpRequest getHttpRequest(String query, String status) throws IOException {
+        	CardApiUrl url = new CardApiUrl();
+        	url.query = query;
+        	url.status  = status;
+        	HttpRequest request = requestFactory().buildGetRequest(url);
+        	return request;
+        }
+        
+        
         
         private HttpRequest httpPostRequest(final Card card) throws IOException {
             CardApiUrl url = new CardApiUrl();
