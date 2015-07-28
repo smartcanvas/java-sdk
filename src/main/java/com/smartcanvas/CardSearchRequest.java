@@ -3,8 +3,7 @@ package com.smartcanvas;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.joda.time.LocalDate;
-
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.Objects;
 import com.smartcanvas.model.Card.CardStatus;
 
@@ -21,9 +20,9 @@ public class CardSearchRequest {
 
     private final Integer offset;
 
-    private final LocalDate initDate;
+    private final DateTime initDate;
 
-    private final LocalDate endDate;
+    private final DateTime endDate;
 
     private final Integer maxAge;
 
@@ -46,8 +45,8 @@ public class CardSearchRequest {
     private final String jsonExtendedData;
 
     private CardSearchRequest(String query, CardStatus status, String locale,
-                              Integer limit, Integer offset, LocalDate initDate,
-                              LocalDate endDate, Integer maxAge,
+                              Integer limit, Integer offset, DateTime initDate,
+                              DateTime endDate, Integer maxAge,
                               List<String> categories, List<String> metaTags,
                               List<String> authorIds, List<String> communityIds,
                               List<String> providerIds,
@@ -90,9 +89,9 @@ public class CardSearchRequest {
 
         private Integer offset;
 
-        private LocalDate initDate;
+        private DateTime initDate;
 
-        private LocalDate endDate;
+        private DateTime endDate;
 
         private Integer maxAge;
 

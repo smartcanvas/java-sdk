@@ -5,8 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
@@ -14,6 +12,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.Community;
@@ -98,10 +97,8 @@ public class SmartcanvasTests {
         card.setSummary("Date Test");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
-
-        DateTime publishCard = DateTime.parse("17/07/2015 20:27:05", DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss"));
-        DateTime expirationCard = DateTime.parse("30/12/2015 01:00:00",
-                DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss"));
+        DateTime publishCard = DateTime.parseRfc3339("2015-07-17T20:27:05Z");
+        DateTime expirationCard = DateTime.parseRfc3339("2015-12-30T01:00:00Z");
         card.setPublishDate(publishCard);
         card.setExpirationDate(expirationCard);
         smartcanvas.cards().insert(card);

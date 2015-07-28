@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.joda.time.DateTime;
-
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.GenericData;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Lists;
@@ -133,7 +132,7 @@ public class Card extends GenericData {
     }
 
     public DateTime getPublishDate() {
-        return DateTime.parse(this.publishDate);
+        return DateTime.parseRfc3339(this.publishDate);
     }
 
     public void setPublishDate(DateTime publishDate) {
@@ -141,7 +140,7 @@ public class Card extends GenericData {
     }
 
     public DateTime getExpirationDate() {
-        return DateTime.parse(this.expirationDate);
+        return DateTime.parseRfc3339(this.expirationDate);
     }
 
     public void setExpirationDate(DateTime expirationDate) {
