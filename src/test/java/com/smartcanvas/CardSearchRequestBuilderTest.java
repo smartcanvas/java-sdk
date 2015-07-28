@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import org.joda.time.LocalTime;
 import org.junit.Test;
 
 import com.google.api.client.util.DateTime;
