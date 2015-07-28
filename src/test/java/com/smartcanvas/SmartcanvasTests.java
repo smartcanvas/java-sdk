@@ -35,8 +35,21 @@ public class SmartcanvasClientTests {
 
     @Test
     public void search() throws IOException {
-        GetResponse response = smartcanvas.cards().search("teste");
+        GetResponse response = smartcanvas.cards().search("Memes");
         System.out.println(response);
+    }
+    
+    
+//    @Test
+//    public void searchByStatus() throws IOException {
+//    	GetResponse response = smartcanvas.cards().search("approved");
+//    	System.out.println(response);
+//    }
+//    
+    @Test
+    public void searchDoubleFilter() throws IOException {
+    	GetResponse response = smartcanvas.cards().search("memes", "approved");
+    	System.out.println(response);
     }
 
     @Test
