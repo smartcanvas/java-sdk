@@ -77,6 +77,7 @@ public class Smartcanvas {
             
             final static String url = "%s%s/cards";
             final static String urlUpdate = "%s%s/cards/%s";
+            
             @Key("q")
             String query;
             
@@ -107,8 +108,8 @@ public class Smartcanvas {
 	      	return httpPutRequest(card, id).execute().parseAs(PostResponse.class);
 	        }
 	    
-	    public DeleteResponse delete(String id) throws IOException {
-	    	return httpDeleteRequest(id).execute().parseAs(DeleteResponse.class);
+	    public void delete(String id) throws IOException {
+	    	httpDeleteRequest(id).execute();
 	    }
         
         private HttpRequest getHttpRequest(String query) throws IOException {
