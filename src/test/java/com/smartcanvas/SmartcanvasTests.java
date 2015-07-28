@@ -21,15 +21,15 @@ import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.GetResponse;
 import com.smartcanvas.model.PostResponse;
 
-public class SmartcanvasClientTests {
+public class SmartcanvasTests {
 
+    private Smartcanvas smartcanvas;
     static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
-    private Smartcanvas smartcanvas;
     private static final String CLIENT_ID = "yYSr9igrmPkR";
     private static final String CLIENT_SECRET = "ce4a3f668a3d9ca30a6653a005f86b063906769bad7f27f1a83241c267028e89";
 
-    public SmartcanvasClientTests() throws JoseException {
+    public SmartcanvasTests() throws JoseException {
         smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET);
     }
 
@@ -39,13 +39,12 @@ public class SmartcanvasClientTests {
         System.out.println(response);
     }
     
-    
 //    @Test
 //    public void searchByStatus() throws IOException {
 //    	GetResponse response = smartcanvas.cards().search("approved");
 //    	System.out.println(response);
 //    }
-//    
+    
     @Test
     public void searchDoubleFilter() throws IOException {
     	GetResponse response = smartcanvas.cards().search("memes", "approved");
@@ -59,11 +58,7 @@ public class SmartcanvasClientTests {
         card.setMnemonic("Memes"); // URL Mnemonic
         card.setSummary("This is the summary");
         card.setContent("Write the content of the card here");
-        card.setAutoApprove(true); /*
-                                    * 'true': No moderation; 'false': There is a
-                                    * Moderation; The default is FALSE.
-                                    */
-
+        card.setAutoApprove(true); 
         smartcanvas.cards().insert(card); // Record the card
     }
 
@@ -88,9 +83,8 @@ public class SmartcanvasClientTests {
         card.setAutoApprove(true);
 
         Community comunities = new Community();
-        comunities.setDisplayName("JEDI GROUP"); // User-friendly community
-                                                 // display name
-        comunities.setId("Community"); // Community ID or mnemonic
+        comunities.setDisplayName("JEDI GROUP");
+        comunities.setId("Community");
         card.setCommunity(comunities);
 
         smartcanvas.cards().insert(card);
@@ -123,20 +117,16 @@ public class SmartcanvasClientTests {
         card.setAutoApprove(true);
 
         Author author = new Author();
-        author.setId("email@example.com"); /*
-                                            * Author identification in Smart
-                                            * Canvas. That's a Person ID or
-                                            * email. If not provided, this
-                                            * author doesn't exist in Smart
-                                            * Canvas (but it's still valid)
-                                            */
-
-        author.setDisplayName("Ci&T G. M."); /* Author display name */
-        author.setImageURL("http://www.ciandt.com/ciandt/images/logo-larger.jpg"); /*
-                                                                                    * Author
-                                                                                    * image
-                                                                                    * URL
-                                                                                    */
+        /*
+         * Author identification in Smart Canvas. That's a Person ID or email.
+         * If not provided, this author doesn't exist in Smart Canvas (but it's
+         * still valid)
+         */
+        author.setId("email@example.com"); 
+        /* Author display name */
+        author.setDisplayName("Ci&T G. M.");
+        /*Author image URL*/
+        author.setImageURL("http://www.ciandt.com/ciandt/images/logo-larger.jpg"); 
 
         card.setAuthor(author);
         smartcanvas.cards().insert(card);
