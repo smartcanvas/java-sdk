@@ -1,236 +1,238 @@
 package com.smartcanvas;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
+import com.google.api.client.http.GenericUrl;
 import com.google.api.client.util.DateTime;
+import com.google.api.client.util.Joiner;
+import com.google.api.client.util.Key;
 import com.google.api.client.util.Objects;
+import com.google.api.client.util.Sets;
+import com.smartcanvas.SmartcanvasUrl.CardApiUrl;
 import com.smartcanvas.model.Card.CardStatus;
 
-public class CardSearchRequest {
+public class CardSearchRequest extends CardApiUrl {
 
+	@Key
+	private final String query;
+	@Key
+	private final CardStatus status;
+	@Key
+	private final String locale;
+	@Key
+	private final Integer limit;
+	@Key
+	private final Integer offset;
+	@Key
+	private final DateTime initDate;
+	@Key
+	private final DateTime endDate;
+	@Key
+	private final Integer maxAge;
+	@Key
+	private final List<String> categories;
+	@Key
+	private final List<String> metaTags;
+	@Key
+	private final String authorIds;
+	@Key
+	private final List<String> communityIds;
+	@Key
+	private final List<String> providerIds;
+	@Key
+	private final Double decayment;
+	@Key
+	private final List<String> fields;
+	@Key
+	private final List<String> embed;
 
-    private final String query;
+	private final String jsonExtendedData;
 
-    private final CardStatus status;
+	private final static Joiner COMMA_JOINER = Joiner.on(',');
+	
+	private CardSearchRequest(String query, CardStatus status, String locale, Integer limit, Integer offset,
+			DateTime initDate, DateTime endDate, Integer maxAge, List<String> categories, List<String> metaTags,
+			Set<String> authorIds, List<String> communityIds, List<String> providerIds, Double decayment,
+			List<String> fields, List<String> embed, String jsonExtendedData) {
+		super();
+		this.query = query;
+		this.status = status;
+		this.locale = locale;
+		this.limit = limit;
+		this.offset = offset;
+		this.initDate = initDate;
+		this.endDate = endDate;
+		this.maxAge = maxAge;
+		this.categories = categories;
+		this.metaTags = metaTags;
+		this.authorIds = join(authorIds);
+		this.communityIds = communityIds;
+		this.providerIds = providerIds;
+		this.decayment = decayment;
+		this.fields = fields;
+		this.embed = embed;
+		this.jsonExtendedData = jsonExtendedData;
 
-    private final String locale;
+	}
+	
+	private static String join(Iterable<String> joinable) {
+		if (joinable == null)
+			return null;
+		return COMMA_JOINER.join(joinable);
+	}
 
-    private final Integer limit;
+	public static CardSearchRequestBuilder builder() {
+		return new CardSearchRequestBuilder();
+	}
 
-    private final Integer offset;
+	public static class CardSearchRequestBuilder {
 
-    private final DateTime initDate;
+		private static final Pattern SPLITTER_PATTERN = Pattern.compile(",\\s*");
 
-    private final DateTime endDate;
+		private CardStatus status;
 
-    private final Integer maxAge;
+		private String locale;
 
-    private final List<String> categories;
+		private Integer limit;
 
-    private final List<String> metaTags;
-		
-    private final List<String> authorIds;
+		private Integer offset;
 
-    private final List<String> communityIds;
+		private DateTime initDate;
 
-    private final List<String> providerIds;
+		private DateTime endDate;
 
-    private final Double decayment;
+		private Integer maxAge;
 
-    private final List<String> fields;
+		private List<String> categories;
 
-    private final List<String> embed;
+		private List<String> metaTags;
 
-    private final String jsonExtendedData;
+		private Set<String> authorIds;
 
-    private CardSearchRequest(String query, CardStatus status, String locale,
-                              Integer limit, Integer offset, DateTime initDate,
-                              DateTime endDate, Integer maxAge,
-                              List<String> categories, List<String> metaTags,
-                              List<String> authorIds, List<String> communityIds,
-                              List<String> providerIds,
-                              Double decayment, List<String> fields,
-                              List<String> embed, String jsonExtendedData) {
+		private List<String> communityIds;
 
-        this.query = query;
-        this.status = status;
-        this.locale = locale;
-        this.limit = limit;
-        this.offset = offset;
-        this.initDate = initDate;
-        this.endDate = endDate;
-        this.maxAge = maxAge;
-        this.categories = categories;
-        this.metaTags = metaTags;
-        this.authorIds = authorIds;
-        this.communityIds = communityIds;
-        this.providerIds = providerIds;
-        this.decayment = decayment;
-        this.fields = fields;
-        this.embed = embed;
-        this.jsonExtendedData = jsonExtendedData;
-    }
+		private List<String> providerIds;
 
-    public static CardSearchRequestBuilder builder(String tenant) {
-        return new CardSearchRequestBuilder();
-    }
+		private Double decayment;
 
-    public static class CardSearchRequestBuilder {
+		private List<String> fields;
 
-        private static final Pattern SPLITTER_PATTERN = Pattern.compile(",\\s*");
+		private List<String> embed;
 
+		private String jsonExtendedData;
 
-        private CardStatus status;
+		private String query;
 
-        private String locale;
+		private CardSearchRequestBuilder() {
+			// checkArgument(!Strings.isNullOrEmpty(tenant));
+		}
 
-        private Integer limit;
+		public CardSearchRequestBuilder query(String query) {
+			this.query = query;
+			return this;
+		}
 
-        private Integer offset;
+		public CardSearchRequestBuilder status(String statusString) {
+			// this.status =
+			// statusString.map(String::toUpperCase).map(CardStatus::valueOf);
+			return this;
+		}
 
-        private DateTime initDate;
+		public CardSearchRequestBuilder locale(String locale) {
+			this.locale = locale;
+			return this;
+		}
 
-        private DateTime endDate;
+		public CardSearchRequestBuilder limit(String limitString) {
+			// limit = limitString.map(Integer::parseInt);
+			return this;
+		}
 
-        private Integer maxAge;
+		public CardSearchRequestBuilder offset(String offsetString) {
+			// this.offset = offsetString.map(Integer::parseInt);
+			return this;
+		}
 
-        private List<String> categories;
+		public CardSearchRequestBuilder initDate(String initDateString) {
+			// this.initDate = initDateString.map(LocalDate::parse);
+			return this;
+		}
 
-        private List<String> metaTags;
+		public CardSearchRequestBuilder endDate(String endDateString) {
+			// this.endDate = endDateString.map(LocalDate::parse);
+			return this;
+		}
 
-        private List<String> authorIds;
+		public CardSearchRequestBuilder maxAge(String maxAgeString) {
+			// this.maxAge = maxAgeString.map(Integer::parseInt);
+			return this;
+		}
 
-        private List<String> communityIds;
+		public CardSearchRequestBuilder categories(String categoriesString) {
+			// this.categories = categoriesString.map(STRING_LIST_MAPPER);
+			return this;
+		}
 
-        private List<String> providerIds;
+		public CardSearchRequestBuilder metaTags(String metaTagsString) {
+			// this.metaTags = metaTagsString.map(STRING_LIST_MAPPER);
+			return this;
+		}
 
-        private Double decayment;
+		public CardSearchRequestBuilder authorIds(String... authors) {
+			if(this.authorIds == null)
+				this.authorIds = Sets.newHashSet();
+			this.authorIds.addAll(Arrays.asList(authors));
+			return this;
+		}
 
-        private List<String> fields;
+		public CardSearchRequestBuilder communityIds(String communityId) {
+			// this.communityIds = communityId.map(STRING_LIST_MAPPER);
+			return this;
+		}
 
-        private List<String> embed;
+		public CardSearchRequestBuilder providerIds(String providerId) {
+			// this.providerIds = providerId.map(STRING_LIST_MAPPER);
+			return this;
+		}
 
-        private String jsonExtendedData;
+		public CardSearchRequestBuilder decayment(String decaymentString) {
+			// this.decayment = decaymentString.map(Double::parseDouble);
+			return this;
+		}
 
-        private String query;
+		public CardSearchRequestBuilder fields(String fieldsString) {
+			// this.fields = fieldsString.map(STRING_LIST_MAPPER);
+			return this;
+		}
 
-        private CardSearchRequestBuilder() {
-            //checkArgument(!Strings.isNullOrEmpty(tenant));
-        }
+		public CardSearchRequestBuilder embed(String embedString) {
+			// this.embed = embedString.map(STRING_LIST_MAPPER);
+			return this;
+		}
 
-        public CardSearchRequestBuilder query(String query) {
-            this.query = query;
-            return this;
-        }
+		public CardSearchRequestBuilder jsonExtendedData(String jsonExtendedData) {
+			this.jsonExtendedData = jsonExtendedData;
+			return this;
+		}
 
-        public CardSearchRequestBuilder status(String statusString) {
-            //this.status = statusString.map(String::toUpperCase).map(CardStatus::valueOf);
-            return this;
-        }
+		public CardSearchRequest build() {
+			return new CardSearchRequest(this.query, this.status, this.locale, this.limit, this.offset, this.initDate,
+					this.endDate, this.maxAge, this.categories, this.metaTags, this.authorIds, this.communityIds,
+					this.providerIds, this.decayment, this.fields, this.embed, jsonExtendedData);
+		}
 
-        public CardSearchRequestBuilder locale(String locale) {
-            this.locale = locale;
-            return this;
-        }
+		@Override
+		public String toString() {
+			return Objects.toStringHelper(this).add("query", query).add("status", status).add("locale", locale)
+					.add("limit", limit).add("offset", offset).add("initDate", initDate).add("endDate", endDate)
+					.add("maxAge", maxAge).add("categories", categories).add("metaTags", metaTags)
+					.add("authorIds", authorIds).add("communityIds", communityIds).add("providerIds", providerIds)
+					.add("decayment", decayment).add("fields", fields).add("embed", embed)
+					.add("jsonExtendedData", jsonExtendedData).toString();
+		}
 
-        public CardSearchRequestBuilder limit(String limitString) {
-            //limit = limitString.map(Integer::parseInt);
-            return this;
-        }
-
-        public CardSearchRequestBuilder offset(String offsetString) {
-            //this.offset = offsetString.map(Integer::parseInt);
-            return this;
-        }
-
-        public CardSearchRequestBuilder initDate(String initDateString) {
-            //this.initDate = initDateString.map(LocalDate::parse);
-            return this;
-        }
-
-        public CardSearchRequestBuilder endDate(String endDateString) {
-            //this.endDate = endDateString.map(LocalDate::parse);
-            return this;
-        }
-
-        public CardSearchRequestBuilder maxAge(String maxAgeString) {
-            //this.maxAge = maxAgeString.map(Integer::parseInt);
-            return this;
-        }
-
-        public CardSearchRequestBuilder categories(String categoriesString) {
-            //this.categories = categoriesString.map(STRING_LIST_MAPPER);
-            return this;
-        }
-
-        public CardSearchRequestBuilder metaTags(String metaTagsString) {
-            //this.metaTags = metaTagsString.map(STRING_LIST_MAPPER);
-            return this;
-        }
-
-        public CardSearchRequestBuilder authorIds(String authorId) {
-            //this.authorIds = authorId.map(STRING_LIST_MAPPER);
-            return this;
-        }
-
-        public CardSearchRequestBuilder communityIds(String communityId) {
-            //this.communityIds = communityId.map(STRING_LIST_MAPPER);
-            return this;
-        }
-
-        public CardSearchRequestBuilder providerIds(String providerId) {
-            //this.providerIds = providerId.map(STRING_LIST_MAPPER);
-            return this;
-        }
-
-        public CardSearchRequestBuilder decayment(String decaymentString) {
-            //this.decayment = decaymentString.map(Double::parseDouble);
-            return this;
-        }
-
-        public CardSearchRequestBuilder fields(String fieldsString) {
-            //this.fields = fieldsString.map(STRING_LIST_MAPPER);
-            return this;
-        }
-
-        public CardSearchRequestBuilder embed(String embedString) {
-            //this.embed = embedString.map(STRING_LIST_MAPPER);
-            return this;
-        }
-
-        public CardSearchRequestBuilder jsonExtendedData(String jsonExtendedData) {
-            this.jsonExtendedData = jsonExtendedData;
-            return this;
-        }
-
-        public CardSearchRequest build() {
-           return new CardSearchRequest(this.query, this.status, this.locale, this.limit, this.offset, this.initDate,
-               this.endDate, this.maxAge, this.categories, this.metaTags, this.authorIds, this.communityIds, this.providerIds,
-               this.decayment, this.fields, this.embed, jsonExtendedData);
-        }
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("query", query)
-                .add("status", status)
-                .add("locale", locale)
-                .add("limit", limit)
-                .add("offset", offset)
-                .add("initDate", initDate)
-                .add("endDate", endDate)
-                .add("maxAge", maxAge)
-                .add("categories", categories)
-                .add("metaTags", metaTags)
-                .add("authorIds", authorIds)
-                .add("communityIds", communityIds)
-                .add("providerIds", providerIds)
-                .add("decayment", decayment)
-                .add("fields", fields)
-                .add("embed", embed)
-                .add("jsonExtendedData", jsonExtendedData)
-                .toString();
-    }
+	}
 }

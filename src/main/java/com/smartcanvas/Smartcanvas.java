@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.jose4j.lang.JoseException;
 
-import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler;
 import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
@@ -17,10 +16,9 @@ import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.util.ExponentialBackOff;
-import com.google.api.client.util.Key;
 import com.google.api.client.util.Preconditions;
+import com.smartcanvas.SmartcanvasUrl.CardApiUrl;
 import com.smartcanvas.model.Card;
-import com.smartcanvas.model.DeleteResponse;
 import com.smartcanvas.model.GetResponse;
 import com.smartcanvas.model.PostResponse;
 
@@ -69,38 +67,9 @@ public class Smartcanvas {
      */
     public class Cards {
         
-        public static final String DEFAULT_SERVICE_PATH = "card/v1";
         
-        	
-        		
-        public class CardApiUrl extends GenericUrl {
-            
-            final static String url = "%s%s/cards";
-            final static String urlUpdate = "%s%s/cards/%s";
-            
-            @Key("q")
-            String query;
-            
-            @Key
-            String status;
-            
-            public CardApiUrl() {
-                super(String.format(url, rootUrl, DEFAULT_SERVICE_PATH));
-            }    
-            
-            public CardApiUrl(String id) {
-            	super(String.format(urlUpdate, rootUrl, DEFAULT_SERVICE_PATH,id));
-            }
-            
-        }
-        
-        
-        
-        public GetResponse search(String query) throws IOException {
-            return getHttpRequest(query).execute().parseAs(GetResponse.class);
-        }
-        public GetResponse search(String query, String status) throws IOException {
-        	return getHttpRequest(query, status).execute().parseAs(GetResponse.class);
+        public GetResponse search(CardSearchRequest teste) throws IOException {
+            return getHttpRequest(teste).execute().parseAs(GetResponse.class);
         }
       
         public PostResponse insert(Card card) throws IOException {
@@ -115,31 +84,10 @@ public class Smartcanvas {
 	    	httpDeleteRequest(id).execute();
 	    }
         
-        private HttpRequest getHttpRequest(String query) throws IOException {
-        	if (query == "approved" || query == "unapproved"){
-        		CardApiUrl url = new CardApiUrl();
-        		url.status = query;
-        		HttpRequest request = requestFactory().buildGetRequest(url);
-        		System.out.println(request);
-        		return request;
-        	}else {
-	            CardApiUrl url = new CardApiUrl();
-	            url.query = query;
-	            url.status = "approved";
-	            HttpRequest request = requestFactory().buildGetRequest(url);
+        private HttpRequest getHttpRequest(CardSearchRequest teste) throws IOException {
+	            HttpRequest request = requestFactory().buildGetRequest(teste);
 	            return request;
-        	}
         }
-        
-        private HttpRequest getHttpRequest(String query, String status) throws IOException {
-        	CardApiUrl url = new CardApiUrl();
-        	url.query = query;
-        	url.status  = status;
-        	HttpRequest request = requestFactory().buildGetRequest(url);
-        	return request;
-        }
-        
-        
         
         private HttpRequest httpPostRequest(final Card card) throws IOException {
             CardApiUrl url = new CardApiUrl();
