@@ -119,4 +119,19 @@ public class CardSearchRequestBuilderTest {
 //		assertTrue(((String)searchRequest.get("embed")).contains("id"));
 	
 	}
+	
+	@Test
+	public void searchByMaxDate() throws IOException {
+		CardSearchRequest searchRequest = CardSearchRequest.builder()
+				.query("CI&T")
+				.status(CardStatus.APPROVED)
+				.locale("campinas")
+				.maxAge(2)
+				
+				.initDate(new DateTime(1438178312))
+				.endDate(new DateTime("2015-15-03T11:58:01Z"))
+				.build();
+		System.out.println(searchRequest);
+	}
+	
 }

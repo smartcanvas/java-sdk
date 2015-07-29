@@ -233,7 +233,7 @@ public class CardSearchRequest extends CardApiUrl {
 		
 		//Validate the dates
 		public CardSearchRequestBuilder compareDate(String initDate, String endDate){		
-		if (initDate == null || (initDate.compareTo(endDate) < 0)) {
+		if (initDate == null || endDate == null || (initDate.compareTo(endDate) < 0)) {
 			return this;
 		}else  		
 			throw new IllegalStateException("initDate must be equal or less than endDate");
@@ -242,6 +242,9 @@ public class CardSearchRequest extends CardApiUrl {
 		
 		public CardSearchRequest build() {
 			compareDate(initDate, endDate);
+			if ((initDate != null || endDate != null) && (maxAge != null)) {
+				throw new IllegalStateException("maxAge can't be invoked with initDate or/and endDate");
+			}
 			
 			return new CardSearchRequest(this.query, this.status, this.locale, this.limit, this.offset, this.initDate,
 					this.endDate, this.maxAge, this.categories, this.metaTags, this.authorIds, this.communityIds,
