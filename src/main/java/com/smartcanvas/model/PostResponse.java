@@ -5,10 +5,10 @@ import com.google.api.client.util.Key;
 
 public class PostResponse {
   
-  @Key("cardId")
+  @Key
   private String id;
   
-  @Key("cardMnemonic")
+  @Key
   private String mnemonic;
 
   public String id() {
