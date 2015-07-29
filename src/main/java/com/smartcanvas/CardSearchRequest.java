@@ -1,7 +1,6 @@
 package com.smartcanvas;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -137,8 +136,7 @@ public class CardSearchRequest extends CardApiUrl {
 		}
 
 		public CardSearchRequestBuilder status(CardStatus status) {
-			 this.status = status;
-			
+			this.status = status;
 			return this;
 		}
 
@@ -164,11 +162,11 @@ public class CardSearchRequest extends CardApiUrl {
 		}
 
 		public CardSearchRequestBuilder endDate(DateTime endDate) {
-			String stringDate =  initDate.toString(); 
+			String stringDate =  endDate.toString(); 
 			this.endDate = stringDate;
 			return this;
 		}
-
+		
 		public CardSearchRequestBuilder maxAge(Integer maxAgeString) {
 			this.maxAge = maxAgeString;
 			return this;
@@ -232,8 +230,19 @@ public class CardSearchRequest extends CardApiUrl {
 			this.jsonExtendedData = jsonExtendedData;
 			return this;
 		}
-
+		
+		//Validate the dates
+		public CardSearchRequestBuilder compareDate(String initDate, String endDate){		
+		if (initDate == null || (initDate.compareTo(endDate) < 0)) {
+			return this;
+		}else  		
+			throw new IllegalStateException("initDate must be equal or less than endDate");
+	}
+		
+		
 		public CardSearchRequest build() {
+			compareDate(initDate, endDate);
+			
 			return new CardSearchRequest(this.query, this.status, this.locale, this.limit, this.offset, this.initDate,
 					this.endDate, this.maxAge, this.categories, this.metaTags, this.authorIds, this.communityIds,
 					this.providerIds, this.decayment, this.fields, this.embed, jsonExtendedData);

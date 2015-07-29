@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import org.joda.time.LocalTime;
 import org.junit.Test;
 
 import com.google.api.client.util.DateTime;
@@ -51,12 +50,12 @@ public class CardSearchRequestBuilderTest {
 	@Test
 	public void searchByMetaTags() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.metaTags("metatags", "Tag", " ")
+				.metaTags("metatags", "Tag")
 				.build();
 		
 		assertTrue(((String)searchRequest.get("metaTags")).contains("metatags"));
 		assertTrue(((String)searchRequest.get("metaTags")).contains("Tag"));
-		assertTrue(((String)searchRequest.get("metaTags")).contains(" "));
+
 	}
 	
 	@Test
@@ -104,40 +103,7 @@ public class CardSearchRequestBuilderTest {
 	}
 	
 	@Test
-	public void searchByAllFields() throws IOException {
-//		@Key
-//		private final String query;
-//		@Key
-//		private final CardStatus status;
-//		@Key
-//		private final String locale;
-//		@Key
-//		private final Integer limit;
-//		@Key
-//		private final Integer offset;
-//		@Key
-//		private final DateTime initDate;
-//		@Key
-//		private final DateTime endDate;
-//		@Key
-//		private final Integer maxAge;
-//		@Key
-//		private final String categories;
-//		@Key
-//		private final String metaTags;
-//		@Key
-//		private final String authorIds;
-//		@Key
-//		private final String communityIds;
-//		@Key
-//		private final String providerIds;
-//		@Key
-//		private final Double decayment;
-//		@Key
-//		private final String fields;
-//		@Key
-//		private final String embed;
-		
+	public void searchByDate() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
 				.query("CI&T")
 				.status(CardStatus.APPROVED)
@@ -145,8 +111,8 @@ public class CardSearchRequestBuilderTest {
 				.limit(10101)
 				.offset(201102)				
 				//initDate accept Long, Date, (Date, zone)++  * Look for Datetime.class to more info
-				.initDate(new DateTime(12312L))
-				.endDate(new DateTime("2011-05-03T11:58:01Z"))
+				.initDate(new DateTime(1438178312))
+				.endDate(new DateTime("2015-15-03T11:58:01Z"))
 				.build();
 		System.out.println(searchRequest);
 //		assertTrue(((String)searchRequest.get("initDate")).contains("2011-05-03T11:58:01Z"));
