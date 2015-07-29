@@ -127,9 +127,31 @@ public class CardSearchRequestBuilderTest {
 				.status(CardStatus.APPROVED)
 				.locale("campinas")
 				.maxAge(2)
-				
+				.build();
+		System.out.println(searchRequest);
+	}
+	
+	@Test
+	public void searchByAllFields() throws IOException {
+		CardSearchRequest searchRequest = CardSearchRequest.builder()
+				.query("CI&T")
+				.status(CardStatus.APPROVED)
+				.authorIds("fuechi", "gmoneda")
+				.communityIds("play", "store")
+				.providerIds("providerID1", "providerID2")
+				.categories("shopping", "cards", "people", "ciandt")
+				.fields("field1", "field2")
+				.locale("campinas")
+				.metaTags("metatags", "Tag")
+				.embed("authorIds", "id")
+				//.maxAge(2)
+				.limit(10101)
+				.offset(201102)	
 				.initDate(new DateTime(1438178312))
 				.endDate(new DateTime("2015-15-03T11:58:01Z"))
+				.decayment(2D)
+				//.jsonExtendedData("Not Implemmented yet")
+				
 				.build();
 		System.out.println(searchRequest);
 	}
