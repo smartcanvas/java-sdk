@@ -18,7 +18,7 @@ import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.PostResponse;
 
-public class SmartcanvasTests {
+public class SmartcanvasIntegrationTests {
 
 	private Smartcanvas smartcanvas;
 	static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
@@ -26,8 +26,8 @@ public class SmartcanvasTests {
 	private static final String CLIENT_ID = "yYSr9igrmPkR";
 	private static final String CLIENT_SECRET = "ce4a3f668a3d9ca30a6653a005f86b063906769bad7f27f1a83241c267028e89";
 
-	public SmartcanvasTests() throws JoseException {
-		smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET);
+	public SmartcanvasIntegrationTests() throws JoseException {
+		smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, true);
 	}
 
 	@Test

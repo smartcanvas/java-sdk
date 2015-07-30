@@ -46,7 +46,7 @@ public class SmartcanvasAuthentication implements HttpRequestInitializer, HttpEx
         claims.setExpirationTimeMinutesInTheFuture(60*24); // 24hs
         claims.setGeneratedJwtId();
         claims.setIssuedAtToNow();
-        String email = String.format("root@%ssmartcanvas.com", clientId);
+        String email = String.format("root+%s@api.smartcanvas.com", clientId);
         claims.setSubject(email);
         claims.setClaim("email", email);
         claims.setClaim("tokenType", "ACCESS");

@@ -1,16 +1,14 @@
 package com.smartcanvas;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.client.util.Joiner;
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Objects;
 import com.google.api.client.util.Sets;
-import com.smartcanvas.SmartcanvasUrl.CardApiUrl;
+import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card.CardStatus;
 
 public class CardSearchRequest extends CardApiUrl {
@@ -52,11 +50,11 @@ public class CardSearchRequest extends CardApiUrl {
 
 	private final static Joiner COMMA_JOINER = Joiner.on(',');
 	
-	private CardSearchRequest(String query, CardStatus status, String locale, Integer limit, Integer offset,
+	private CardSearchRequest(boolean useSandbox, String query, CardStatus status, String locale, Integer limit, Integer offset,
 			String initDate, String endDate, Integer maxAge, Set<String> categories, Set<String> metaTags,
 			Set<String> authorIds, Set<String> communityIds, Set<String> providerIds, Double decayment,
 			Set<String> fields, Set<String> embed, String jsonExtendedData) {
-		super();
+		super(useSandbox);
 		this.query = query;
 		this.status = status;
 		this.locale = locale;
@@ -74,7 +72,6 @@ public class CardSearchRequest extends CardApiUrl {
 		this.fields = join(fields);
 		this.embed = join(embed);
 		this.jsonExtendedData = jsonExtendedData;
-
 	}
 	
 	private static String join(Iterable<String> joinable) {
@@ -84,12 +81,14 @@ public class CardSearchRequest extends CardApiUrl {
 	}
 
 	public static CardSearchRequestBuilder builder() {
-		return new CardSearchRequestBuilder();
+		return new CardSearchRequestBuilder(false);
 	}
 
-	public static class CardSearchRequestBuilder {
+   public static CardSearchRequestBuilder builder(boolean useSandbox) {
+        return new CardSearchRequestBuilder(useSandbox);
+    }
 
-		private static final Pattern SPLITTER_PATTERN = Pattern.compile(",\\s*");
+	public static class CardSearchRequestBuilder {
 
 		private String query;	
 		
@@ -125,10 +124,11 @@ public class CardSearchRequest extends CardApiUrl {
 
 		private String jsonExtendedData;
 
+        private boolean useSandbox;
 		
 
-		private CardSearchRequestBuilder() {
-			// checkArgument(!Strings.isNullOrEmpty(tenant));
+		private CardSearchRequestBuilder(boolean useSandbox) {
+			this.useSandbox = useSandbox;
 		}
 
 		public CardSearchRequestBuilder query(String query) {
@@ -234,7 +234,7 @@ public class CardSearchRequest extends CardApiUrl {
 		}
 
 		public CardSearchRequest build() {
-			return new CardSearchRequest(this.query, this.status, this.locale, this.limit, this.offset, this.initDate,
+			return new CardSearchRequest(this.useSandbox, this.query, this.status, this.locale, this.limit, this.offset, this.initDate,
 					this.endDate, this.maxAge, this.categories, this.metaTags, this.authorIds, this.communityIds,
 					this.providerIds, this.decayment, this.fields, this.embed, jsonExtendedData);
 		}
