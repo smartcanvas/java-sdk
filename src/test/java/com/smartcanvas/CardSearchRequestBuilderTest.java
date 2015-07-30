@@ -5,34 +5,58 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.smartcanvas.model.Card.CardStatus;
 
 public class CardSearchRequestBuilderTest {
+	
+
+
+		private Smartcanvas smartcanvas;
+		static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+		static final JsonFactory JSON_FACTORY = new JacksonFactory();
+		private static final String CLIENT_ID = "yYSr9igrmPkR";
+		private static final String CLIENT_SECRET = "ce4a3f668a3d9ca30a6653a005f86b063906769bad7f27f1a83241c267028e89";
+
+		public CardSearchRequestBuilderTest() throws JoseException {
+			smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET);
+		}
 
 	@Test
 	public void searchWithQuery() throws IOException {
 		String queryTerm = "queryTerm";
 		CardSearchRequest searchRequest = CardSearchRequest.builder().query(queryTerm).build();
 		assertEquals(queryTerm, searchRequest.get("query"));
+		smartcanvas.cards().search(searchRequest);
 	}
 
 	@Test
 	public void searchByAuthor() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.authorIds("fuechi")
+				//authorIds must have a email
+				.authorIds("fuechi@ciandt.com")
 				.build();
-		assertEquals("fuechi", searchRequest.get("authorIds"));
+		//assertEquals("fuechi@ciandt.com", searchRequest.get("authorIds"));
+		smartcanvas.cards().search(searchRequest);
 	}
 
 	@Test
 	public void searchByMultipleAuthors() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.authorIds("fuechi", "gmoneda")
+				.authorIds("fuechi@ciandt.com", "gmoneda@ciandt.com")
 				.build();
-		assertEquals("fuechi,gmoneda", searchRequest.get("authorIds"));
+		//assertEquals("fuechi@ciandt.com, gmoneda@ciandt.com", searchRequest.get("authorIds"));
+		//assertTrue(((String)searchRequest.get("authorIds")).contains("fuechi@ciandt.com"));
+		//assertTrue(((String)searchRequest.get("authorIds")).contains("gmoneda@ciandt.com"));
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
 	}
 	
 	@Test
@@ -45,111 +69,130 @@ public class CardSearchRequestBuilderTest {
 		assertTrue(((String)searchRequest.get("categories")).contains("cards"));
 		assertTrue(((String)searchRequest.get("categories")).contains("people"));
 		assertTrue(((String)searchRequest.get("categories")).contains("ciandt"));
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
 	}
 	
 	@Test
 	public void searchByMetaTags() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.metaTags("metatags", "Tag", " ")
+				.metaTags("CI&T", "Collabore")
 				.build();
 		
-		assertTrue(((String)searchRequest.get("metaTags")).contains("metatags"));
-		assertTrue(((String)searchRequest.get("metaTags")).contains("Tag"));
-		assertTrue(((String)searchRequest.get("metaTags")).contains(" "));
+		assertTrue(((String)searchRequest.get("metaTags")).contains("CI&T"));
+		assertTrue(((String)searchRequest.get("metaTags")).contains("Collabore"));
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
+
 	}
 	
 	@Test
 	public void searchByCommunityIds() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.communityIds("play", "store")
+				.communityIds("Developers", "Intranet")
 				.build();
 		
-		assertTrue(((String)searchRequest.get("communityIds")).contains("play"));
-		assertTrue(((String)searchRequest.get("communityIds")).contains("store"));
+		assertTrue(((String)searchRequest.get("communityIds")).contains("Developers"));
+		assertTrue(((String)searchRequest.get("communityIds")).contains("Intranet"));
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
 		
 	}	
 	
 	@Test
 	public void searchByproviderIds() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.providerIds("play", "store")
+				.providerIds("ID")
 				.build();
 		
-		assertTrue(((String)searchRequest.get("providerIds")).contains("play"));
-		assertTrue(((String)searchRequest.get("providerIds")).contains("store"));
-		
+		assertTrue(((String)searchRequest.get("providerIds")).contains("ID"));
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
 	}	
 	
 	@Test
 	public void searchByFields() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.fields("field1", "field2")
+				//Fields to include in the response. If omitted, the response will contain all fields
+				.query("ciandt")
+				.fields("title", "summary", "content")
 				.build();
 		
-		assertTrue(((String)searchRequest.get("fields")).contains("field1"));
-		assertTrue(((String)searchRequest.get("fields")).contains("field2"));
-		
+		assertTrue(((String)searchRequest.get("fields")).contains("title"));
+		assertTrue(((String)searchRequest.get("fields")).contains("summary"));
+		assertTrue(((String)searchRequest.get("fields")).contains("content"));
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
 	}	
 	
 	@Test
 	public void searchByEmbedString() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.embed("authorIds", "id")
+				.embed("authorIds", "contentProvider")
 				.build();
 		
 		assertTrue(((String)searchRequest.get("embed")).contains("authorIds"));
-		assertTrue(((String)searchRequest.get("embed")).contains("id"));
+		assertTrue(((String)searchRequest.get("embed")).contains("contentProvider"));
 		
 	}
 	
 	@Test
-	public void searchByAllFields() throws IOException {
-//		@Key
-//		private final String query;
-//		@Key
-//		private final CardStatus status;
-//		@Key
-//		private final String locale;
-//		@Key
-//		private final Integer limit;
-//		@Key
-//		private final Integer offset;
-//		@Key
-//		private final DateTime initDate;
-//		@Key
-//		private final DateTime endDate;
-//		@Key
-//		private final Integer maxAge;
-//		@Key
-//		private final String categories;
-//		@Key
-//		private final String metaTags;
-//		@Key
-//		private final String authorIds;
-//		@Key
-//		private final String communityIds;
-//		@Key
-//		private final String providerIds;
-//		@Key
-//		private final Double decayment;
-//		@Key
-//		private final String fields;
-//		@Key
-//		private final String embed;
-		
+	public void searchByDate() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
 				.query("CI&T")
 				.status(CardStatus.APPROVED)
-				.locale("campinas")
+				.locale("us-en")
 				.limit(10101)
 				.offset(201102)				
-				//initDate accept Long, Date, (Date, zone)++  * Look for Datetime.class to more info
-				.initDate(new DateTime(12312L))
-				.endDate(new DateTime("2011-05-03T11:58:01Z"))
+				//initDate accept (YYYY-mm-dd)  * Look for Datetime.class to more info
+				.initDate(new DateTime("2015-03-21"))
+				.endDate(new DateTime("2015-05-01"))
 				.build();
 		System.out.println(searchRequest);
-//		assertTrue(((String)searchRequest.get("initDate")).contains("2011-05-03T11:58:01Z"));
-//		assertTrue(((String)searchRequest.get("embed")).contains("id"));
+		assertTrue(((String)searchRequest.get("initDate")).contains("2015-03-21"));
+		assertTrue(((String)searchRequest.get("query")).contains("CI&T"));
+		smartcanvas.cards().search(searchRequest);
 	
 	}
+	
+	@Test
+	public void searchByMaxDate() throws IOException {
+		CardSearchRequest searchRequest = CardSearchRequest.builder()
+				.query("CI&T")
+				.status(CardStatus.APPROVED)
+				//pt-br or us-en
+				.locale("us-en")
+				.maxAge(2)
+				.build();
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
+	}
+	
+	@Test
+	public void searchByAllFields() throws IOException {
+		CardSearchRequest searchRequest = CardSearchRequest.builder()
+				.query("CI&T")
+				.status(CardStatus.APPROVED)
+				.authorIds("fuechi@ciandt.com", "gmoneda@ciandt.com")
+				.communityIds("play", "store")
+				.providerIds("providerID1", "providerID2")
+				.categories("shopping", "cards", "people", "ciandt")
+				.fields("title", "community", "content")
+				//pt-br or us-en
+				.locale("us-en")
+				.metaTags("metatags", "Tag")
+				.embed("authorIds", "id")
+				//.maxAge(2)
+				.limit(10101)
+				.offset(201102)	
+				.initDate(new DateTime("2015-15-01"))
+				.endDate(new DateTime("2015-15-03"))
+				//.decayment(0.5D)
+				//.jsonExtendedData("Not Implemmented yet")
+				
+				.build();
+		System.out.println(searchRequest);
+		smartcanvas.cards().search(searchRequest);
+	}
+	
 }

@@ -1,7 +1,9 @@
 package com.smartcanvas;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.client.util.Joiner;
@@ -72,6 +74,7 @@ public class CardSearchRequest extends CardApiUrl {
 		this.fields = join(fields);
 		this.embed = join(embed);
 		this.jsonExtendedData = jsonExtendedData;
+
 	}
 	
 	private static String join(Iterable<String> joinable) {
@@ -137,8 +140,7 @@ public class CardSearchRequest extends CardApiUrl {
 		}
 
 		public CardSearchRequestBuilder status(CardStatus status) {
-			 this.status = status;
-			
+			this.status = status;
 			return this;
 		}
 
@@ -164,7 +166,7 @@ public class CardSearchRequest extends CardApiUrl {
 		}
 
 		public CardSearchRequestBuilder endDate(DateTime endDate) {
-			String stringDate =  initDate.toString(); 
+			String stringDate =  endDate.toString(); 
 			this.endDate = stringDate;
 			return this;
 		}
@@ -191,6 +193,7 @@ public class CardSearchRequest extends CardApiUrl {
 		public CardSearchRequestBuilder authorIds(String... authors) {
 			if(this.authorIds == null)
 				this.authorIds = Sets.newHashSet();
+
 			this.authorIds.addAll(Arrays.asList(authors));
 			return this;
 		}
@@ -232,8 +235,23 @@ public class CardSearchRequest extends CardApiUrl {
 			this.jsonExtendedData = jsonExtendedData;
 			return this;
 		}
-
+		
+		//Validate the dates
+		public CardSearchRequestBuilder compareDate(String initDate, String endDate){		
+		if (initDate == null || endDate == null || (initDate.compareTo(endDate) < 0)) {
+			return this;
+		}else  		
+			throw new IllegalStateException("initDate must be equal or less than endDate");
+	}
+		
+		
 		public CardSearchRequest build() {
+
+			compareDate(initDate, endDate);
+			if ((initDate != null || endDate != null) && (maxAge != null)) {
+				throw new IllegalStateException("maxAge can't be invoked with initDate or/and endDate");
+			}
+
 			return new CardSearchRequest(this.useSandbox, this.query, this.status, this.locale, this.limit, this.offset, this.initDate,
 					this.endDate, this.maxAge, this.categories, this.metaTags, this.authorIds, this.communityIds,
 					this.providerIds, this.decayment, this.fields, this.embed, jsonExtendedData);
