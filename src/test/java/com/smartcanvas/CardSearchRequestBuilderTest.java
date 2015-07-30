@@ -5,46 +5,26 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.smartcanvas.model.Card.CardStatus;
 
 public class CardSearchRequestBuilderTest {
 	
-
-
-		private Smartcanvas smartcanvas;
-		static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-		static final JsonFactory JSON_FACTORY = new JacksonFactory();
-		private static final String CLIENT_ID = "yYSr9igrmPkR";
-		private static final String CLIENT_SECRET = "ce4a3f668a3d9ca30a6653a005f86b063906769bad7f27f1a83241c267028e89";
-
-		public CardSearchRequestBuilderTest() throws JoseException {
-			smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET);
-		}
-
 	@Test
 	public void searchWithQuery() throws IOException {
 		String queryTerm = "queryTerm";
 		CardSearchRequest searchRequest = CardSearchRequest.builder().query(queryTerm).build();
 		assertEquals(queryTerm, searchRequest.get("query"));
-		smartcanvas.cards().search(searchRequest);
 	}
 
 	@Test
 	public void searchByAuthor() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				//authorIds must have a email
 				.authorIds("fuechi@ciandt.com")
 				.build();
-		//assertEquals("fuechi@ciandt.com", searchRequest.get("authorIds"));
-		smartcanvas.cards().search(searchRequest);
+		assertEquals("fuechi@ciandt.com", searchRequest.get("authorIds"));
 	}
 
 	@Test
@@ -52,11 +32,9 @@ public class CardSearchRequestBuilderTest {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
 				.authorIds("fuechi@ciandt.com", "gmoneda@ciandt.com")
 				.build();
-		//assertEquals("fuechi@ciandt.com, gmoneda@ciandt.com", searchRequest.get("authorIds"));
-		//assertTrue(((String)searchRequest.get("authorIds")).contains("fuechi@ciandt.com"));
-		//assertTrue(((String)searchRequest.get("authorIds")).contains("gmoneda@ciandt.com"));
-		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
+		
+		assertTrue(((String)searchRequest.get("authorIds")).contains("fuechi@ciandt.com"));
+		assertTrue(((String)searchRequest.get("authorIds")).contains("gmoneda@ciandt.com"));
 	}
 	
 	@Test
@@ -69,21 +47,17 @@ public class CardSearchRequestBuilderTest {
 		assertTrue(((String)searchRequest.get("categories")).contains("cards"));
 		assertTrue(((String)searchRequest.get("categories")).contains("people"));
 		assertTrue(((String)searchRequest.get("categories")).contains("ciandt"));
-		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
 	}
 	
 	@Test
 	public void searchByMetaTags() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.metaTags("CI&T", "Collabore")
+				.metaTags("CIT", "Collabore")
 				.build();
 		
-		assertTrue(((String)searchRequest.get("metaTags")).contains("CI&T"));
+		assertTrue(((String)searchRequest.get("metaTags")).contains("CIT"));
 		assertTrue(((String)searchRequest.get("metaTags")).contains("Collabore"));
 		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
-
 	}
 	
 	@Test
@@ -94,9 +68,6 @@ public class CardSearchRequestBuilderTest {
 		
 		assertTrue(((String)searchRequest.get("communityIds")).contains("Developers"));
 		assertTrue(((String)searchRequest.get("communityIds")).contains("Intranet"));
-		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
-		
 	}	
 	
 	@Test
@@ -106,8 +77,6 @@ public class CardSearchRequestBuilderTest {
 				.build();
 		
 		assertTrue(((String)searchRequest.get("providerIds")).contains("ID"));
-		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
 	}	
 	
 	@Test
@@ -121,8 +90,6 @@ public class CardSearchRequestBuilderTest {
 		assertTrue(((String)searchRequest.get("fields")).contains("title"));
 		assertTrue(((String)searchRequest.get("fields")).contains("summary"));
 		assertTrue(((String)searchRequest.get("fields")).contains("content"));
-		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
 	}	
 	
 	@Test
@@ -130,10 +97,8 @@ public class CardSearchRequestBuilderTest {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
 				.embed("authorIds", "contentProvider")
 				.build();
-		
 		assertTrue(((String)searchRequest.get("embed")).contains("authorIds"));
 		assertTrue(((String)searchRequest.get("embed")).contains("contentProvider"));
-		
 	}
 	
 	@Test
@@ -151,8 +116,6 @@ public class CardSearchRequestBuilderTest {
 		System.out.println(searchRequest);
 		assertTrue(((String)searchRequest.get("initDate")).contains("2015-03-21"));
 		assertTrue(((String)searchRequest.get("query")).contains("CI&T"));
-		smartcanvas.cards().search(searchRequest);
-	
 	}
 	
 	@Test
@@ -165,7 +128,6 @@ public class CardSearchRequestBuilderTest {
 				.maxAge(2)
 				.build();
 		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
 	}
 	
 	@Test
@@ -192,7 +154,6 @@ public class CardSearchRequestBuilderTest {
 				
 				.build();
 		System.out.println(searchRequest);
-		smartcanvas.cards().search(searchRequest);
 	}
 	
 }
