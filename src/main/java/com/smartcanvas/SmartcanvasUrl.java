@@ -4,7 +4,7 @@ import com.google.api.client.http.GenericUrl;
 
 public class SmartcanvasUrl extends GenericUrl {
 
-    private static final String DEFAULT_ROOT_URL = "https://api.smartcanvas.com/";
+    private static final String DEFAULT_ROOT_URL = "https://api-sandbox.smartcanvas.com/";
     private static String rootUrl = DEFAULT_ROOT_URL;	
 
     

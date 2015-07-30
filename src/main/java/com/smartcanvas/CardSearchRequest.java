@@ -189,6 +189,7 @@ public class CardSearchRequest extends CardApiUrl {
 		public CardSearchRequestBuilder authorIds(String... authors) {
 			if(this.authorIds == null)
 				this.authorIds = Sets.newHashSet();
+
 			this.authorIds.addAll(Arrays.asList(authors));
 			return this;
 		}
