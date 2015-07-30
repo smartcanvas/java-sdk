@@ -41,9 +41,9 @@ public class CardSearchRequestBuilderTest {
 	public void searchByAuthor() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
 				//authorIds must have a email
-				.authorIds("fuechi@ciandt.com")
+				.authorIds("gmoneda@ciandt.com")
 				.build();
-		//assertEquals("fuechi@ciandt.com", searchRequest.get("authorIds"));
+		assertEquals("gmoneda@ciandt.com", searchRequest.get("authorIds"));
 		smartcanvas.cards().search(searchRequest);
 	}
 
@@ -52,10 +52,9 @@ public class CardSearchRequestBuilderTest {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
 				.authorIds("fuechi@ciandt.com", "gmoneda@ciandt.com")
 				.build();
-		//assertEquals("fuechi@ciandt.com, gmoneda@ciandt.com", searchRequest.get("authorIds"));
-		//assertTrue(((String)searchRequest.get("authorIds")).contains("fuechi@ciandt.com"));
-		//assertTrue(((String)searchRequest.get("authorIds")).contains("gmoneda@ciandt.com"));
-		System.out.println(searchRequest);
+		
+		assertTrue(((String)searchRequest.get("authorIds")).contains("fuechi@ciandt.com"));
+		assertTrue(((String)searchRequest.get("authorIds")).contains("gmoneda@ciandt.com"));
 		smartcanvas.cards().search(searchRequest);
 	}
 	
@@ -69,19 +68,18 @@ public class CardSearchRequestBuilderTest {
 		assertTrue(((String)searchRequest.get("categories")).contains("cards"));
 		assertTrue(((String)searchRequest.get("categories")).contains("people"));
 		assertTrue(((String)searchRequest.get("categories")).contains("ciandt"));
-		System.out.println(searchRequest);
 		smartcanvas.cards().search(searchRequest);
 	}
 	
 	@Test
 	public void searchByMetaTags() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
-				.metaTags("CI&T", "Collabore")
+				.query("title")
+				.metaTags("ciandt", "Collabore")
 				.build();
 		
-		assertTrue(((String)searchRequest.get("metaTags")).contains("CI&T"));
+		assertTrue(((String)searchRequest.get("metaTags")).contains("ciandt"));
 		assertTrue(((String)searchRequest.get("metaTags")).contains("Collabore"));
-		System.out.println(searchRequest);
 		smartcanvas.cards().search(searchRequest);
 
 	}
@@ -94,7 +92,6 @@ public class CardSearchRequestBuilderTest {
 		
 		assertTrue(((String)searchRequest.get("communityIds")).contains("Developers"));
 		assertTrue(((String)searchRequest.get("communityIds")).contains("Intranet"));
-		System.out.println(searchRequest);
 		smartcanvas.cards().search(searchRequest);
 		
 	}	
@@ -106,7 +103,6 @@ public class CardSearchRequestBuilderTest {
 				.build();
 		
 		assertTrue(((String)searchRequest.get("providerIds")).contains("ID"));
-		System.out.println(searchRequest);
 		smartcanvas.cards().search(searchRequest);
 	}	
 	
@@ -121,7 +117,6 @@ public class CardSearchRequestBuilderTest {
 		assertTrue(((String)searchRequest.get("fields")).contains("title"));
 		assertTrue(((String)searchRequest.get("fields")).contains("summary"));
 		assertTrue(((String)searchRequest.get("fields")).contains("content"));
-		System.out.println(searchRequest);
 		smartcanvas.cards().search(searchRequest);
 	}	
 	
@@ -133,7 +128,7 @@ public class CardSearchRequestBuilderTest {
 		
 		assertTrue(((String)searchRequest.get("embed")).contains("authorIds"));
 		assertTrue(((String)searchRequest.get("embed")).contains("contentProvider"));
-		
+		smartcanvas.cards().search(searchRequest);
 	}
 	
 	@Test
@@ -148,7 +143,7 @@ public class CardSearchRequestBuilderTest {
 				.initDate(new DateTime("2015-03-21"))
 				.endDate(new DateTime("2015-05-01"))
 				.build();
-		System.out.println(searchRequest);
+		
 		assertTrue(((String)searchRequest.get("initDate")).contains("2015-03-21"));
 		assertTrue(((String)searchRequest.get("query")).contains("CI&T"));
 		smartcanvas.cards().search(searchRequest);
@@ -164,7 +159,6 @@ public class CardSearchRequestBuilderTest {
 				.locale("us-en")
 				.maxAge(2)
 				.build();
-		System.out.println(searchRequest);
 		smartcanvas.cards().search(searchRequest);
 	}
 	
@@ -183,15 +177,13 @@ public class CardSearchRequestBuilderTest {
 				.metaTags("metatags", "Tag")
 				.embed("authorIds", "id")
 				//.maxAge(2)
-				.limit(10101)
-				.offset(201102)	
+				.limit(9)
+				.offset(2)	
 				.initDate(new DateTime("2015-15-01"))
 				.endDate(new DateTime("2015-15-03"))
 				//.decayment(0.5D)
 				//.jsonExtendedData("Not Implemmented yet")
-				
 				.build();
-		System.out.println(searchRequest);
 		smartcanvas.cards().search(searchRequest);
 	}
 	

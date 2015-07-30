@@ -12,14 +12,14 @@ public class SmartcanvasUrl extends GenericUrl {
         
     	public static final String DEFAULT_SERVICE_PATH = "card/v1";
         final static String url = "%s%s/cards";
-        final static String urlUpdate = "%s%s/cards/%s";
+        final static String urlSearch = "%s%s/cards/%s";
         
         public CardApiUrl() {
             super(String.format(url, rootUrl, DEFAULT_SERVICE_PATH));
         }    
         
         public CardApiUrl(String id) {
-        	super(String.format(urlUpdate, rootUrl, DEFAULT_SERVICE_PATH,id));
+        	super(String.format(urlSearch, rootUrl, DEFAULT_SERVICE_PATH,id));
         }
 	
     }	
