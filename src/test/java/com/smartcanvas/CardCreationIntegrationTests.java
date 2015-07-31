@@ -1,46 +1,64 @@
 package com.smartcanvas;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
-import com.smartcanvas.model.PostResponse;
+import com.smartcanvas.model.CardId;
 
-public class SmartcanvasIntegrationTests {
+public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegrationTests {
 
-	private Smartcanvas smartcanvas;
-	static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-	static final JsonFactory JSON_FACTORY = new JacksonFactory();
-	private static final String CLIENT_ID = "yYSr9igrmPkR";
-	private static final String CLIENT_SECRET = "ce4a3f668a3d9ca30a6653a005f86b063906769bad7f27f1a83241c267028e89";
+	public CardCreationIntegrationTests() throws JoseException {
+        super();
+    }
 
-	public SmartcanvasIntegrationTests() throws JoseException {
-		smartcanvas = new Smartcanvas(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, true);
-	}
-
-	@Test
+    @Test
+    public void getById() throws IOException {
+        Card card = smartcanvas.cards().get(4858809667289088l);
+        assertNotNull(card);
+    }
+	
+    @Test
 	public void addSimpleCard() throws IOException {
-		Card card = new Card(givenProvider());
-		card.setTitle("Card Title");
-		card.setMnemonic("Memes"); // URL Mnemonic
-		card.setSummary("This is the summary");
-		card.setContent("Write the content of the card here");
+		Card card = new Card();
+		card.setMnemonic("upa-upa-upa-cavalinho-alazao");
+		card.addMetaTags("leo");
 		card.setAutoApprove(true);
-		smartcanvas.cards().insert(card); // Record the card
+		
+		CardId id = smartcanvas.cards().insert(card);
+		
+		card.setContentProvider(givenProvider());
+		card.setMnemonic("upa-upa-upa-cavalinho-alazaozao");
+		
+		CardId id2 = smartcanvas.cards().insert(card);
+
+        assertNotNull(id);
+        assertNotNull(id2);
+        
+        assertNotEquals(id, id2);
+        
 	}
 
+   @Test
+    public void addCardWithContentProvider() throws IOException {
+        Card card = new Card(givenProvider());
+        card.setTitle("Card Title");
+        card.setMnemonic("Memes");
+        card.setSummary("This is the summary");
+        card.setContent("Write the content of the card here");
+        card.setAutoApprove(true);
+        smartcanvas.cards().insert(card);
+    }
+	   
 	@Test
 	public void addCategoriesandMeta() throws IOException {
 		Card card = new Card(givenProvider());
@@ -163,7 +181,7 @@ public class SmartcanvasIntegrationTests {
 		card.addArticleAttachment("https://www.google.com.br/design/articles",
 				"http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
-		PostResponse response = smartcanvas.cards().insert(card);
+		CardId response = smartcanvas.cards().insert(card);
 
 		assertNotNull(response);
 		assertNotNull(response.id());
@@ -184,8 +202,7 @@ public class SmartcanvasIntegrationTests {
 		card.addArticleAttachment("https://www.google.com.br/design/articles",
 				"http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
-		// Mnemonic or ID card
-		String id = "5233755344076800";
+		String id = "6087103192498176";
 		smartcanvas.cards().update(card, id);
 
 	}

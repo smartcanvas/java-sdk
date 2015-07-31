@@ -48,23 +48,30 @@ public class Card extends GenericData {
     private Set<String> metaTags;
     @Key
     private List<Attachment> attachments;
-
+    @Key
     private DateTime createDate;
+    @Key
     private DateTime updateDate;
-    private String jsonExtendedData;
+    @Key
+    private GenericData jsonExtendedData;
+    
     private String coordinates;
+    
+    @Key
     private UserActivity userActivities;
+    @Key
     private Permission permission;
-
     @Key
     private Set<String> locales;
 
-    public Card(ContentProvider contentProvider) {
+    
+    public Card() {
         super();
+    }
+    
+    public Card(ContentProvider contentProvider) {
+        this();
         this.contentProvider = contentProvider;
-        this.categories = Sets.newHashSet();
-        this.metaTags = Sets.newHashSet();
-        this.attachments = Lists.newArrayList();
     }
 
     public Long getId() {
@@ -155,32 +162,6 @@ public class Card extends GenericData {
         this.autoApprove = autoApprove;
     }
 
-    // public String getJsonExtendedData() {
-    // return jsonExtendedData;
-    // }
-    //
-    // public void setJsonExtendedData(final JsonNode jsonExtendedDataNode) {
-    // this.jsonExtendedData =
-    // jsonExtendedDataNode==null?null:jsonExtendedDataNode.toString();
-    // }
-    //
-    // public void setJsonExtendedDataRaw(final String jsonExtendedData) {
-    // this.jsonExtendedData = jsonExtendedData;
-    // }
-
-    // public String getCoordinates() {
-    // return coordinates;
-    // }
-    //
-    // public void setCoordinates(final JsonNode coordinatesNode) {
-    // this.coordinates = coordinatesNode == null ? null :
-    // coordinatesNode.toString();
-    // }
-    //
-    // public void setCoordinatesRaw(String coordinates) {
-    // this.coordinates = coordinates;
-    // }
-
     public Set<String> getCategories() {
         return categories;
     }
@@ -246,12 +227,18 @@ public class Card extends GenericData {
     }
 
     public void addCategories(String... categories) {
+        if (getCategories() == null) {
+            setCategories(Sets.<String>newHashSet());
+        }
         for (String category : categories) {
             this.categories.add(category);
         }
     }
 
     public void addMetaTags(String... metaTags) {
+        if (getMetaTags() == null) {
+            setMetaTags(Sets.<String>newHashSet());
+        }
         for (String tag : metaTags) {
             this.metaTags.add(tag);
         }
@@ -273,6 +260,9 @@ public class Card extends GenericData {
     }
 
     public void addAttachment(Attachment attachment) {
+        if (getAttachments() == null) {
+            setAttachments(Lists.<Attachment>newArrayList());
+        }
         this.attachments.add(attachment);
     }
 
@@ -281,9 +271,15 @@ public class Card extends GenericData {
         public enum TypeEnum {
 
             @Value("photo")
-            PHOTO, @Value("article")
-            ARTICLE, @Value("video")
+            PHOTO, 
+            @Value("article")
+            ARTICLE, 
+            @Value("video")
             VIDEO,
+            @Value("drive")
+            @Deprecated
+            DRIVE,
+            
         };
 
         @Key
@@ -299,6 +295,9 @@ public class Card extends GenericData {
         @Key
         private String jsonExtendedData = null;
 
+        public Attachment() {
+        }
+        
         public Attachment(TypeEnum type) {
             this.type = type;
         }
@@ -347,20 +346,6 @@ public class Card extends GenericData {
             this.jsonExtendedData = jsonExtendedData;
         }
 
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("class Attachment {\n");
-            sb.append("  type: ").append(type).append("\n");
-            sb.append("  displayName: ").append(displayName).append("\n");
-            sb.append("  contentURL: ").append(contentURL).append("\n");
-            sb.append("  embedURL: ").append(embedURL).append("\n");
-            sb.append("  images: ").append(images).append("\n");
-            sb.append("  jsonExtendedData: ").append(jsonExtendedData).append("\n");
-            sb.append("}\n");
-            return sb.toString();
-        }
-
         public static Attachment video(String videoUrl) {
             Attachment videoattachment = new Attachment(TypeEnum.VIDEO);
             videoattachment.setContentURL(videoUrl);
@@ -385,6 +370,15 @@ public class Card extends GenericData {
         private void addImage(String photoUrl) {
             this.images.add(new Image(photoUrl));
         }
+
+        @Override
+        public String toString() {
+            return Objects.toStringHelper(this).add("type", this.type).add("displayName", this.displayName)
+                    .add("contentURL", this.contentURL).add("embedURL", this.embedURL).add("images", this.images)
+                    .add("jsonExtendedData", this.jsonExtendedData).toString();
+        }
+        
+    
     }
 
     public static class Permission {
@@ -439,6 +433,10 @@ public class Card extends GenericData {
         @Key
         private DateTime updateDate = null;
 
+        public ContentProvider() {
+            super();
+        }
+        
         public ContentProvider(String id, String contentId, String userId) {
             super();
             this.id = id;
@@ -496,15 +494,9 @@ public class Card extends GenericData {
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("class ContentProvider {\n");
-
-            sb.append("  id: ").append(id).append("\n");
-            sb.append("  contentId: ").append(contentId).append("\n");
-            sb.append("  contentURL: ").append(contentURL).append("\n");
-            sb.append("  userId: ").append(userId).append("\n");
-            sb.append("}\n");
-            return sb.toString();
+            return Objects.toStringHelper(this).add("id", this.id).add("contentId", this.contentId)
+                    .add("contentURL", this.contentURL).add("userId", this.userId).add("createDate", this.createDate)
+                    .add("updateDate", this.updateDate).toString();
         }
     }
 
@@ -515,6 +507,8 @@ public class Card extends GenericData {
         private String displayName = null;
         @Key
         private String imageURL = null;
+        @Key
+        private Image image;
 
         public String getId() {
             return id;
@@ -542,15 +536,14 @@ public class Card extends GenericData {
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("class Author {\n");
-
-            sb.append("  id: ").append(id).append("\n");
-            sb.append("  displayName: ").append(displayName).append("\n");
-            sb.append("  imageURL: ").append(imageURL).append("\n");
-            sb.append("}\n");
-            return sb.toString();
+            return Objects.toStringHelper(this)
+                    .add("image", this.image)
+                    .add("imageURL", this.imageURL)
+                    .add("displayName", this.displayName)
+                    .add("id", this.id)
+                    .toString();
         }
+        
     }
 
     public static class Community {
@@ -584,13 +577,8 @@ public class Card extends GenericData {
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("class Community {\n");
-
-            sb.append("  id: ").append(id).append("\n");
-            sb.append("  displayName: ").append(displayName).append("\n");
-            sb.append("}\n");
-            return sb.toString();
+            return Objects.toStringHelper(this).add("id", this.id).add("displayName", this.displayName).toString();
         }
+
     }
 }

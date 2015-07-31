@@ -1,6 +1,7 @@
 package com.smartcanvas;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.jose4j.lang.JoseException;
 
@@ -9,9 +10,7 @@ import com.google.api.client.http.HttpExecuteInterceptor;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
@@ -19,11 +18,13 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Preconditions;
 import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card;
-import com.smartcanvas.model.GetResponse;
-import com.smartcanvas.model.PostResponse;
+import com.smartcanvas.model.CardSearchResult;
+import com.smartcanvas.model.CardId;
 
 public class Smartcanvas {
 
+    private static final Logger LOGGER = Logger.getLogger(Smartcanvas.class.getSimpleName());
+    
     private static final int NUMBER_OF_RETRIES_DEFAULT = 3;
     private HttpTransport transport;
     private JsonFactory jsonFactory;
@@ -55,7 +56,7 @@ public class Smartcanvas {
      * 
      * <pre>
      *   {@code SmartCanvas smartCanvas = new SmartCanvas(...);}
-     *   {@code SmartCanvas.Cards.List request = smartCanvas.cards().list(parameters ...)}
+     *   {@code SmartCanvas.Cards.List request = smartCanvas.cards().search(parameters ...)}
      * </pre>
      *
      * @return the resource collection
@@ -69,18 +70,22 @@ public class Smartcanvas {
      */
     public class Cards {
 
-        public GetResponse search(CardSearchRequest teste) throws IOException {
-            return getHttpRequest(teste).execute().parseAs(GetResponse.class);
+        public CardSearchResult search(CardSearchRequest searchRequest) throws IOException {
+            return getHttpRequest(searchRequest).execute().parseAs(CardSearchResult.class);
         }
 
-        public PostResponse insert(Card card) throws IOException {
-            return httpPostRequest(card).execute().parseAs(PostResponse.class);
+        public CardId insert(Card card) throws IOException {
+            return httpPostRequest(card).execute().parseAs(CardId.class);
         }
 
-        public PostResponse update(Card card, String id) throws IOException {
-            return httpPutRequest(card, id).execute().parseAs(PostResponse.class);
+        public CardId update(Card card, String id) throws IOException {
+            return httpPutRequest(card, id).execute().parseAs(CardId.class);
         }
 
+        public CardId update(Long id, Card card) throws IOException {
+            return update(card, String.valueOf(id));
+        }
+        
         public void delete(String id) throws IOException {
             httpDeleteRequest(id).execute();
         }
@@ -113,6 +118,18 @@ public class Smartcanvas {
             return request;
         }
 
+        public Card get(Long id) throws IOException {
+            return get(String.valueOf(id));
+        }
+
+        public Card get(String id) throws IOException {
+            CardApiUrl url = new CardApiUrl(useSandbox, id);
+            HttpRequest request = requestFactory().buildGetRequest(url);
+            request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
+            return request.execute().parseAs(Card.class);
+        }
+
+
     }
 
     private HttpRequestFactory requestFactory() {
@@ -128,17 +145,4 @@ public class Smartcanvas {
             }
         });
     }
-
-    public static class RefreshTokenHandler implements HttpUnsuccessfulResponseHandler {
-        @Override
-        public boolean handleResponse(HttpRequest request, HttpResponse response, boolean retrySupported)
-                throws IOException {
-            // if (response.getStatusCode() ==
-            // HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
-            // refreshToken();
-            // }
-            return false;
-        }
-    }
-
 }

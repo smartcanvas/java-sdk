@@ -3,6 +3,7 @@ package com.smartcanvas.model;
 import java.util.List;
 
 import com.google.api.client.util.Key;
+import com.google.api.client.util.Objects;
 
 public class MetaResponse {
 
@@ -39,13 +40,10 @@ public class MetaResponse {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class MetaResponse {\n");
-
-        sb.append("  count: ").append(count).append("\n");
-        sb.append("  pos: ").append(pos).append("\n");
-        sb.append("  facets: ").append(facets).append("\n");
-        sb.append("}\n");
-        return sb.toString();
+        return Objects.toStringHelper(this)
+                .add("count", count)
+                .add("pos", pos)
+                .add("facets", facets)
+                .toString();
     }
 }

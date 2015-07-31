@@ -1,6 +1,7 @@
 package com.smartcanvas.model;
 
 import com.google.api.client.util.Key;
+import com.google.api.client.util.Objects;
 
 public class Image {
 
@@ -15,6 +16,9 @@ public class Image {
     @Key
     private String originalURL = null;
 
+    public Image() {
+        super();
+    }
     
     public Image(String originalURL) {
         super();
@@ -95,15 +99,7 @@ public class Image {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class Image {\n");
-
-        sb.append("  url: ").append(url).append("\n");
-        sb.append("  type: ").append(type).append("\n");
-        sb.append("  height: ").append(height).append("\n");
-        sb.append("  width: ").append(width).append("\n");
-        sb.append("  originalURL: ").append(originalURL).append("\n");
-        sb.append("}\n");
-        return sb.toString();
+        return Objects.toStringHelper(this).add("url", this.url).add("type", this.type).add("height", this.height)
+                .add("width", this.width).add("originalURL", this.originalURL).toString();
     }
 }
