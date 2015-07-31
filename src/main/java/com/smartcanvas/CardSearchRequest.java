@@ -1,17 +1,11 @@
 package com.smartcanvas;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
-
-import com.google.api.client.util.DateTime;
-import com.google.api.client.util.Joiner;
-import com.google.api.client.util.Key;
-import com.google.api.client.util.Objects;
-import com.google.api.client.util.Sets;
+import com.google.api.client.util.*;
 import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card.CardStatus;
+
+import java.util.Arrays;
+import java.util.Set;
 
 public class CardSearchRequest extends CardApiUrl {
 
