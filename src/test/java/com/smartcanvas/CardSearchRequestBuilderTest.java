@@ -16,7 +16,7 @@ public class CardSearchRequestBuilderTest {
 	public void searchWithQuery() throws IOException {
 		String queryTerm = "queryTerm";
 		CardSearchRequest searchRequest = CardSearchRequest.builder().query(queryTerm).build();
-		assertEquals(queryTerm, searchRequest.get("query"));
+		assertEquals(queryTerm, searchRequest.get("q"));
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class CardSearchRequestBuilderTest {
 				.build();
 		System.out.println(searchRequest);
 		assertTrue(((String)searchRequest.get("initDate")).contains("2015-03-21"));
-		assertTrue(((String)searchRequest.get("query")).contains("CI&T"));
+		assertTrue(((String)searchRequest.get("q")).contains("CI&T"));
 	}
 	
 	@Test
