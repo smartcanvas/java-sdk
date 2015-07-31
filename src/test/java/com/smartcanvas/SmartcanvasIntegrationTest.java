@@ -77,7 +77,7 @@ public class SmartcanvasIntegrationTest {
 		card.setSummary("Date Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
-		card.setPublishDate(DateTime.parseRfc3339("2020-07-17"));
+		card.setPublishDate(DateTime.parseRfc3339("2010-07-17"));
 		card.setExpirationDate(DateTime.parseRfc3339("2015-12-30"));
 		smartcanvas.cards().insert(card);
 	}
