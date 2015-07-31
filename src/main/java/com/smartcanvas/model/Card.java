@@ -1,10 +1,16 @@
 package com.smartcanvas.model;
 
-import com.google.api.client.util.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import com.google.api.client.util.DateTime;
+import com.google.api.client.util.GenericData;
+import com.google.api.client.util.Key;
+import com.google.api.client.util.Lists;
+import com.google.api.client.util.Objects;
+import com.google.api.client.util.Sets;
+import com.google.api.client.util.Value;
 
 public class Card extends GenericData {
 
@@ -417,12 +423,7 @@ public class Card extends GenericData {
                     .add("users", users).toString();
         }
     }
-    public Card compareDate(String publishDate, String expirationDate){
-        if (expirationDate == null || expirationDate == null || (publishDate.compareTo(expirationDate) < 0)) {
-            return this;
-        }else
-            throw new IllegalStateException("publishDate must be equal or less than expirationDate");
-    }
+
     public static class ContentProvider {
 
         @Key

@@ -88,7 +88,7 @@ public class Smartcanvas {
             CardApiUrl url = new CardApiUrl(useSandbox);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             //FIXME condition publishDate <= expirationDate
-            card.compareDate(card.getPublishDate().toString(),card.getExpirationDate().toString());
+
             HttpRequest request = requestFactory().buildPostRequest(url, content);
             request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
             return request;
