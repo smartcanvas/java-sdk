@@ -11,6 +11,7 @@ import com.smartcanvas.model.Card;
 import com.smartcanvas.model.GetResponse;
 import com.smartcanvas.model.PostResponse;
 import org.jose4j.lang.JoseException;
+import com.smartcanvas.CardSearchRequest.CardSearchRequestBuilder.*;
 
 import java.io.IOException;
 
@@ -86,6 +87,8 @@ public class Smartcanvas {
         private HttpRequest httpPostRequest(final Card card) throws IOException {
             CardApiUrl url = new CardApiUrl(useSandbox);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
+            //FIXME condition publishDate <= expirationDate
+            card.compareDate(card.getPublishDate().toString(),card.getExpirationDate().toString());
             HttpRequest request = requestFactory().buildPostRequest(url, content);
             request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
             return request;
@@ -121,6 +124,7 @@ public class Smartcanvas {
             }
         });
     }
+
 
     public static class RefreshTokenHandler implements HttpUnsuccessfulResponseHandler {
         @Override
