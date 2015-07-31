@@ -1,14 +1,13 @@
 package com.smartcanvas;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import com.google.api.client.util.DateTime;
+import com.smartcanvas.model.Card.CardStatus;
+import org.junit.Test;
 
 import java.io.IOException;
 
-import org.junit.Test;
-
-import com.google.api.client.util.DateTime;
-import com.smartcanvas.model.Card.CardStatus;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CardSearchRequestBuilderTest {
 	

@@ -95,10 +95,8 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setSummary("Date Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
-		DateTime publishCard = DateTime.parseRfc3339("2015-07-17T20:27:05Z");
-		DateTime expirationCard = DateTime.parseRfc3339("2015-12-30T01:00:00Z");
-		card.setPublishDate(publishCard);
-		card.setExpirationDate(expirationCard);
+		card.setPublishDate(DateTime.parseRfc3339("2010-07-17"));
+		card.setExpirationDate(DateTime.parseRfc3339("2015-12-30"));
 		smartcanvas.cards().insert(card);
 	}
 

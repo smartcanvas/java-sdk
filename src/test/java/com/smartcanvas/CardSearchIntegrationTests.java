@@ -58,6 +58,7 @@ public class CardSearchIntegrationTests extends AbstractSmartCanvasIntegrationTe
     }
 
     @Test
+    @Ignore
     public void simpleSearch() throws IOException {
         // String lorempixel = "lorempixel";
         //
