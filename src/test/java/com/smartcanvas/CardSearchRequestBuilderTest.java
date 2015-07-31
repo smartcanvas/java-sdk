@@ -151,7 +151,6 @@ public class CardSearchRequestBuilderTest {
 				.endDate(new DateTime("2015-15-03"))
 				//.decayment(0.5D)
 				//.jsonExtendedData("Not Implemmented yet")
-				
 				.build();
 		System.out.println(searchRequest);
 	}

@@ -1,17 +1,6 @@
 package com.smartcanvas;
 
-import java.io.IOException;
-
-import org.jose4j.lang.JoseException;
-
-import com.google.api.client.http.HttpBackOffUnsuccessfulResponseHandler;
-import com.google.api.client.http.HttpExecuteInterceptor;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpRequestFactory;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.HttpUnsuccessfulResponseHandler;
+import com.google.api.client.http.*;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
@@ -21,6 +10,9 @@ import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.GetResponse;
 import com.smartcanvas.model.PostResponse;
+import org.jose4j.lang.JoseException;
+
+import java.io.IOException;
 
 public class Smartcanvas {
 
@@ -72,6 +64,7 @@ public class Smartcanvas {
         public GetResponse search(CardSearchRequest teste) throws IOException {
             return getHttpRequest(teste).execute().parseAs(GetResponse.class);
         }
+
 
         public PostResponse insert(Card card) throws IOException {
             return httpPostRequest(card).execute().parseAs(PostResponse.class);
