@@ -239,7 +239,7 @@ public class CardSearchRequest extends CardApiUrl {
         }
 
         private CardSearchRequestBuilder compareDate(String initDate, String endDate) {
-            if (initDate == null || endDate == null || (initDate.compareTo(endDate) < 0)) {
+            if (initDate == null || endDate == null || (initDate.compareTo(endDate) != 1)) {
                 return this;
             } else
                 throw new IllegalStateException("initDate must be equal or less than endDate");

@@ -1,44 +1,38 @@
 package com.smartcanvas;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+//import com.github.javafaker.*;
 
-import java.io.IOException;
-import java.util.List;
-
+import com.smartcanvas.CardSearchRequest.CardSearchRequestBuilder;
+import com.smartcanvas.model.CardSearchResult;
 import org.jose4j.lang.JoseException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.github.javafaker.Faker;
-import com.smartcanvas.CardSearchRequest.CardSearchRequestBuilder;
-import com.smartcanvas.model.Card;
-import com.smartcanvas.model.CardId;
-import com.smartcanvas.model.CardSearchResult;
+import java.io.IOException;
+import java.util.List;
 
 public class CardSearchIntegrationTests extends AbstractSmartCanvasIntegrationTests {
 
-    private static final Faker faker = new Faker();
+//    private final Faker faker = new Faker();
 
     public CardSearchIntegrationTests() throws JoseException {
         super();
     }
 
-    @Test
-    @Ignore
-    public void createCards() throws IOException {
-        String lorempixel = "lorempixel";
-        
-        for (int i = 0; i < 20; i++) {
-            Card card = new Card();
-            card.setTitle(faker.lorem().sentence());
-            card.setContent(paragraphsToString(faker.lorem().paragraphs(5)));
-            card.addPhotoAttachment("http://lorempixel.com/1920/1080/");
-            card.addCategories(lorempixel);
-            card.setAutoApprove(true);
-            CardId id = smartcanvas.cards().insert(card);
-        }
-    }
+//    @Test
+//    @Ignore
+//    public void createCards() throws IOException {
+//        String lorempixel = "lorempixel";
+//        for (int i = 0; i < 20; i++) {
+//            Card card = new Card();
+//            card.setTitle(faker.lorem().sentence());
+//            card.setContent(paragraphsToString(faker.lorem().paragraphs(5)));
+//            card.addPhotoAttachment("http://lorempixel.com/1920/1080/");
+//            card.addCategories(lorempixel);
+//            card.setAutoApprove(true);
+//            CardId id = smartcanvas.cards().insert(card);
+//        }
+//    }
 
     // @Test
     // public void getAndUpdate() throws IOException {

@@ -280,7 +280,7 @@ public class Card extends GenericData {
             @Deprecated
             DRIVE,
             
-        };
+        }
 
         @Key
         private TypeEnum type = null;

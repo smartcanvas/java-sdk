@@ -109,11 +109,11 @@ public class CardSearchRequestBuilderTest {
 				.limit(10101)
 				.offset(201102)				
 				//initDate accept (YYYY-mm-dd)  * Look for Datetime.class to more info
-				.initDate(new DateTime("2015-03-21"))
-				.endDate(new DateTime("2015-05-01"))
+				.initDate(new DateTime("2015-05-21"))
+				.endDate(new DateTime("2015-05-21"))
 				.build();
 		System.out.println(searchRequest);
-		assertTrue(((String)searchRequest.get("initDate")).contains("2015-03-21"));
+		assertTrue(((String)searchRequest.get("initDate")).contains("2015-05-21"));
 		assertTrue(((String)searchRequest.get("q")).contains("CI&T"));
 	}
 	

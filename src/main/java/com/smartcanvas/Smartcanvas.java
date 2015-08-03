@@ -1,5 +1,6 @@
 package com.smartcanvas;
 
+import java.awt.dnd.InvalidDnDOperationException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -20,6 +21,8 @@ import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.CardSearchResult;
 import com.smartcanvas.model.CardId;
+import com.google.api.client.util.*;
+
 
 public class Smartcanvas {
 
@@ -100,6 +103,20 @@ public class Smartcanvas {
         }
 
         private HttpRequest httpPostRequest(final Card card) throws IOException {
+            String publishDate = card.getPublishDate().toString();
+            String expirationDate = card.getExpirationDate().toString();
+
+            if (( publishDate != null) && (expirationDate != null)) {
+                if (publishDate.compareTo(expirationDate) < 0) {
+                    CardApiUrl url = new CardApiUrl(useSandbox);
+                    JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
+                    HttpRequest request = requestFactory().buildPostRequest(url, content);
+                    request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
+                    return request;
+                }else {
+                    throw new InvalidDnDOperationException("publishDate must be less than expirationDate ");
+                }
+            }
             CardApiUrl url = new CardApiUrl(useSandbox);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             HttpRequest request = requestFactory().buildPostRequest(url, content);
