@@ -1,6 +1,5 @@
 package com.smartcanvas;
 
-import java.awt.dnd.InvalidDnDOperationException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -19,9 +18,8 @@ import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.client.util.Preconditions;
 import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card;
-import com.smartcanvas.model.CardSearchResult;
 import com.smartcanvas.model.CardId;
-import com.google.api.client.util.*;
+import com.smartcanvas.model.CardSearchResult;
 
 
 public class Smartcanvas {
@@ -51,7 +49,7 @@ public class Smartcanvas {
     }
 
     /**
-     * An accessor for creating requests from the Cards resource.
+     * An accessor for creating requests for the Cards resource.
      *
      * <p>
      * The typical use is:
@@ -59,7 +57,7 @@ public class Smartcanvas {
      * 
      * <pre>
      *   {@code SmartCanvas smartCanvas = new SmartCanvas(...);}
-     *   {@code SmartCanvas.Cards.List request = smartCanvas.cards().search(parameters ...)}
+     *   {@code CardSearchResult result = smartCanvas.cards().search(parameters ...)}
      * </pre>
      *
      * @return the resource collection
@@ -103,24 +101,9 @@ public class Smartcanvas {
         }
 
         private HttpRequest httpPostRequest(final Card card) throws IOException {
-            String publishDate = card.getPublishDate().toString();
-            String expirationDate = card.getExpirationDate().toString();
-
-            if (( publishDate != null) && (expirationDate != null)) {
-                if (publishDate.compareTo(expirationDate) < 0) {
-                    CardApiUrl url = new CardApiUrl(useSandbox);
-                    JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
-                    HttpRequest request = requestFactory().buildPostRequest(url, content);
-                    request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
-                    return request;
-                }else {
-                    throw new InvalidDnDOperationException("publishDate must be less than expirationDate ");
-                }
-            }
             CardApiUrl url = new CardApiUrl(useSandbox);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             HttpRequest request = requestFactory().buildPostRequest(url, content);
-            request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
             return request;
         }
 
@@ -128,14 +111,12 @@ public class Smartcanvas {
             CardApiUrl url = new CardApiUrl(useSandbox, id);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             HttpRequest request = requestFactory().buildPutRequest(url, content);
-            request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
             return request;
         }
 
         private HttpRequest httpDeleteRequest(String id) throws IOException {
             CardApiUrl url = new CardApiUrl(useSandbox, id);
             HttpRequest request = requestFactory().buildDeleteRequest(url);
-            request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
             return request;
         }
 
@@ -146,11 +127,8 @@ public class Smartcanvas {
         public Card get(String id) throws IOException {
             CardApiUrl url = new CardApiUrl(useSandbox, id);
             HttpRequest request = requestFactory().buildGetRequest(url);
-            request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
             return request.execute().parseAs(Card.class);
         }
-
-
     }
 
     private HttpRequestFactory requestFactory() {
@@ -159,6 +137,7 @@ public class Smartcanvas {
                 request.setParser(new JsonObjectParser(jsonFactory));
                 request.setNumberOfRetries(NUMBER_OF_RETRIES_DEFAULT);
                 request.setCurlLoggingEnabled(true);
+                request.setUnsuccessfulResponseHandler(new HttpBackOffUnsuccessfulResponseHandler(new ExponentialBackOff()));
                 authInitializer.initialize(request);
                 if (executeInterceptor != null) {
                     request.setInterceptor(executeInterceptor);
