@@ -23,13 +23,13 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 
     @Test
     public void getById() throws IOException {
-        Card card = smartcanvas.cards().get(4858809667289088l);
+        Card card = smartcanvas.cards().get(6003583740805120l);
         assertNotNull(card);
     }
 	
     @Test
 	public void addSimpleCard() throws IOException {
-		Card card = new Card();
+		Card card = new Card(givenProvider());
 		card.setMnemonic("upa-upa-upa-cavalinho-alazao");
 		card.addMetaTags("leo");
 		card.setAutoApprove(true);

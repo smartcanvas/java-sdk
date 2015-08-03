@@ -9,23 +9,21 @@ public class CardSearchResult {
 
     @Key
     private MetaResponse meta;
-    
+
     @Key
     private List<Card> data;
 
     public MetaResponse getMeta() {
         return meta;
     }
-   
+
     public Iterable<Card> cards() {
         return data;
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
-                .add("meta", meta)
-                .add("data", data)
-                .toString();
+        return Objects.toStringHelper(this).add("meta", meta).add("data", data).toString();
     }
+
 }

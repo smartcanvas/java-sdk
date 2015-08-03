@@ -86,6 +86,10 @@ public class Smartcanvas {
             return update(card, String.valueOf(id));
         }
         
+        public void delete(Long id) throws IOException {
+            delete(String.valueOf(id));
+        }
+        
         public void delete(String id) throws IOException {
             httpDeleteRequest(id).execute();
         }
