@@ -29,23 +29,23 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	
     @Test
 	public void addSimpleCard() throws IOException {
-		Card card = new Card();
+		Card card = new Card(givenProvider());
 		card.setMnemonic("upa-upa-upa-cavalinho-alazao");
 		card.addMetaTags("leo");
 		card.setAutoApprove(true);
 		
 		CardId id = smartcanvas.cards().insert(card);
 		
-		card.setContentProvider(givenProvider());
-		card.setMnemonic("upa-upa-upa-cavalinho-alazaozao");
-		
-		CardId id2 = smartcanvas.cards().insert(card);
-
+//		card.setContentProvider(givenProvider());
+//		card.setMnemonic("upa-upa-upa-cavalinho-alazaozao");
+//
+//		CardId id2 = smartcanvas.cards().insert(card);
+//
         assertNotNull(id);
-        assertNotNull(id2);
-        
-        assertNotEquals(id, id2);
-        
+//        assertNotNull(id2);
+//
+//        assertNotEquals(id, id2);
+
 	}
 
    @Test
@@ -95,8 +95,8 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setSummary("Date Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
-		card.setPublishDate(DateTime.parseRfc3339("2010-07-17"));
-		card.setExpirationDate(DateTime.parseRfc3339("2015-12-30"));
+		card.setPublishDate(DateTime.parseRfc3339("2015-12-31"));
+		card.setExpirationDate(DateTime.parseRfc3339("2015-12-31"));
 		smartcanvas.cards().insert(card);
 	}
 
@@ -218,6 +218,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	// }
 
 	private ContentProvider givenProvider() {
-		return new ContentProvider("ID provider", "GooglePlus", "gmoneda");
+		return new ContentProvider("ID provider", "G+", "gmoneda");
 	}
 }

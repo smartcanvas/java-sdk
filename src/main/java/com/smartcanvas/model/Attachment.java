@@ -14,7 +14,7 @@ public class Attachment {
         PHOTO, @Value("article")
         ARTICLE, @Value("video")
         VIDEO,
-    };
+    }
 
     @Key
     private TypeEnum type = null;
