@@ -1,19 +1,18 @@
 package com.smartcanvas;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotEquals;
-
-import java.io.IOException;
-
-import org.jose4j.lang.JoseException;
-import org.junit.Test;
-
 import com.google.api.client.util.DateTime;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.CardId;
+import com.smartcanvas.model.*;
+import org.jose4j.lang.JoseException;
+import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertNotNull;
 
 public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegrationTests {
 
@@ -83,9 +82,12 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		comunities.setDisplayName("JEDI GROUP");
 		comunities.setId("Community");
 		card.setCommunity(comunities);
+		card.setJsonExtendedData(new Card.MyData("Test Company", "Campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2 ));
 
 		smartcanvas.cards().insert(card);
 	}
+
+
 
 	@Test
 	public void addDateTime() throws IOException {

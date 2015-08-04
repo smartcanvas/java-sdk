@@ -14,6 +14,10 @@ import com.google.api.client.util.Value;
 
 public class Card extends GenericData {
 
+    public void setJsonExtendedData(Object jsonExtendedData) {
+        this.jsonExtendedData = jsonExtendedData;
+    }
+
     public enum CardStatus {
         // (any|approved|pending|expired|rejected)
         ANY, APPROVED, PENDING, EXPIRED, REJECTED;
@@ -53,7 +57,7 @@ public class Card extends GenericData {
     @Key
     private DateTime updateDate;
     @Key
-    private GenericData jsonExtendedData;
+    private Object jsonExtendedData;
     
     private String coordinates;
     
@@ -581,4 +585,204 @@ public class Card extends GenericData {
         }
 
     }
+
+    public static class MyData {
+
+        @Key
+        private
+        String name;
+        @Key
+        private
+        String address;
+        @Key
+        private
+        String country;
+        @Key
+        private
+        String website;
+        @Key
+        private
+        String phone;
+        @Key
+        private
+        String logoImgUrl;
+        @Key
+        private
+        String contactName;
+        @Key
+        private
+        String contactJobTitle;
+        @Key
+        private
+        String businessDescription;
+        @Key
+        private
+        String memberOf;
+        @Key
+        private
+        String certifications;
+        @Key
+        private
+        String yearOfEstablishment;
+        @Key
+        Integer percBusinessOwnedByWomen;
+        @Key
+        Boolean isManagedControledByWomen;
+        @Key
+        Integer numPermEmployee;
+        @Key
+        Integer numFemaleEmployee;
+
+
+
+        public MyData(String name, String address, String country, String website, String phone, String logoImgUrl,
+                      String contactName, String contactJobTitle, String businessDescription, String memberOf,
+                      String certifications, String yearOfEstablishment, Integer percBusinessOwnedByWomen,
+                      Boolean isManagedControledByWomen, Integer numPermEmployee, Integer numFemaleEmployee) {
+            this.setName(name);
+            this.setAddress(address);
+            this.setCountry(country);
+            this.setWebsite(website);
+            this.setPhone(phone);
+            this.setLogoImgUrl(logoImgUrl);
+            this.setContactName(contactName);
+            this.setContactJobTitle(contactJobTitle);
+            this.setBusinessDescription(businessDescription);
+            this.setMemberOf(memberOf);
+            this.setCertifications(certifications);
+            this.setYearOfEstablishment(yearOfEstablishment);
+            this.percBusinessOwnedByWomen = percBusinessOwnedByWomen;
+            this.isManagedControledByWomen = isManagedControledByWomen;
+            this.numPermEmployee =numPermEmployee ;
+            this.numFemaleEmployee =numFemaleEmployee ;
+
+
+        }
+
+
+
+
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public String getWebsite() {
+            return website;
+        }
+
+        public void setWebsite(String website) {
+            this.website = website;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getLogoImgUrl() {
+            return logoImgUrl;
+        }
+
+        public void setLogoImgUrl(String logoImgUrl) {
+            this.logoImgUrl = logoImgUrl;
+        }
+
+        public String getContactName() {
+            return contactName;
+        }
+
+        public void setContactName(String contactName) {
+            this.contactName = contactName;
+        }
+
+        public String getContactJobTitle() {
+            return contactJobTitle;
+        }
+
+        public void setContactJobTitle(String contactJobTitle) {
+            this.contactJobTitle = contactJobTitle;
+        }
+
+        public String getBusinessDescription() {
+            return businessDescription;
+        }
+
+        public void setBusinessDescription(String businessDescription) {
+            this.businessDescription = businessDescription;
+        }
+
+        public String getMemberOf() {
+            return memberOf;
+        }
+
+        public void setMemberOf(String memberOf) {
+            this.memberOf = memberOf;
+        }
+
+        public String getCertifications() {
+            return certifications;
+        }
+
+        public void setCertifications(String certifications) {
+            this.certifications = certifications;
+        }
+
+        public String getYearOfEstablishment() {
+            return yearOfEstablishment;
+        }
+
+        public void setYearOfEstablishment(String yearOfEstablishment) {
+            this.yearOfEstablishment = yearOfEstablishment;
+        }
+
+
+        @Override
+        public String toString() {
+            return Objects.toStringHelper(this)
+                    .add("name", this.getName())
+                    .add("address", this.getAddress())
+                    .add("address", this.getCountry())
+                    .add("address", this.getWebsite())
+                    .add("address", this.getPhone())
+                    .add("address", this.getLogoImgUrl())
+                    .add("address", this.getContactName())
+                    .add("address", this.getContactJobTitle())
+                    .add("address", this.getBusinessDescription())
+                    .add("address", this.getMemberOf())
+                    .add("address", this.getCertifications())
+                    .add("address", this.getYearOfEstablishment())
+                    .add("address", this.percBusinessOwnedByWomen)
+                    .add("address", this.isManagedControledByWomen)
+                    .add("address", this.numPermEmployee)
+                    .add("address", this.numFemaleEmployee)
+                    .toString();
+        }
+    }
+
+
+
 }
