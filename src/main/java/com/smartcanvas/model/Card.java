@@ -19,9 +19,16 @@ public class Card extends GenericData {
     }
 
     public enum CardStatus {
-        // (any|approved|pending|expired|rejected)
-        ANY, APPROVED, PENDING, EXPIRED, REJECTED;
-        public static final String NAMES = "any, approved, pending, expired, rejected";
+        @Value("ANY")
+        ANY, 
+        @Value("APPROVED")
+        APPROVED, 
+        @Value("PENDING")
+        PENDING, 
+        @Value("EXPIRED")
+        EXPIRED, 
+        @Value("REJECTED")
+        REJECTED;
     }
 
     @Key
@@ -58,6 +65,9 @@ public class Card extends GenericData {
     private DateTime updateDate;
     @Key
     private Object jsonExtendedData;
+    
+    @Key
+    private CardStatus status;
     
     private String coordinates;
     
