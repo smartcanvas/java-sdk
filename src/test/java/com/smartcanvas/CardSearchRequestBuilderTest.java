@@ -14,7 +14,10 @@ public class CardSearchRequestBuilderTest {
 	@Test
 	public void searchWithQuery() throws IOException {
 		String queryTerm = "queryTerm";
-		CardSearchRequest searchRequest = CardSearchRequest.builder().query(queryTerm).build();
+		CardSearchRequest searchRequest = CardSearchRequest.builder()
+                .query(queryTerm)
+                .status(CardStatus.APPROVED)
+                .build();
 		assertEquals(queryTerm, searchRequest.get("q"));
 	}
 
@@ -28,7 +31,7 @@ public class CardSearchRequestBuilderTest {
 
 	@Test
 	public void searchByMultipleAuthors() throws IOException {
-		CardSearchRequest searchRequest = CardSearchRequest.builder()
+		CardSearchRequest searchRequest = CardSearchRequest.builder(true)
 				.authorIds("fuechi@ciandt.com", "gmoneda@ciandt.com")
 				.build();
 		
@@ -116,7 +119,7 @@ public class CardSearchRequestBuilderTest {
 		assertTrue(((String)searchRequest.get("initDate")).contains("2015-05-21"));
 		assertTrue(((String)searchRequest.get("q")).contains("CI&T"));
 	}
-	
+
 	@Test
 	public void searchByMaxDate() throws IOException {
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
@@ -153,5 +156,5 @@ public class CardSearchRequestBuilderTest {
 				.build();
 		System.out.println(searchRequest);
 	}
-	
+
 }

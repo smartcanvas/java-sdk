@@ -43,15 +43,15 @@ public class CardSearchRequest extends CardApiUrl {
     private final String fields;
     @Key
     private final String embed;
-
-    private final String jsonExtendedData;
+    @Key
+    private final Object jsonExtendedData;
 
     private final static Joiner COMMA_JOINER = Joiner.on(',');
 
     private CardSearchRequest(boolean useSandbox, String query, CardStatus status, String locale, Integer limit,
             Integer offset, String initDate, String endDate, Integer maxAge, Set<String> categories,
             Set<String> metaTags, Set<String> authorIds, Set<String> communityIds, Set<String> providerIds,
-            Double decayment, Set<String> fields, Set<String> embed, String jsonExtendedData, String mnemonic) {
+            Double decayment, Set<String> fields, Set<String> embed, Object jsonExtendedData, String mnemonic) {
         super(useSandbox);
         this.query = query;
         this.status = status;
@@ -121,7 +121,7 @@ public class CardSearchRequest extends CardApiUrl {
 
         private Set<String> embed;
 
-        private String jsonExtendedData;
+        private Object jsonExtendedData;
         
         private String mnemonic;
 
@@ -233,7 +233,7 @@ public class CardSearchRequest extends CardApiUrl {
             return this;
         }
 
-        public CardSearchRequestBuilder jsonExtendedData(String jsonExtendedData) {
+        public CardSearchRequestBuilder jsonExtendedData(Object jsonExtendedData) {
             this.jsonExtendedData = jsonExtendedData;
             return this;
         }
@@ -255,7 +255,7 @@ public class CardSearchRequest extends CardApiUrl {
             return new CardSearchRequest(this.useSandbox, this.query, this.status, this.locale, this.limit,
                     this.offset, this.initDate, this.endDate, this.maxAge, this.categories, this.metaTags,
                     this.authorIds, this.communityIds, this.providerIds, this.decayment, this.fields, this.embed,
-                    jsonExtendedData, this.mnemonic);
+                    this.jsonExtendedData, this.mnemonic);
         }
 
         @Override
@@ -268,6 +268,7 @@ public class CardSearchRequest extends CardApiUrl {
                     .add("jsonExtendedData", jsonExtendedData)
                     .add("mnemonic", mnemonic).toString();
         }
+
 
     }
 }

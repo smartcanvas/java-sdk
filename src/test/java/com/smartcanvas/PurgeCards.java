@@ -25,13 +25,15 @@ public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
         CardSearchRequest search = CardSearchRequest.builder(true)
                 //.maxAge(15)
                 //.initDate(new DateTime("2014-07-15"))
-                .status(CardStatus.APPROVED)
-                .fields("id", "mnemonic")
-                .limit(100)
+//                .status(CardStatus.APPROVED)
+//                .fields("id", "mnemonic")
+//                .limit(100)
 //                .offset(50)
+                /* FIXME - NOT IMPLEMENTED THE LOGIC TO BUILD THE URL*/
+                .jsonExtendedData("www.google.com")
                 .build();
-        
-        
+
+
         System.out.println(search);
         CardSearchResult result = smartcanvas.cards().search(search);
         System.out.println(result.getMeta());
