@@ -5,8 +5,8 @@ import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
+import com.smartcanvas.model.Card.ExtendedData;
 import com.smartcanvas.model.CardId;
-import com.smartcanvas.model.*;
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
     @Test
 	public void addSimpleCard() throws IOException {
 		Card card = new Card(givenProvider());
-		card.setMnemonic("upa-upa-upa-cavalinho-alazao");
+//		card.setMnemonic("upa-upa-upa-cavalinho-alazao");
 		card.addMetaTags("leo");
 		card.setAutoApprove(true);
 		
@@ -51,7 +51,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
     public void addCardWithContentProvider() throws IOException {
         Card card = new Card(givenProvider());
         card.setTitle("Card Title");
-        card.setMnemonic("Memes");
+//        card.setMnemonic("Memes");
         card.setSummary("This is the summary");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
@@ -64,7 +64,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.addCategories("GYM", "Walk4life");
 		card.addMetaTags("Fixed");
 		card.setTitle("Card Title Categories Example");
-		card.setMnemonic("NikeShoes");
+//		card.setMnemonic("NikeShoes");
 		card.setAutoApprove(true);
 		smartcanvas.cards().insert(card);
 	}
@@ -72,8 +72,9 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	@Test
 	public void addCommunity() throws IOException {
 		Card card = new Card(givenProvider());
+
 		card.setTitle("Card Title ");
-		card.setMnemonic("Community");
+
 		card.setSummary("Community Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
@@ -82,7 +83,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		comunities.setDisplayName("JEDI GROUP");
 		comunities.setId("Community");
 		card.setCommunity(comunities);
-		card.setJsonExtendedData(new Card.MyData("Test Company", "Campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2 ));
+		card.setJsonExtendedData(new ExtendedData("Test Company", "Campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2 ));
 
 		smartcanvas.cards().insert(card);
 	}
@@ -93,7 +94,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void addDateTime() throws IOException {
 		Card card = new Card(givenProvider());
 		card.setTitle("Card Title Date Example");
-		card.setMnemonic("DateTest");
+//		card.setMnemonic("DateTest");
 		card.setSummary("Date Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
@@ -106,7 +107,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void addAuthor() throws IOException {
 		Card card = new Card(givenProvider());
 		card.setTitle("Image URL Example");
-		card.setMnemonic("AuthorUrl");
+//		card.setMnemonic("AuthorUrl");
 		card.setSummary("Author Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
@@ -132,7 +133,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void photoAttachment() throws IOException {
 		Card card = new Card(givenProvider());
 		card.setTitle("Attach Photo URL Example");
-		card.setMnemonic("photo"); // Underscore not accept
+//		card.setMnemonic("photo"); // Underscore not accept
 		card.setSummary("Attachment Photo Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
@@ -146,7 +147,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void shouldAddCardWithYoutubeVideoAttachment() throws IOException {
 		Card card = new Card(givenProvider());
 		card.setTitle("Attach Video Yotube URL Example");
-		card.setMnemonic("Video");
+//		card.setMnemonic("Video");
 		card.setSummary("Attachment Video Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
@@ -159,7 +160,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void shouldAddCardWithVimeoVideoAttachment() throws IOException {
 		Card card = new Card(givenProvider());
 		card.setTitle("Attach Video Vimeo URL Example");
-		card.setMnemonic("Video");
+//		card.setMnemonic("Video");
 		card.setSummary("Attachment Video Test");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
@@ -173,7 +174,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void shouldAddCardWithArticleAttachment() throws IOException {
 		Card card = new Card(givenProvider());
 		card.setTitle("Attach Article Example");
-		card.setMnemonic("articleorigin");
+//		card.setMnemonic("articleorigin");
 		card.setSummary("Attachment Article Summary");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
@@ -194,7 +195,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void updateCard() throws IOException {
 		Card card = new Card(givenProvider());
 		card.setTitle("Attach Article Example");
-		card.setMnemonic("articleUpdate");
+//		card.setMnemonic("articleUpdate");
 		card.setSummary("~~~~~~Article Summary updated~~~ ");
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);

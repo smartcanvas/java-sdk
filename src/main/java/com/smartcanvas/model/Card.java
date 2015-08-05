@@ -552,7 +552,9 @@ public class Card extends GenericData {
 
     public static class Community {
 
+        @Key
         private String id = null;
+        @Key
         private String displayName = null;
 
         /**
@@ -586,7 +588,7 @@ public class Card extends GenericData {
 
     }
 
-    public static class MyData {
+    public static class ExtendedData {
 
         @Key
         private
@@ -635,7 +637,7 @@ public class Card extends GenericData {
 
 
 
-        public MyData(String name, String address, String country, String website, String phone, String logoImgUrl,
+        public ExtendedData(String name, String address, String country, String website, String phone, String logoImgUrl,
                       String contactName, String contactJobTitle, String businessDescription, String memberOf,
                       String certifications, String yearOfEstablishment, Integer percBusinessOwnedByWomen,
                       Boolean isManagedControledByWomen, Integer numPermEmployee, Integer numFemaleEmployee) {
