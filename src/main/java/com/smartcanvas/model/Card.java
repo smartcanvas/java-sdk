@@ -68,7 +68,7 @@ public class Card extends GenericData {
     
     @Key
     private CardStatus status;
-    
+
     private String coordinates;
     
     @Key
@@ -195,6 +195,10 @@ public class Card extends GenericData {
     public Author getAuthor() {
         return author;
     }
+    
+    public CardStatus status() {
+        return this.status;
+    }    
 
     public void setAuthor(Author author) {
         this.author = author;
@@ -359,7 +363,7 @@ public class Card extends GenericData {
         public void setJsonExtendedData(String jsonExtendedData) {
             this.jsonExtendedData = jsonExtendedData;
         }
-
+        
         public static Attachment video(String videoUrl) {
             Attachment videoattachment = new Attachment(TypeEnum.VIDEO);
             videoattachment.setContentURL(videoUrl);
