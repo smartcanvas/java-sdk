@@ -30,7 +30,7 @@ public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
 //                .limit(100)
 //                .offset(50)
                 /* FIXME - NOT IMPLEMENTED THE LOGIC TO BUILD THE URL*/
-                .jsonExtendedData("www.google.com")
+                //.jsonExtendedData(new ExtendedData())
                 .build();
 
 

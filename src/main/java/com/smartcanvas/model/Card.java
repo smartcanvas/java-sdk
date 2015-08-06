@@ -604,48 +604,56 @@ public class Card extends GenericData {
         }
 
     }
+	
+    public Card(ExtendedData extendedData){
+	this();
+	this.extendedData = extendeData;		
+    }
 
     public static class ExtendedData {
 
         @Key
-        private String name;
+        private String name = null;
+	@Key
+        private String address = null;
         @Key
-        private String address;
+        private String country = null;
         @Key
-        private String country;
+        private String website = null;
         @Key
-        private String website;
+        private String phone = null;
         @Key
-        private String phone;
+        private String logoImgUrl = null;
         @Key
-        private String logoImgUrl;
+        private String contactName = null;
         @Key
-        private String contactName;
+        private String contactJobTitle = null;
         @Key
-        private String contactJobTitle;
+        private String businessDescription = null;
         @Key
-        private String businessDescription;
+        private String memberOf = null;
         @Key
-        private String memberOf;
+        private String certifications = null;
         @Key
-        private String certifications;
+        private String yearOfEstablishment = null;
         @Key
-        private String yearOfEstablishment;
+        private Integer percBusinessOwnedByWomen = null;
         @Key
-        private Integer percBusinessOwnedByWomen;
+        private Boolean isManagedControledByWomen = null;
         @Key
-        private Boolean isManagedControledByWomen;
+        private Integer numPermEmployee = null;
         @Key
-        private Integer numPermEmployee;
-        @Key
-        private Integer numFemaleEmployee;
+        private Integer numFemaleEmployee = null;
 
-
+	public ExtendedData(){
+		super();
+	}
 
         public ExtendedData(String name, String address, String country, String website, String phone, String logoImgUrl,
                       String contactName, String contactJobTitle, String businessDescription, String memberOf,
                       String certifications, String yearOfEstablishment, Integer percBusinessOwnedByWomen,
                       Boolean isManagedControledByWomen, Integer numPermEmployee, Integer numFemaleEmployee) {
+
             this.name;
             this.address;
             this.country;
@@ -663,10 +671,9 @@ public class Card extends GenericData {
             this.numPermEmployee;
             this.numFemaleEmployee;
 
-
         }
 
-/*        @Override
+        @Override
         public String toString() {
             return Objects.toStringHelper(this)
                     .add("name", this.name)
@@ -687,7 +694,7 @@ public class Card extends GenericData {
                     .add("numFemaleEmployee", this.numFemaleEmployee)
                     .toString();
         }
-	*/
+
     }
 
 }
