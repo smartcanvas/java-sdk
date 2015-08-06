@@ -598,9 +598,9 @@ public class Card extends GenericData {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
-	.add("id", this.id)
-	.add("displayName", this.displayName)
-	.toString();
+			.add("id", this.id)
+			.add("displayName", this.displayName)
+			.toString();
         }
 
     }
@@ -666,7 +666,7 @@ public class Card extends GenericData {
 
         }
 
-        @Override
+/*        @Override
         public String toString() {
             return Objects.toStringHelper(this)
                     .add("name", this.name)
@@ -687,8 +687,7 @@ public class Card extends GenericData {
                     .add("numFemaleEmployee", this.numFemaleEmployee)
                     .toString();
         }
+	*/
     }
-
-
 
 }
