@@ -597,7 +597,10 @@ public class Card extends GenericData {
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this).add("id", this.id).add("displayName", this.displayName).toString();
+            return Objects.toStringHelper(this)
+	.add("id", this.id)
+	.add("displayName", this.displayName)
+	.toString();
         }
 
     }
@@ -605,49 +608,37 @@ public class Card extends GenericData {
     public static class ExtendedData {
 
         @Key
-        private
-        String name;
+        private String name;
         @Key
-        private
-        String address;
+        private String address;
         @Key
-        private
-        String country;
+        private String country;
         @Key
-        private
-        String website;
+        private String website;
         @Key
-        private
-        String phone;
+        private String phone;
         @Key
-        private
-        String logoImgUrl;
+        private String logoImgUrl;
         @Key
-        private
-        String contactName;
+        private String contactName;
         @Key
-        private
-        String contactJobTitle;
+        private String contactJobTitle;
         @Key
-        private
-        String businessDescription;
+        private String businessDescription;
         @Key
-        private
-        String memberOf;
+        private String memberOf;
         @Key
-        private
-        String certifications;
+        private String certifications;
         @Key
-        private
-        String yearOfEstablishment;
+        private String yearOfEstablishment;
         @Key
-        Integer percBusinessOwnedByWomen;
+        private Integer percBusinessOwnedByWomen;
         @Key
-        Boolean isManagedControledByWomen;
+        private Boolean isManagedControledByWomen;
         @Key
-        Integer numPermEmployee;
+        private Integer numPermEmployee;
         @Key
-        Integer numFemaleEmployee;
+        private Integer numFemaleEmployee;
 
 
 
@@ -655,146 +646,45 @@ public class Card extends GenericData {
                       String contactName, String contactJobTitle, String businessDescription, String memberOf,
                       String certifications, String yearOfEstablishment, Integer percBusinessOwnedByWomen,
                       Boolean isManagedControledByWomen, Integer numPermEmployee, Integer numFemaleEmployee) {
-            this.setName(name);
-            this.setAddress(address);
-            this.setCountry(country);
-            this.setWebsite(website);
-            this.setPhone(phone);
-            this.setLogoImgUrl(logoImgUrl);
-            this.setContactName(contactName);
-            this.setContactJobTitle(contactJobTitle);
-            this.setBusinessDescription(businessDescription);
-            this.setMemberOf(memberOf);
-            this.setCertifications(certifications);
-            this.setYearOfEstablishment(yearOfEstablishment);
-            this.percBusinessOwnedByWomen = percBusinessOwnedByWomen;
-            this.isManagedControledByWomen = isManagedControledByWomen;
-            this.numPermEmployee =numPermEmployee ;
-            this.numFemaleEmployee =numFemaleEmployee ;
+            this.name;
+            this.address;
+            this.country;
+            this.website;
+            this.phone;
+            this.logoImgUrl;
+            this.contactName;
+            this.contactJobTitle;
+            this.businessDescription;
+            this.memberOf;
+            this.certifications;
+            this.yearOfEstablishment;
+            this.percBusinessOwnedByWomen;
+            this.isManagedControledByWomen;
+            this.numPermEmployee;
+            this.numFemaleEmployee;
 
 
         }
-
-
-
-
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getCountry() {
-            return country;
-        }
-
-        public void setCountry(String country) {
-            this.country = country;
-        }
-
-        public String getWebsite() {
-            return website;
-        }
-
-        public void setWebsite(String website) {
-            this.website = website;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getLogoImgUrl() {
-            return logoImgUrl;
-        }
-
-        public void setLogoImgUrl(String logoImgUrl) {
-            this.logoImgUrl = logoImgUrl;
-        }
-
-        public String getContactName() {
-            return contactName;
-        }
-
-        public void setContactName(String contactName) {
-            this.contactName = contactName;
-        }
-
-        public String getContactJobTitle() {
-            return contactJobTitle;
-        }
-
-        public void setContactJobTitle(String contactJobTitle) {
-            this.contactJobTitle = contactJobTitle;
-        }
-
-        public String getBusinessDescription() {
-            return businessDescription;
-        }
-
-        public void setBusinessDescription(String businessDescription) {
-            this.businessDescription = businessDescription;
-        }
-
-        public String getMemberOf() {
-            return memberOf;
-        }
-
-        public void setMemberOf(String memberOf) {
-            this.memberOf = memberOf;
-        }
-
-        public String getCertifications() {
-            return certifications;
-        }
-
-        public void setCertifications(String certifications) {
-            this.certifications = certifications;
-        }
-
-        public String getYearOfEstablishment() {
-            return yearOfEstablishment;
-        }
-
-        public void setYearOfEstablishment(String yearOfEstablishment) {
-            this.yearOfEstablishment = yearOfEstablishment;
-        }
-
 
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
-                    .add("name", this.getName())
-                    .add("address", this.getAddress())
-                    .add("address", this.getCountry())
-                    .add("address", this.getWebsite())
-                    .add("address", this.getPhone())
-                    .add("address", this.getLogoImgUrl())
-                    .add("address", this.getContactName())
-                    .add("address", this.getContactJobTitle())
-                    .add("address", this.getBusinessDescription())
-                    .add("address", this.getMemberOf())
-                    .add("address", this.getCertifications())
-                    .add("address", this.getYearOfEstablishment())
-                    .add("address", this.percBusinessOwnedByWomen)
-                    .add("address", this.isManagedControledByWomen)
-                    .add("address", this.numPermEmployee)
-                    .add("address", this.numFemaleEmployee)
+                    .add("name", this.name)
+                    .add("address", this.address)
+                    .add("country", this.country)
+                    .add("website", this.website)
+                    .add("phone", this.phone)
+                    .add("logoImgUrl", this.logoImgUrl)
+                    .add("contactName", this.contactName)
+                    .add("contactJobTitle", this.contactJobTitle)
+                    .add("businessDescription", this.businessDescription)
+                    .add("memberOf", this.memberOf)
+                    .add("certifications", this.certifications)
+                    .add("yearOfEstablishment", this.yearOfEstablishment)
+                    .add("percBusinessOwnedByWomen", this.percBusinessOwnedByWomen)
+                    .add("isManagedControledByWomen", this.isManagedControledByWomen)
+                    .add("numPermEmployee", this.numPermEmployee)
+                    .add("numFemaleEmployee", this.numFemaleEmployee)
                     .toString();
         }
     }
