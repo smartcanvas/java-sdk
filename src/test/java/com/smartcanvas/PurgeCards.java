@@ -1,16 +1,11 @@
 package com.smartcanvas;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.io.IOException;
-
+import com.smartcanvas.model.Card;
+import com.smartcanvas.model.CardSearchResult;
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
-import com.google.api.client.util.DateTime;
-import com.smartcanvas.model.Card;
-import com.smartcanvas.model.Card.CardStatus;
-import com.smartcanvas.model.CardSearchResult;
+import java.io.IOException;
 
 public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
 
@@ -30,7 +25,8 @@ public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
 //                .limit(100)
 //                .offset(50)
                 /* FIXME - NOT IMPLEMENTED THE LOGIC TO BUILD THE URL*/
-                //.jsonExtendedData(new ExtendedData())
+               // .jsonExtendedData()
+
                 .build();
 
 

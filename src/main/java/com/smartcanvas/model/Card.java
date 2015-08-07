@@ -244,6 +244,11 @@ public class Card extends GenericData {
         this.locales = locales;
     }
 
+    public void setExtendData(ExtendedData jsonExtendedData) {
+        this.jsonExtendedData = jsonExtendedData;
+    }
+
+
     public void addCategories(String... categories) {
         if (getCategories() == null) {
             setCategories(Sets.<String>newHashSet());
@@ -604,17 +609,13 @@ public class Card extends GenericData {
         }
 
     }
-	
-    public Card(ExtendedData extendedData){
-	this();
-	this.extendedData = extendeData;		
-    }
 
-    public static class ExtendedData {
 
+
+    public static class ExtendedData{
         @Key
         private String name = null;
-	@Key
+        @Key
         private String address = null;
         @Key
         private String country = null;
@@ -645,6 +646,73 @@ public class Card extends GenericData {
         @Key
         private Integer numFemaleEmployee = null;
 
+
+
+
+
+        public ExtendedData(){
+            super();
+        }
+
+        public ExtendedData(String name,
+                             String address, String country, String website, String phone, String logoImgUrl,
+                                  String contactName, String contactJobTitle, String businessDescription, String memberOf,
+                                  String certifications, String yearOfEstablishment, Integer percBusinessOwnedByWomen,
+                                  Boolean isManagedControledByWomen, Integer numPermEmployee, Integer numFemaleEmployee){
+        super();
+        this.name = name;
+        this.address = address;
+        this.country = country;
+        this.website = website;
+        this.phone = phone;
+        this.logoImgUrl = logoImgUrl;
+        this.contactName = contactName;
+        this.contactJobTitle = contactJobTitle;
+        this.businessDescription = businessDescription;
+        this.memberOf = memberOf;
+        this.certifications = certifications;
+        this.yearOfEstablishment = yearOfEstablishment;
+        this.percBusinessOwnedByWomen = percBusinessOwnedByWomen;
+        this.isManagedControledByWomen = isManagedControledByWomen;
+        this.numPermEmployee = numPermEmployee;
+        this.numFemaleEmployee = numFemaleEmployee;
+
+        }
+
+        @Override
+        public String toString() {
+            return Objects.toStringHelper(this)
+                    .add("name", this.name)
+                    .add("address", this.address)
+                    .add("country", this.country)
+                    .add("website", this.website)
+                    .add("phone", this.phone)
+                    .add("logoImgUrl", this.logoImgUrl)
+                    .add("contactName", this.contactName)
+                    .add("contactJobTitle", this.contactJobTitle)
+                    .add("businessDescription", this.businessDescription)
+                    .add("memberOf", this.memberOf)
+                    .add("certifications", this.certifications)
+                    .add("yearOfEstablishment", this.yearOfEstablishment)
+                    .add("percBusinessOwnedByWomen", this.percBusinessOwnedByWomen)
+                    .add("isManagedControledByWomen", this.isManagedControledByWomen)
+                    .add("numPermEmployee", this.numPermEmployee)
+                    .add("numFemaleEmployee", this.numFemaleEmployee)
+                    .toString();
+        }
+    }
+
+}
+/*
+    public Card(ExtendedData jsonextendedData){
+	this();
+	this.jsonExtendedData = jsonExtendedData;
+    }
+
+    public static class ExtendedData {
+
+
+
 	public ExtendedData(){
 		super();
 	}
@@ -653,6 +721,11 @@ public class Card extends GenericData {
                       String contactName, String contactJobTitle, String businessDescription, String memberOf,
                       String certifications, String yearOfEstablishment, Integer percBusinessOwnedByWomen,
                       Boolean isManagedControledByWomen, Integer numPermEmployee, Integer numFemaleEmployee) {
+
+
+            public String getName() {
+                return this.name = name;
+            }
 
             this.name;
             this.address;
@@ -696,5 +769,5 @@ public class Card extends GenericData {
         }
 
     }
+*/
 
-}
