@@ -1,5 +1,6 @@
 package com.smartcanvas;
 
+import com.google.api.client.json.Json;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.CardSearchResult;
 import org.jose4j.lang.JoseException;
@@ -15,18 +16,21 @@ public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
 
     @Test
     public void purgeCards() throws IOException {
-        
-        
-        CardSearchRequest search = CardSearchRequest.builder(true)
-                //.maxAge(15)
-                //.initDate(new DateTime("2014-07-15"))
+        /* Using a Object to search by jsonExtendedData or comment here and use a String call in .jsonExtendedData below*/
+        JsonExtendedData obj = new JsonExtendedData("fabito", null, null, null, null, null, null,null, null, null,null, null, null,null, null, null);
+        System.out.println(JSON_FACTORY.toString(obj));
+
+
+        CardSearchRequest search = CardSearchRequest.builder(true, JSON_FACTORY)
+//                .maxAge(2)
+//               .initDate(new DateTime("2014-07-15"))
 //                .status(CardStatus.APPROVED)
 //                .fields("id", "mnemonic")
 //                .limit(100)
 //                .offset(50)
-                /* FIXME - NOT IMPLEMENTED THE LOGIC TO BUILD THE URL*/
-               // .jsonExtendedData()
-
+                /* Use a String to search jsonExtendedData */
+                //.jsonExtendedData("{\"name\":\"alan\",\"address\":\"campinas\"}")
+                .jsonExtendedData(obj)
                 .build();
 
 

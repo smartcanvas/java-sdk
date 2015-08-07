@@ -7,7 +7,6 @@ import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.CardId;
 import org.jose4j.lang.JoseException;
-import com.smartcanvas.model.Card.ExtendedData;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,7 +15,9 @@ import static org.junit.Assert.assertNotNull;
 
 public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegrationTests {
 
-	public CardCreationIntegrationTests() throws JoseException {
+    private JsonExtendedData jsonExtendedData;
+
+    public CardCreationIntegrationTests() throws JoseException {
         super();
     }
 
@@ -83,9 +84,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		comunities.setDisplayName("JEDI GROUP");
 		comunities.setId("Community");
 		card.setCommunity(comunities);
-		ExtendedData jsonExtendedData = new ExtendedData("Test Company", "Campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
-        card.setExtendData(jsonExtendedData);
-		System.out.println(card);
 		smartcanvas.cards().insert(card);
 	}
 
@@ -140,7 +138,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setAutoApprove(true);
 		card.addCategories("junit", "java-sdk", "photo-attachment");
 		card.addPhotoAttachment(
-				"https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
+                "https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
 		smartcanvas.cards().insert(card);
 	}
 
@@ -181,7 +179,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setAutoApprove(true);
 		card.addCategories("article");
 		card.addArticleAttachment("https://www.google.com.br/design/articles",
-				"http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
 		CardId response = smartcanvas.cards().insert(card);
 
@@ -202,23 +200,33 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setAutoApprove(true);
 		card.addCategories("novacategoria");
 		card.addArticleAttachment("https://www.google.com.br/design/articles",
-				"http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
 		String id = "6087103192498176";
 		smartcanvas.cards().update(card, id);
 
 	}
 
+    @Test
+    public void addJsonExtendedData() throws IOException {
+        Card card = new Card(givenProvider());
+        card.setTitle("Card Title ");
+       // card.setMnemonic("jsonExtendedDataTest");
+        card.setSummary("Community Test");
+        card.setContent("Write the content of the card here");
+        card.setAutoApprove(true);
+        JsonExtendedData jsonExtendedData = new JsonExtendedData("fabito", "campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
+        card.setJsonExtendedData(jsonExtendedData);
+        smartcanvas.cards().insert(card);
+    }
+
 	// @Test
 	// public void deleteCard() throws IOException {
 	// Card card = new Card(givenProvider());
 	// card.setAutoApprove(true);
-	//
 	// //Mnemonic or ID card
 	// String id = "5233755344076800";
 	// smartcanvas.cards().delete(id);
-	//
-	//
 	// }
 
 	private ContentProvider givenProvider() {

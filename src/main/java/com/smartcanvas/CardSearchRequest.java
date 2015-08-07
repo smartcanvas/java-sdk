@@ -1,9 +1,13 @@
 package com.smartcanvas;
 
+import com.google.api.client.json.Json;
+import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.*;
 import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card.CardStatus;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -87,6 +91,10 @@ public class CardSearchRequest extends CardApiUrl {
         return new CardSearchRequestBuilder(useSandbox);
     }
 
+    public static CardSearchRequestBuilder builder(boolean useSandbox, JsonFactory jsonFactory) {
+        return new CardSearchRequestBuilder(useSandbox, jsonFactory);
+    }
+
     public static class CardSearchRequestBuilder {
 
         private String query;
@@ -121,13 +129,20 @@ public class CardSearchRequest extends CardApiUrl {
 
         private Set<String> embed;
 
-        private Object jsonExtendedData;
+        private String jsonExtendedData;
         
         private String mnemonic;
 
         private boolean useSandbox;
 
+        private JsonFactory jsonFactory;
+
         private CardSearchRequestBuilder(boolean useSandbox) {
+            this.useSandbox = useSandbox;
+        }
+
+        public CardSearchRequestBuilder(boolean useSandbox, JsonFactory jsonFactory) {
+            this.jsonFactory = jsonFactory;
             this.useSandbox = useSandbox;
         }
 
@@ -233,8 +248,15 @@ public class CardSearchRequest extends CardApiUrl {
             return this;
         }
 
-        public CardSearchRequestBuilder jsonExtendedData(Object jsonExtendedData) {
-            this.jsonExtendedData = jsonExtendedData;
+        public CardSearchRequestBuilder jsonExtendedData(Object jsonExtendedData) throws IOException {
+            Preconditions.checkNotNull(jsonExtendedData);
+
+            if (jsonExtendedData instanceof String ) {
+                this.jsonExtendedData = (String) jsonExtendedData;
+            } else {
+                this.jsonExtendedData = jsonFactory.toString(jsonExtendedData);
+            }
+
             return this;
         }
 
