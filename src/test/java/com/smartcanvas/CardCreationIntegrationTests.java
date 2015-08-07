@@ -86,11 +86,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		ExtendedData jsonExtendedData = new ExtendedData("Test Company", "Campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
         card.setExtendData(jsonExtendedData);
 		System.out.println(card);
-
-
-
-		//("Test Company", "Campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
-
 		smartcanvas.cards().insert(card);
 	}
 
