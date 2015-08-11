@@ -14,18 +14,12 @@ import com.google.api.client.util.Value;
 
 public class Card extends GenericData {
 
-
-
     public enum CardStatus {
         @Value("ANY")
-        ANY, 
-        @Value("APPROVED")
-        APPROVED, 
-        @Value("PENDING")
-        PENDING, 
-        @Value("EXPIRED")
-        EXPIRED, 
-        @Value("REJECTED")
+        ANY, @Value("APPROVED")
+        APPROVED, @Value("PENDING")
+        PENDING, @Value("EXPIRED")
+        EXPIRED, @Value("REJECTED")
         REJECTED;
     }
 
@@ -63,12 +57,12 @@ public class Card extends GenericData {
     private DateTime updateDate;
     @Key
     private Object jsonExtendedData;
-    
+
     @Key
     private CardStatus status;
 
     private String coordinates;
-    
+
     @Key
     private UserActivity userActivities;
     @Key
@@ -76,14 +70,36 @@ public class Card extends GenericData {
     @Key
     private Set<String> locales;
 
-    
     public Card() {
         super();
     }
-    
+
     public Card(ContentProvider contentProvider) {
         this();
         this.contentProvider = contentProvider;
+    }
+
+    public Card(String mnemonic, String title, String summary, String content, Author author,
+            ContentProvider contentProvider, Community community, String publishDate, String expirationDate,
+            Boolean autoApprove, Set<String> categories, Set<String> metaTags, List<Attachment> attachments,
+            Object jsonExtendedData, Permission permission, Set<String> locales) {
+        super();
+        this.mnemonic = mnemonic;
+        this.title = title;
+        this.summary = summary;
+        this.content = content;
+        this.author = author;
+        this.contentProvider = contentProvider;
+        this.community = community;
+        this.publishDate = publishDate;
+        this.expirationDate = expirationDate;
+        this.autoApprove = autoApprove;
+        this.categories = categories;
+        this.metaTags = metaTags;
+        this.attachments = attachments;
+        this.jsonExtendedData = jsonExtendedData;
+        this.permission = permission;
+        this.locales = locales;
     }
 
     public Long getId() {
@@ -193,10 +209,10 @@ public class Card extends GenericData {
     public Author getAuthor() {
         return author;
     }
-    
+
     public CardStatus status() {
         return this.status;
-    }    
+    }
 
     public void setAuthor(Author author) {
         this.author = author;
@@ -243,17 +259,17 @@ public class Card extends GenericData {
     }
 
     public void addCategories(String... categories) {
-       if (getCategories() == null) {
-           setCategories(Sets.<String>newHashSet());
-       }
-       for (String category : categories) {
-           this.categories.add(category);
-       }
+        if (getCategories() == null) {
+            setCategories(Sets.<String> newHashSet());
+        }
+        for (String category : categories) {
+            this.categories.add(category);
+        }
     }
 
     public void addMetaTags(String... metaTags) {
         if (getMetaTags() == null) {
-            setMetaTags(Sets.<String>newHashSet());
+            setMetaTags(Sets.<String> newHashSet());
         }
         for (String tag : metaTags) {
             this.metaTags.add(tag);
@@ -277,7 +293,7 @@ public class Card extends GenericData {
 
     public void addAttachment(Attachment attachment) {
         if (getAttachments() == null) {
-            setAttachments(Lists.<Attachment>newArrayList());
+            setAttachments(Lists.<Attachment> newArrayList());
         }
         this.attachments.add(attachment);
     }
@@ -287,15 +303,12 @@ public class Card extends GenericData {
         public enum TypeEnum {
 
             @Value("photo")
-            PHOTO, 
-            @Value("article")
-            ARTICLE, 
-            @Value("video")
-            VIDEO,
-            @Value("drive")
+            PHOTO, @Value("article")
+            ARTICLE, @Value("video")
+            VIDEO, @Value("drive")
             @Deprecated
             DRIVE,
-            
+
         }
 
         @Key
@@ -313,7 +326,7 @@ public class Card extends GenericData {
 
         public Attachment() {
         }
-        
+
         public Attachment(TypeEnum type) {
             this.type = type;
         }
@@ -361,7 +374,7 @@ public class Card extends GenericData {
         public void setJsonExtendedData(String jsonExtendedData) {
             this.jsonExtendedData = jsonExtendedData;
         }
-        
+
         public static Attachment video(String videoUrl) {
             Attachment videoattachment = new Attachment(TypeEnum.VIDEO);
             videoattachment.setContentURL(videoUrl);
@@ -393,8 +406,7 @@ public class Card extends GenericData {
                     .add("contentURL", this.contentURL).add("embedURL", this.embedURL).add("images", this.images)
                     .add("jsonExtendedData", this.jsonExtendedData).toString();
         }
-        
-    
+
     }
 
     public static class Permission {
@@ -452,7 +464,7 @@ public class Card extends GenericData {
         public ContentProvider() {
             super();
         }
-        
+
         public ContentProvider(String id, String contentId, String userId) {
             super();
             this.id = id;
@@ -552,14 +564,10 @@ public class Card extends GenericData {
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this)
-                    .add("image", this.image)
-                    .add("imageURL", this.imageURL)
-                    .add("displayName", this.displayName)
-                    .add("id", this.id)
-                    .toString();
+            return Objects.toStringHelper(this).add("image", this.image).add("imageURL", this.imageURL)
+                    .add("displayName", this.displayName).add("id", this.id).toString();
         }
-        
+
     }
 
     public static class Community {
@@ -595,10 +603,7 @@ public class Card extends GenericData {
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this)
-			.add("id", this.id)
-			.add("displayName", this.displayName)
-			.toString();
+            return Objects.toStringHelper(this).add("id", this.id).add("displayName", this.displayName).toString();
         }
 
     }
@@ -606,5 +611,147 @@ public class Card extends GenericData {
     public void setJsonExtendedData(Object jsonExtendedData) {
         this.jsonExtendedData = jsonExtendedData;
     }
-}
 
+    public static class CardBuilder {
+        private String mnemonic;
+        private String title;
+        private String summary;
+        private String content;
+        private Author author;
+        private ContentProvider contentProvider;
+        private Community community;
+        private String publishDate;
+        private String expirationDate;
+        private Boolean autoApprove;
+        private Set<String> categories;
+        private Set<String> metaTags;
+        private List<Attachment> attachments;
+        private Object jsonExtendedData;
+        private Permission permission;
+        private Set<String> locales;
+
+        public CardBuilder() {
+        }
+
+        public CardBuilder(Card bean) {
+            this.mnemonic = bean.mnemonic;
+            this.title = bean.title;
+            this.summary = bean.summary;
+            this.content = bean.content;
+            this.author = bean.author;
+            this.contentProvider = bean.contentProvider;
+            this.community = bean.community;
+            this.publishDate = bean.publishDate;
+            this.expirationDate = bean.expirationDate;
+            this.autoApprove = bean.autoApprove;
+            this.categories = bean.categories;
+            this.metaTags = bean.metaTags;
+            this.attachments = bean.attachments;
+            this.jsonExtendedData = bean.jsonExtendedData;
+            this.permission = bean.permission;
+            this.locales = bean.locales;
+        }
+
+        public CardBuilder withMnemonic(String mnemonic) {
+            this.mnemonic = mnemonic;
+            return this;
+        }
+
+        public CardBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public CardBuilder withSummary(String summary) {
+            this.summary = summary;
+            return this;
+        }
+
+        public CardBuilder withContent(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public CardBuilder withAuthor(Author author) {
+            this.author = author;
+            return this;
+        }
+
+        public CardBuilder withContentProvider(ContentProvider contentProvider) {
+            this.contentProvider = contentProvider;
+            return this;
+        }
+        
+        public CardBuilder withContentProvider(String providerId, String providerUserId, String providerContentId) {
+            this.contentProvider = new ContentProvider(providerId, providerContentId, providerUserId);
+            return this;
+        }
+
+        public CardBuilder withContentProvider(String id, String userId, String contentId, DateTime updated) {
+            this.contentProvider = new ContentProvider(id, contentId, userId);
+            this.contentProvider.setUpdateDate(updated);
+            return this;
+        }
+        
+        public CardBuilder withCommunity(Community community) {
+            this.community = community;
+            return this;
+        }
+
+        public CardBuilder withPublishDate(String publishDate) {
+            this.publishDate = publishDate;
+            return this;
+        }
+
+        public CardBuilder withExpirationDate(String expirationDate) {
+            this.expirationDate = expirationDate;
+            return this;
+        }
+
+        public CardBuilder withAutoApprove(Boolean autoApprove) {
+            this.autoApprove = autoApprove;
+            return this;
+        }
+
+        public CardBuilder withCategories(Set<String> categories) {
+            this.categories = categories;
+            return this;
+        }
+
+        public CardBuilder withMetaTags(Set<String> metaTags) {
+            this.metaTags = metaTags;
+            return this;
+        }
+
+        public CardBuilder withAttachments(List<Attachment> attachments) {
+            this.attachments = attachments;
+            return this;
+        }
+
+        public CardBuilder withJsonExtendedData(Object jsonExtendedData) {
+            this.jsonExtendedData = jsonExtendedData;
+            return this;
+        }
+
+        public CardBuilder withPermission(Permission permission) {
+            this.permission = permission;
+            return this;
+        }
+
+        public CardBuilder withLocales(Set<String> locales) {
+            this.locales = locales;
+            return this;
+        }
+
+        public Card build() {
+            return new Card(mnemonic, title, summary, content, author, contentProvider, community, publishDate,
+                    expirationDate, autoApprove, categories, metaTags, attachments, jsonExtendedData, permission,
+                    locales);
+        }
+    }
+
+    public static CardBuilder newBuilder() {
+        return new CardBuilder();
+    }
+
+}

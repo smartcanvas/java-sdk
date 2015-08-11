@@ -20,7 +20,23 @@ public class SmartcanvasUrls {
         public CardApiUrl(boolean useSandbox, String id) {
         	super(String.format(urlUpdate, useSandbox ? DEFAULT_SANDBOX_ROOT_URL : DEFAULT_ROOT_URL, DEFAULT_SERVICE_PATH, id));
         }
+
+    }
 	
-    }	
-	
+    public static class CardModerationUrl extends GenericUrl {
+        
+        public static final String DEFAULT_SERVICE_PATH = "card/v1";
+        final static String urlUpdate = "%s%s/cards/%s/moderations";
+        
+        public CardModerationUrl(boolean useSandbox, String cardId) {
+            super(String.format(urlUpdate, useSandbox ? DEFAULT_SANDBOX_ROOT_URL : DEFAULT_ROOT_URL, DEFAULT_SERVICE_PATH, cardId));
+        }
+
+        public static CardModerationUrl of(boolean useSandbox, Long cardId) {
+            return new CardModerationUrl(useSandbox, String.valueOf(cardId));
+        }
+
+    }
+
+
 }

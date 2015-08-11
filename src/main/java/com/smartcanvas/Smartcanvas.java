@@ -20,6 +20,7 @@ import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.CardId;
 import com.smartcanvas.model.CardSearchResult;
+import com.smartcanvas.model.ModerationRequest;
 
 
 public class Smartcanvas {
@@ -94,9 +95,19 @@ public class Smartcanvas {
         public void delete(String id) throws IOException {
             httpDeleteRequest(id).execute();
         }
+        
+        public Card get(Long id) throws IOException {
+            return get(String.valueOf(id));
+        }
+        
+        public Card get(String id) throws IOException {
+            CardApiUrl url = new CardApiUrl(useSandbox, id);
+            HttpRequest request = requestFactory().buildGetRequest(url);
+            return request.execute().parseAs(Card.class);
+        }
 
-        private HttpRequest getHttpRequest(CardSearchRequest teste) throws IOException {
-            HttpRequest request = requestFactory().buildGetRequest(teste);
+        private HttpRequest getHttpRequest(CardSearchRequest searchRequest) throws IOException {
+            HttpRequest request = requestFactory().buildGetRequest(searchRequest);
             return request;
         }
 
@@ -120,17 +131,39 @@ public class Smartcanvas {
             return request;
         }
 
-        public Card get(Long id) throws IOException {
-            return get(String.valueOf(id));
-        }
-
-        public Card get(String id) throws IOException {
-            CardApiUrl url = new CardApiUrl(useSandbox, id);
-            HttpRequest request = requestFactory().buildGetRequest(url);
-            return request.execute().parseAs(Card.class);
-        }
+    }
+    
+    public Moderations moderations() {
+        return new Moderations();
     }
 
+    public class Moderations {
+        
+        public void approve(Long cardId) throws IOException {
+            moderate(ModerationRequest.approvalOf(cardId));
+        }
+        
+        public void approve(CardId id) throws IOException {
+            moderate(ModerationRequest.approvalOf(id.id()));
+        }
+        
+        public void unapprove(Long cardId) throws IOException {
+            moderate(ModerationRequest.pendingOf(cardId));
+        }
+        
+        public void reject(Long cardId) throws IOException {
+            moderate(ModerationRequest.rejectionOf(cardId));
+        }
+        
+        private void moderate(ModerationRequest moderation) throws IOException {
+            JsonHttpContent payload = new JsonHttpContent(jsonFactory, moderation);
+            HttpRequest request = requestFactory().buildPostRequest(moderation.url(useSandbox), payload);
+            request.execute();
+        }
+
+        
+    }
+    
     private HttpRequestFactory requestFactory() {
         return transport.createRequestFactory(new HttpRequestInitializer() {
             public void initialize(HttpRequest request) throws IOException {
