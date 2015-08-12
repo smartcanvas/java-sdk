@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.smartcanvas:smartcanvas-java-sdk:0.1.6'
+    compile 'com.smartcanvas:smartcanvas-java-sdk:0.1.8'
 }
 ```
 
@@ -33,6 +33,6 @@ dependencies {
 <dependency>
   <groupId>com.smartcanvas</groupId>
   <artifactId>smartcanvas-java-sdk</artifactId>
-  <version>0.1.6</version>
+  <version>0.1.8</version>
 </dependency>
 ```

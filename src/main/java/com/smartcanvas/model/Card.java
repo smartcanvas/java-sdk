@@ -57,14 +57,11 @@ public class Card extends GenericData {
     private DateTime updateDate;
     @Key
     private Object jsonExtendedData;
-
     @Key
     private CardStatus status;
-
     private String coordinates;
-
     @Key
-    private UserActivity userActivities;
+    private List<UserActivity> userActivities;
     @Key
     private Permission permission;
     @Key
@@ -234,11 +231,11 @@ public class Card extends GenericData {
         this.attachments = attachments;
     }
 
-    public UserActivity getUserActivities() {
+    public List<UserActivity> getUserActivities() {
         return userActivities;
     }
 
-    public void setUserActivities(UserActivity userActivities) {
+    public void setUserActivities(List<UserActivity> userActivities) {
         this.userActivities = userActivities;
     }
 
