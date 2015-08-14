@@ -48,7 +48,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		Card buildCard = Card.newBuilder()
 				.withContentProvider(givenProvider())
 				.withTitle("Categories and metaTag tests")
-				.withMnemonic("Categories and metaTags")
+				.withMnemonic("CategoriesmetaTags")
 				.withMetaTags("FIXED")
 				.withCategories("Category 1", "Category 2", "Categories and more and more")
 				.build();
