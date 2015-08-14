@@ -1,8 +1,6 @@
 package com.smartcanvas.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.client.util.GenericData;
@@ -257,7 +255,7 @@ public class Card extends GenericData {
 
     public void addCategories(String... categories) {
         if (getCategories() == null) {
-            setCategories(Sets.<String> newHashSet());
+            setCategories(Sets.<String>newHashSet());
         }
         for (String category : categories) {
             this.categories.add(category);
@@ -266,33 +264,11 @@ public class Card extends GenericData {
 
     public void addMetaTags(String... metaTags) {
         if (getMetaTags() == null) {
-            setMetaTags(Sets.<String> newHashSet());
+            setMetaTags(Sets.<String>newHashSet());
         }
         for (String tag : metaTags) {
             this.metaTags.add(tag);
         }
-    }
-
-    public void addVideoAttachment(String videoUrl) {
-        Attachment video = Attachment.video(videoUrl);
-        this.addAttachment(video);
-    }
-
-    public void addPhotoAttachment(String photoUrl) {
-        Attachment photo = Attachment.photo(photoUrl);
-        this.addAttachment(photo);
-    }
-
-    public void addArticleAttachment(String articleUrl, String photoUrl) {
-        Attachment article = Attachment.article(articleUrl, photoUrl);
-        this.addAttachment(article);
-    }
-
-    public void addAttachment(Attachment attachment) {
-        if (getAttachments() == null) {
-            setAttachments(Lists.<Attachment> newArrayList());
-        }
-        this.attachments.add(attachment);
     }
 
     public static class Attachment {
@@ -378,6 +354,7 @@ public class Card extends GenericData {
             videoattachment.setEmbedURL(videoUrl);
             return videoattachment;
         }
+
 
         public static Attachment photo(String photoUrl) {
             Attachment photoAttachment = new Attachment(TypeEnum.PHOTO);
@@ -622,7 +599,7 @@ public class Card extends GenericData {
         private Boolean autoApprove;
         private Set<String> categories;
         private Set<String> metaTags;
-        private List<Attachment> attachments;
+        private List<Attachment> attachments = new ArrayList<>();
         private Object jsonExtendedData;
         private Permission permission;
         private Set<String> locales;
@@ -663,6 +640,7 @@ public class Card extends GenericData {
             this.summary = summary;
             return this;
         }
+
 
         public CardBuilder withContent(String content) {
             this.content = content;
@@ -710,18 +688,40 @@ public class Card extends GenericData {
             return this;
         }
 
-        public CardBuilder withCategories(Set<String> categories) {
-            this.categories = categories;
+        public CardBuilder withCategories(String... categories) {
+            Set<String> categorie = new HashSet<String>(Arrays.<String>asList(categories));
+            this.categories = categorie;
             return this;
         }
 
-        public CardBuilder withMetaTags(Set<String> metaTags) {
-            this.metaTags = metaTags;
+        public CardBuilder withMetaTags(String... metaTags) {
+            Set<String> metaTag = new HashSet<String>(Arrays.<String>asList(metaTags));
+            this.metaTags = metaTag;
             return this;
         }
 
         public CardBuilder withAttachments(List<Attachment> attachments) {
             this.attachments = attachments;
+            return this;
+        }
+        public CardBuilder withVideoAttachment(String videoUrl) {
+            Attachment video = Attachment.video(videoUrl);
+            return this.addAttachment(video);
+        }
+
+        public CardBuilder withPhotoAttachment(String photoUrl) {
+            Attachment photo = Attachment.photo(photoUrl);
+            this.addAttachment(photo);
+            return this;
+        }
+
+        public CardBuilder withArticleAttachment(String articleUrl, String photoUrl) {
+            Attachment article = Attachment.article(articleUrl, photoUrl);
+            return this.addAttachment(article);
+        }
+
+        public CardBuilder addAttachment(Attachment attachment) {
+            this.attachments.add(attachment);
             return this;
         }
 

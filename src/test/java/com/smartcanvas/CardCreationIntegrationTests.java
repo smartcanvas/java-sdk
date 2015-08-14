@@ -6,6 +6,7 @@ import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.CardId;
+import com.smartcanvas.model.Attachment;
 
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
@@ -22,6 +23,36 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
         super();
     }
 
+	@Test
+	public void testCardBuilder() throws IOException {
+		Author author = new Author();
+		author.setDisplayName("afsd");
+		author.setId("aa");
+
+		Card buildCard;
+		buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withMnemonic("CardBuilder")
+				.withTitle("Title build CArd")
+				.withMetaTags("ola", "mundo", "d1", "gmoneda", "teste", "metaTag")
+				.withCategories("Categorie 1", "categorie 2", "Cate")
+				.withPhotoAttachment("https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png")
+//				.withVideoAttachment("https://www.youtube.com/watch?v=3qbU8TUl2sU")
+
+				.build();
+		smartcanvas.cards().insert(buildCard);
+	}
+
+	@Test
+	public void testCardBuilderUpdate() throws IOException {
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withMnemonic("CardBuilder")
+				.withTitle("Title build CArd")
+				.build();
+		smartcanvas.cards().insert(buildCard);
+	}
+
     @Test
     public void getById() throws IOException {
         Card card = smartcanvas.cards().get(6003583740805120l);
@@ -31,7 +62,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
     @Test
 	public void addSimpleCard() throws IOException {
 		Card card = new Card(givenProvider());
-		card.addMetaTags("leo");
+//		card.addMetaTags("leo");
 		card.setAutoApprove(true);
 		
 		CardId id = smartcanvas.cards().insert(card);
@@ -52,7 +83,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	public void addCategoriesandMeta() throws IOException {
 		Card card = new Card(givenProvider());
 		card.addCategories("GYM", "Walk4life");
-		card.addMetaTags("Fixed");
+//		card.addMetaTags("Fixed");
 		card.setTitle("Card Title Categories Example");
 		card.setAutoApprove(true);
 		smartcanvas.cards().insert(card);
@@ -122,8 +153,8 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
 		card.addCategories("junit", "java-sdk", "photo-attachment");
-		card.addPhotoAttachment(
-                "https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
+//		card.addPhotoAttachment(
+//                "https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
 		smartcanvas.cards().insert(card);
 	}
 
@@ -135,7 +166,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
 		card.addCategories("junit", "java-sdk", "youtube");
-		card.addVideoAttachment("https://www.youtube.com/watch?v=3qbU8TUl2sU");
+//		card.addVideoAttachment("https://www.youtube.com/watch?v=3qbU8TUl2sU");
 		smartcanvas.cards().insert(card);
 	}
 
@@ -148,7 +179,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setAutoApprove(true);
 		card.addCategories("junit", "java-sdk", "vimeo");
 		// FIXME checar o que deve ser preenchido para a imagem no card fechado
-		card.addVideoAttachment("https://vimeo.com/133697756");
+//		card.addVideoAttachment("https://vimeo.com/133697756");
 		smartcanvas.cards().insert(card);
 	}
 
@@ -160,8 +191,8 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
 		card.addCategories("article");
-		card.addArticleAttachment("https://www.google.com.br/design/articles",
-                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+//		card.addArticleAttachment("https://www.google.com.br/design/articles",
+//                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
 		CardId response = smartcanvas.cards().insert(card);
 
@@ -180,8 +211,8 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
 		card.addCategories("novacategoria");
-		card.addArticleAttachment("https://www.google.com.br/design/articles",
-                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
+//		card.addArticleAttachment("https://www.google.com.br/design/articles",
+//                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
 		String id = "6087103192498176";
 		smartcanvas.cards().update(card, id);
@@ -202,6 +233,8 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 
 	private ContentProvider givenProvider() {
 	    UUID uuid = UUID.randomUUID();
+		System.out.println(uuid.toString());
 		return new ContentProvider("java-sdk-unit-tests", uuid.toString(), "gmoneda");
+
 	}
 }
