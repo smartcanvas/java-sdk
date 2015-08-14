@@ -1,14 +1,10 @@
 package com.smartcanvas.model;
 
-import java.util.*;
-
-import com.google.api.client.util.DateTime;
-import com.google.api.client.util.GenericData;
-import com.google.api.client.util.Key;
-import com.google.api.client.util.Lists;
+import com.google.api.client.util.*;
 import com.google.api.client.util.Objects;
-import com.google.api.client.util.Sets;
-import com.google.api.client.util.Value;
+
+import java.lang.instrument.IllegalClassFormatException;
+import java.util.*;
 
 public class Card extends GenericData {
 
@@ -641,13 +637,24 @@ public class Card extends GenericData {
             return this;
         }
 
-
         public CardBuilder withContent(String content) {
             this.content = content;
             return this;
         }
 
-        public CardBuilder withAuthor(Author author) {
+        public CardBuilder withAuthor(String id, String displayName, String imageURL) {
+            Author author = new Author();
+            author.setId(id);
+            author.setDisplayName(displayName);
+            author.setImageURL(imageURL);
+            this.author = author;
+            return this;
+        }
+
+        public CardBuilder withAuthor(String id, String displayName) {
+            Author author = new Author();
+            author.setId(id);
+            author.setDisplayName(displayName);
             this.author = author;
             return this;
         }
@@ -656,7 +663,7 @@ public class Card extends GenericData {
             this.contentProvider = contentProvider;
             return this;
         }
-        
+
         public CardBuilder withContentProvider(String providerId, String providerUserId, String providerContentId) {
             this.contentProvider = new ContentProvider(providerId, providerContentId, providerUserId);
             return this;
@@ -667,19 +674,23 @@ public class Card extends GenericData {
             this.contentProvider.setUpdateDate(updated);
             return this;
         }
-        
-        public CardBuilder withCommunity(Community community) {
+
+        public CardBuilder withCommunity(String id, String displayName) {
+            Community community = new Community();
+            community.setId(id);
+            community.setDisplayName(displayName);
             this.community = community;
             return this;
         }
 
-        public CardBuilder withPublishDate(String publishDate) {
-            this.publishDate = publishDate;
+        public CardBuilder withPublishDate(DateTime publishDate) {
+
+            this.publishDate = publishDate.toString();
             return this;
         }
 
-        public CardBuilder withExpirationDate(String expirationDate) {
-            this.expirationDate = expirationDate;
+        public CardBuilder withExpirationDate(DateTime expirationDate) {
+            this.expirationDate = expirationDate.toString();
             return this;
         }
 
@@ -689,8 +700,8 @@ public class Card extends GenericData {
         }
 
         public CardBuilder withCategories(String... categories) {
-            Set<String> categorie = new HashSet<String>(Arrays.<String>asList(categories));
-            this.categories = categorie;
+            Set<String> category = new HashSet<String>(Arrays.<String>asList(categories));
+            this.categories = category;
             return this;
         }
 
@@ -700,10 +711,6 @@ public class Card extends GenericData {
             return this;
         }
 
-        public CardBuilder withAttachments(List<Attachment> attachments) {
-            this.attachments = attachments;
-            return this;
-        }
         public CardBuilder withVideoAttachment(String videoUrl) {
             Attachment video = Attachment.video(videoUrl);
             return this.addAttachment(video);
@@ -739,14 +746,32 @@ public class Card extends GenericData {
             this.locales = locales;
             return this;
         }
+        private CardBuilder compareDate(String publishedDate, String expirationDate) {
+//            FIXME (VALIDATION OF PUBLISHED AND EXPIRATION! )
+            if ((publishedDate != null) && (expirationDate != null)) {
+                if (publishedDate.compareTo(expirationDate) < 1) {
+                    return this;
+                } else {
+                    System.out.println("PublishedDate: "+publishedDate);
+                    System.out.println("ExpirationDate: "+expirationDate);
+                    throw new IllegalStateException("ERROR: publishedDate must be less than expirationDate");
+                }
+            }
+            return this;
+        }
 
         public Card build() {
-            return new Card(mnemonic, title, summary, content, author, contentProvider, community, publishDate,
-                    expirationDate, autoApprove, categories, metaTags, attachments, jsonExtendedData, permission,
-                    locales);
+                if ((publishDate != null) && (expirationDate != null)) {
+                    compareDate(publishDate.toString(),expirationDate.toString());
+                }
+                return new Card(mnemonic, title, summary, content, author, contentProvider, community, publishDate,
+                        expirationDate, autoApprove, categories, metaTags, attachments, jsonExtendedData, permission,
+                        locales);
+
+
+
         }
     }
-
     public static CardBuilder newBuilder() {
         return new CardBuilder();
     }

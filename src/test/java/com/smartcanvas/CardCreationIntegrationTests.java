@@ -3,11 +3,8 @@ package com.smartcanvas;
 import com.google.api.client.util.DateTime;
 import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
-import com.smartcanvas.model.Card.Community;
 import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.CardId;
-import com.smartcanvas.model.Attachment;
-
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
@@ -23,101 +20,65 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
         super();
     }
 
-	@Test
-	public void testCardBuilder() throws IOException {
-		Author author = new Author();
-		author.setDisplayName("afsd");
-		author.setId("aa");
-
-		Card buildCard;
-		buildCard = Card.newBuilder()
-				.withContentProvider(givenProvider())
-				.withMnemonic("CardBuilder")
-				.withTitle("Title build CArd")
-				.withMetaTags("ola", "mundo", "d1", "gmoneda", "teste", "metaTag")
-				.withCategories("Categorie 1", "categorie 2", "Cate")
-				.withPhotoAttachment("https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png")
-//				.withVideoAttachment("https://www.youtube.com/watch?v=3qbU8TUl2sU")
-
-				.build();
-		smartcanvas.cards().insert(buildCard);
-	}
-
-	@Test
-	public void testCardBuilderUpdate() throws IOException {
+    @Test
+	public void addSimpleCardBuilder() throws IOException {
 		Card buildCard = Card.newBuilder()
 				.withContentProvider(givenProvider())
-				.withMnemonic("CardBuilder")
-				.withTitle("Title build CArd")
+				.withTitle("Simple Card Title")
+				.withMnemonic("simpleCard")
+				.withAutoApprove(true)
 				.build();
 		smartcanvas.cards().insert(buildCard);
 	}
 
-    @Test
-    public void getById() throws IOException {
-        Card card = smartcanvas.cards().get(6003583740805120l);
-        assertNotNull(card);
-    }
-	
-    @Test
-	public void addSimpleCard() throws IOException {
-		Card card = new Card(givenProvider());
-//		card.addMetaTags("leo");
-		card.setAutoApprove(true);
-		
-		CardId id = smartcanvas.cards().insert(card);
-        assertNotNull(id);
+	@Test
+	public void addCommunityCardBuilder() throws IOException {
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("Simple Card Title")
+				.withMnemonic("communityCardTest")
+				.withCommunity("idCommunity", "displayName")
+				.withAutoApprove(true)
+				.build();
+		smartcanvas.cards().insert(buildCard);
 	}
-
-   @Test
-    public void addCardWithContentProvider() throws IOException {
-        Card card = new Card(givenProvider());
-        card.setTitle("Card Title");
-        card.setSummary("This is the summary");
-        card.setContent("Write the content of the card here");
-        card.setAutoApprove(true);
-        smartcanvas.cards().insert(card);
-    }
 	   
 	@Test
-	public void addCategoriesandMeta() throws IOException {
-		Card card = new Card(givenProvider());
-		card.addCategories("GYM", "Walk4life");
-//		card.addMetaTags("Fixed");
-		card.setTitle("Card Title Categories Example");
-		card.setAutoApprove(true);
-		smartcanvas.cards().insert(card);
+	public void addCategoriesandMetaTagBuilder() throws IOException {
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("Categories and metaTag tests")
+				.withMnemonic("Categories and metaTags")
+				.withMetaTags("FIXED")
+				.withCategories("Category 1", "Category 2", "Categories and more and more")
+				.build();
+		smartcanvas.cards().insert(buildCard);
 	}
 
 	@Test
-	public void addCommunity() throws IOException {
-		Card card = new Card(givenProvider());
-
-		card.setTitle("Card Title ");
-
-		card.setSummary("Community Test");
-		card.setContent("Write the content of the card here");
-		card.setAutoApprove(true);
-
-		Community comunities = new Community();
-		comunities.setDisplayName("JEDI GROUP");
-		comunities.setId("Community");
-		card.setCommunity(comunities);
-		smartcanvas.cards().insert(card);
+	public void addDateTimeBuilder() throws IOException {
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("Published and Expiration Card Data")
+				.withMnemonic("dateTime")
+				.withPublishDate(new DateTime("2015-01-25"))
+				.withExpirationDate(new DateTime("2016-01-25"))
+				.build();
+		smartcanvas.cards().insert(buildCard);
 	}
 
-
+	/* There is two ways to create a Card, you can do this with builder or can instance of a object */
+	/* Follow a example to create a Card with author of two ways*/
 
 	@Test
-	public void addDateTime() throws IOException {
-		Card card = new Card(givenProvider());
-		card.setTitle("Card Title Date Example");
-		card.setSummary("Date Test");
-		card.setContent("Write the content of the card here");
-		card.setAutoApprove(true);
-		card.setPublishDate(DateTime.parseRfc3339("2015-12-31"));
-		card.setExpirationDate(DateTime.parseRfc3339("2015-12-31"));
-		smartcanvas.cards().insert(card);
+	public void addAuthorBuilder() throws IOException {
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("Author Card Test")
+				.withAuthor("authorID", "authorName")
+				.withAutoApprove(true)
+				.build();
+		smartcanvas.cards().insert(buildCard);
 	}
 
 	@Test
@@ -129,72 +90,50 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setAutoApprove(true);
 
 		Author author = new Author();
-		/*
-		 * Author identification in Smart Canvas. That's a Person ID or email.
-		 * If not provided, this author doesn't exist in Smart Canvas (but it's
-		 * still valid)
-		 */
 		author.setId("email@example.com");
-		/* Author display name */
-		author.setDisplayName("Ci&T G. M.");
-		/* Author image URL */
 		author.setImageURL("http://www.ciandt.com/ciandt/images/logo-larger.jpg");
-
 		card.setAuthor(author);
 		smartcanvas.cards().insert(card);
-
 	}
-
 	@Test
-	public void photoAttachment() throws IOException {
-		Card card = new Card(givenProvider());
-		card.setTitle("Attach Photo URL Example");
-		card.setSummary("Attachment Photo Test");
-		card.setContent("Write the content of the card here");
-		card.setAutoApprove(true);
-		card.addCategories("junit", "java-sdk", "photo-attachment");
-//		card.addPhotoAttachment(
-//                "https://lh5.googleusercontent.com/-ENfgdf0kzw0/UqckpA6C4NI/AAAAAAAABEg/hV-5RFJKPq4/w1600-h900-no/google-partner.png");
-		smartcanvas.cards().insert(card);
-	}
-
-	@Test
-	public void shouldAddCardWithYoutubeVideoAttachment() throws IOException {
-		Card card = new Card(givenProvider());
-		card.setTitle("Attach Video Yotube URL Example");
-		card.setSummary("Attachment Video Test");
-		card.setContent("Write the content of the card here");
-		card.setAutoApprove(true);
-		card.addCategories("junit", "java-sdk", "youtube");
-//		card.addVideoAttachment("https://www.youtube.com/watch?v=3qbU8TUl2sU");
-		smartcanvas.cards().insert(card);
+	public void AddCardWithYoutubeVideoAttachment() throws IOException {
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("SmartCanvas - Mars Cyrillo")
+				.withMnemonic("youtubeVideo")
+				.withVideoAttachment("https://www.youtube.com/watch?v=h5peff8v7xw")
+				.withAutoApprove(true)
+				.build();
+		smartcanvas.cards().insert(buildCard);
 	}
 
 	@Test
 	public void shouldAddCardWithVimeoVideoAttachment() throws IOException {
-		Card card = new Card(givenProvider());
-		card.setTitle("Attach Video Vimeo URL Example");
-		card.setSummary("Attachment Video Test");
-		card.setContent("Write the content of the card here");
-		card.setAutoApprove(true);
-		card.addCategories("junit", "java-sdk", "vimeo");
-		// FIXME checar o que deve ser preenchido para a imagem no card fechado
-//		card.addVideoAttachment("https://vimeo.com/133697756");
-		smartcanvas.cards().insert(card);
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("Vimeo Video Test")
+				.withMnemonic("VimeoVideo")
+				.withVideoAttachment("https://vimeo.com/133697756")
+				.withContent("Write the content of the card here")
+				.withSummary("This is a summary test")
+				.withAutoApprove(true)
+				.build();
+		smartcanvas.cards().insert(buildCard);
 	}
 
 	@Test
-	public void shouldAddCardWithArticleAttachment() throws IOException {
-		Card card = new Card(givenProvider());
-		card.setTitle("Attach Article Example");
-		card.setSummary("Attachment Article Summary");
-		card.setContent("Write the content of the card here");
-		card.setAutoApprove(true);
-		card.addCategories("article");
-//		card.addArticleAttachment("https://www.google.com.br/design/articles",
-//                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
-
-		CardId response = smartcanvas.cards().insert(card);
+	public void addCardWithArticleAttachment() throws IOException {
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("Article  Test")
+				.withMnemonic("Articleuri")
+				.withArticleAttachment("https://www.google.com.br/design/articles","http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png")
+				.withContent("Write the content of the card here")
+				.withSummary("This is a summary test")
+				.withAutoApprove(true)
+				.withJsonExtendedData()
+				.build();
+		CardId response = smartcanvas.cards().insert(buildCard);
 
 		assertNotNull(response);
 		assertNotNull(response.id());
@@ -211,6 +150,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		card.setContent("Write the content of the card here");
 		card.setAutoApprove(true);
 		card.addCategories("novacategoria");
+
 //		card.addArticleAttachment("https://www.google.com.br/design/articles",
 //                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
@@ -221,6 +161,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 
     @Test
     public void addJsonExtendedData() throws IOException {
+
         Card card = new Card(givenProvider());
         card.setTitle("Card Title ");
         card.setSummary("Community Test");
@@ -233,7 +174,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 
 	private ContentProvider givenProvider() {
 	    UUID uuid = UUID.randomUUID();
-		System.out.println(uuid.toString());
 		return new ContentProvider("java-sdk-unit-tests", uuid.toString(), "gmoneda");
 
 	}
