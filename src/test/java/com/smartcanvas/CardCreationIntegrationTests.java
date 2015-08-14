@@ -131,7 +131,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 				.withContent("Write the content of the card here")
 				.withSummary("This is a summary test")
 				.withAutoApprove(true)
-				.withJsonExtendedData()
 				.build();
 		CardId response = smartcanvas.cards().insert(buildCard);
 
