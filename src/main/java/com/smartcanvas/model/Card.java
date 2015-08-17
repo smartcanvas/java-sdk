@@ -732,10 +732,7 @@ public class Card extends GenericData {
             return this;
         }
 
-        public CardBuilder withJsonExtendedData(Object jsonExtendedData) {
-            this.jsonExtendedData = jsonExtendedData;
-            return this;
-        }
+
 
         public CardBuilder withPermission(Permission permission) {
             this.permission = permission;
@@ -746,6 +743,12 @@ public class Card extends GenericData {
             this.locales = locales;
             return this;
         }
+
+        public CardBuilder withJsonExtendedData (Object jsonExtendedData) {
+            this.jsonExtendedData = jsonExtendedData;
+            return this;
+        }
+
         private CardBuilder compareDate(String publishedDate, String expirationDate) {
 //            FIXME (VALIDATION OF PUBLISHED AND EXPIRATION! )
             if ((publishedDate != null) && (expirationDate != null)) {

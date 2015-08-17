@@ -1,8 +1,7 @@
 package com.smartcanvas;
 
-import com.google.api.client.json.Json;
-import com.smartcanvas.model.Card;
 import com.smartcanvas.model.CardSearchResult;
+import com.smartcanvas.model.JsonExtendedData;
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
 

@@ -5,6 +5,7 @@ import com.smartcanvas.model.Card;
 import com.smartcanvas.model.Card.Author;
 import com.smartcanvas.model.Card.ContentProvider;
 import com.smartcanvas.model.CardId;
+import com.smartcanvas.model.JsonExtendedData;
 import org.jose4j.lang.JoseException;
 import org.junit.Test;
 
@@ -121,25 +122,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		smartcanvas.cards().insert(buildCard);
 	}
 
-	@Test
-	public void addCardWithArticleAttachment() throws IOException {
-		Card buildCard = Card.newBuilder()
-				.withContentProvider(givenProvider())
-				.withTitle("Article  Test")
-				.withMnemonic("Articleuri")
-				.withArticleAttachment("https://www.google.com.br/design/articles","http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png")
-				.withContent("Write the content of the card here")
-				.withSummary("This is a summary test")
-				.withAutoApprove(true)
-				.build();
-		CardId response = smartcanvas.cards().insert(buildCard);
-
-		assertNotNull(response);
-		assertNotNull(response.id());
-		assertNotNull(response.mnemonic());
-
-		System.out.println(response);
-	}
 
 	@Test
 	public void updateCard() throws IOException {
@@ -155,7 +137,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 
 		String id = "6087103192498176";
 		smartcanvas.cards().update(card, id);
-
 	}
 
     @Test
@@ -170,6 +151,30 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
         card.setJsonExtendedData(jsonExtendedData);
         smartcanvas.cards().insert(card);
     }
+
+	@Test
+	public void addJsonExtendedDatawithBuilder() throws IOException {
+	JsonExtendedData obj = new JsonExtendedData("gmoneda", "campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
+
+		Card buildCard = Card.newBuilder()
+				.withContentProvider(givenProvider())
+				.withTitle("JsonExtendedData Builder Test")
+				.withMnemonic("JsonwithBuilder")
+				.withContent("Write the content of the card here")
+				.withSummary("This is a summary test")
+				.withAutoApprove(true)
+				.withJsonExtendedData(obj)
+				.build();
+
+		CardId response = smartcanvas.cards().insert(buildCard);
+
+		assertNotNull(response);
+		assertNotNull(response.id());
+		assertNotNull(response.mnemonic());
+		
+		System.out.println(response);
+	}
+
 
 	private ContentProvider givenProvider() {
 	    UUID uuid = UUID.randomUUID();
