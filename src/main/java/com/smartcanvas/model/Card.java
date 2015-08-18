@@ -750,7 +750,7 @@ public class Card extends GenericData {
         }
 
         private CardBuilder compareDate(String publishedDate, String expirationDate) {
-//            FIXME (VALIDATION OF PUBLISHED AND EXPIRATION! )
+//            FIXME (VALIDATION OF PUBLISHED AND EXPIRATION!)
             if ((publishedDate != null) && (expirationDate != null)) {
                 if (publishedDate.compareTo(expirationDate) < 1) {
                     return this;

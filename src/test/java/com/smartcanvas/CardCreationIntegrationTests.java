@@ -26,7 +26,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		Card buildCard = Card.newBuilder()
 				.withContentProvider(givenProvider())
 				.withTitle("Simple Card Title")
-				.withMnemonic("simpleCard")
+				.withMnemonic("card1")
 				.withAutoApprove(true)
 				.build();
 		smartcanvas.cards().insert(buildCard);
@@ -154,12 +154,14 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 
 	@Test
 	public void addJsonExtendedDatawithBuilder() throws IOException {
-	JsonExtendedData obj = new JsonExtendedData("gmoneda", "campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
+		JsonExtendedData obj = new JsonExtendedData("gmoneda", "campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
+
+
 
 		Card buildCard = Card.newBuilder()
 				.withContentProvider(givenProvider())
 				.withTitle("JsonExtendedData Builder Test")
-				.withMnemonic("JsonwithBuilder")
+				.withMnemonic("directcard")
 				.withContent("Write the content of the card here")
 				.withSummary("This is a summary test")
 				.withAutoApprove(true)
@@ -171,7 +173,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		assertNotNull(response);
 		assertNotNull(response.id());
 		assertNotNull(response.mnemonic());
-		
+
 		System.out.println(response);
 	}
 
