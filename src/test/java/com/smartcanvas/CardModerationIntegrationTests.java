@@ -17,13 +17,13 @@ public class CardModerationIntegrationTests extends AbstractSmartCanvasIntegrati
         super();
     }
 
-    @Test
-    public void test() throws IOException {
-       Card c = Card.newBuilder()
-               .withContentProvider("Acme", null, UUID.randomUUID().toString())
-               .withTitle(UUID.randomUUID().toString()).build();
-       CardId id = smartcanvas.cards().insert(c);
-       smartcanvas.moderations().approve(id);
-    }
+//    @Test
+//    public void test() throws IOException {
+//       Card c = Card.newBuilder()
+//               .withContentProvider("Acme", null, UUID.randomUUID().toString())
+//               .withTitle(UUID.randomUUID().toString()).build();
+//       CardId id = smartcanvas.cards().insert(c);
+//       smartcanvas.moderations().approve(id);
+//    }
 
 }

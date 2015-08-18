@@ -38,7 +38,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 				.withContentProvider(givenProvider())
 				.withTitle("Simple Card Title")
 				.withMnemonic("communityCardTest")
-				.withCommunity("idCommunity", "displayName")
+//				.withCommunity("idCommunity", "displayName")
 				.withAutoApprove(true)
 				.build();
 		smartcanvas.cards().insert(buildCard);

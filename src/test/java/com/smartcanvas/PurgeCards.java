@@ -20,7 +20,7 @@ public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
         System.out.println(JSON_FACTORY.toString(obj));
 
 
-        CardSearchRequest search = CardSearchRequest.builder(true, JSON_FACTORY)
+        CardSearchRequest search = CardSearchRequest.builder(false, JSON_FACTORY)
 //                .maxAge(2)
 //               .initDate(new DateTime("2014-07-15"))
 //                .status(CardStatus.APPROVED)
