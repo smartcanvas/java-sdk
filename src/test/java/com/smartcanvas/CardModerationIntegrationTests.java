@@ -20,10 +20,12 @@ public class CardModerationIntegrationTests extends AbstractSmartCanvasIntegrati
 //    @Test
 //    public void test() throws IOException {
 //       Card c = Card.newBuilder()
-//               .withContentProvider("Acme", null, UUID.randomUUID().toString())
+//               .withMnemonic("moderador")
+//               .withContentProvider("Acme", "teste", UUID.randomUUID().toString())
 //               .withTitle(UUID.randomUUID().toString()).build();
 //       CardId id = smartcanvas.cards().insert(c);
-//       smartcanvas.moderations().approve(id);
+//        System.out.println(id);
+//        smartcanvas.moderations().approve(id);
 //    }
 
 }

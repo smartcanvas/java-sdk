@@ -171,7 +171,7 @@ public class Smartcanvas {
         
         private void moderate(ModerationRequest moderation) throws IOException {
             JsonHttpContent payload = new JsonHttpContent(jsonFactory, moderation);
-            HttpRequest request = requestFactory().buildPostRequest(moderation.url(directUrl), payload);
+            HttpRequest request = requestFactory().buildPostRequest(moderation.url(false), payload);
             request.execute();
         }
 

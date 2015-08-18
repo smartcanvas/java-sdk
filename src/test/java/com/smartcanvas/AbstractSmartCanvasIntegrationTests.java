@@ -17,7 +17,7 @@ public class AbstractSmartCanvasIntegrationTests {
     protected static final JsonFactory JSON_FACTORY = new JacksonFactory();
     protected static final String CLIENT_ID = "kMbmHrwcr91OsJQN0nbX2TVRxOxo9AQH ";
     protected static final String CLIENT_SECRET = "ouGCDY37Z03ogMy3Q4LMIysbLHdvdKS0";
-    protected static final Boolean DIRECT_URL = false; /* create card without log in sensedia if true */
+    protected static final Boolean DIRECT_URL = false; /* if true, create card without log in sensedia  */
     protected HttpExecuteInterceptor executeInterceptor;
 
 
