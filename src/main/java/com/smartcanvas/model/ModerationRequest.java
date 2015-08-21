@@ -52,8 +52,12 @@ public class ModerationRequest {
         return pendingOf(Long.valueOf(cardId));
     }
     
-    public GenericUrl url(boolean directUrl) {
+    public GenericUrl url(String directUrl) {
         return new SmartcanvasUrls.CardModerationUrl(directUrl, String.valueOf(this.cardId));
+    }
+
+    public GenericUrl url() {
+        return new SmartcanvasUrls.CardModerationUrl(String.valueOf(this.cardId));
     }
 
     @Override

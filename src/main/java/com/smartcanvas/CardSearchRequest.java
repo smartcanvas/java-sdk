@@ -1,13 +1,11 @@
 package com.smartcanvas;
 
-import com.google.api.client.json.Json;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.*;
 import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
 import com.smartcanvas.model.Card.CardStatus;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -52,11 +50,37 @@ public class CardSearchRequest extends CardApiUrl {
 
     private final static Joiner COMMA_JOINER = Joiner.on(',');
 
-    private CardSearchRequest(boolean directUrl, String query, CardStatus status, String locale, Integer limit,
+    private CardSearchRequest(String directUrl, String query, CardStatus status, String locale, Integer limit,
             Integer offset, String initDate, String endDate, Integer maxAge, Set<String> categories,
             Set<String> metaTags, Set<String> authorIds, Set<String> communityIds, Set<String> providerIds,
             Double decayment, Set<String> fields, Set<String> embed, Object jsonExtendedData, String mnemonic) {
-        super(directUrl);
+        super();
+        this.query = query;
+        this.status = status;
+        this.locale = locale;
+        this.limit = limit;
+        this.offset = offset;
+        this.initDate = initDate;
+        this.endDate = endDate;
+        this.maxAge = maxAge;
+        this.categories = join(categories);
+        this.metaTags = join(metaTags);
+        this.authorIds = join(authorIds);
+        this.communityIds = join(communityIds);
+        this.providerIds = join(providerIds);
+        this.decayment = decayment;
+        this.fields = join(fields);
+        this.embed = join(embed);
+        this.jsonExtendedData = jsonExtendedData;
+        this.mnemonic = mnemonic;
+    }
+
+
+    private CardSearchRequest(String query, CardStatus status, String locale, Integer limit,
+                              Integer offset, String initDate, String endDate, Integer maxAge, Set<String> categories,
+                              Set<String> metaTags, Set<String> authorIds, Set<String> communityIds, Set<String> providerIds,
+                              Double decayment, Set<String> fields, Set<String> embed, Object jsonExtendedData, String mnemonic) {
+        super();
         this.query = query;
         this.status = status;
         this.locale = locale;
@@ -84,14 +108,14 @@ public class CardSearchRequest extends CardApiUrl {
     }
 
     public static CardSearchRequestBuilder builder() {
-        return new CardSearchRequestBuilder(false);
+        return new CardSearchRequestBuilder();
     }
 
-    public static CardSearchRequestBuilder builder(boolean directUrl) {
+    public static CardSearchRequestBuilder builder(String directUrl) {
         return new CardSearchRequestBuilder(directUrl);
     }
 
-    public static CardSearchRequestBuilder builder(boolean directUrl, JsonFactory jsonFactory) {
+    public static CardSearchRequestBuilder builder(String directUrl, JsonFactory jsonFactory) {
         return new CardSearchRequestBuilder(directUrl, jsonFactory);
     }
 
@@ -133,15 +157,20 @@ public class CardSearchRequest extends CardApiUrl {
         
         private String mnemonic;
 
-        private boolean directUrl;
+        private String directUrl;
 
         private JsonFactory jsonFactory;
 
-        private CardSearchRequestBuilder(boolean directUrl) {
-            this.directUrl = directUrl;
+        private CardSearchRequestBuilder(String directUrl) {
+            this.directUrl = this.directUrl;
         }
 
-        public CardSearchRequestBuilder(boolean directUrl, JsonFactory jsonFactory) {
+        private CardSearchRequestBuilder() {
+            this.directUrl = new CardApiUrl().toString();
+            System.out.println("this.directUrl: "+this.directUrl);
+        }
+
+        public CardSearchRequestBuilder(String directUrl, JsonFactory jsonFactory) {
             this.jsonFactory = jsonFactory;
             this.directUrl = directUrl;
         }

@@ -26,7 +26,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 		Card buildCard = Card.newBuilder()
 				.withContentProvider(givenProvider())
 				.withTitle("Simple Card Title")
-				.withMnemonic("card1")
+				.withMnemonic("card3")
 				.withAutoApprove(true)
 				.build();
 		smartcanvas.cards().insert(buildCard);
@@ -144,10 +144,10 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 
         Card card = new Card(givenProvider());
         card.setTitle("Card Title ");
-        card.setSummary("Community Test");
+        card.setSummary("JsonExtendedData Test");
         card.setContent("Write the content of the card here");
         card.setAutoApprove(true);
-        JsonExtendedData jsonExtendedData = new JsonExtendedData("fabito", "campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
+        JsonExtendedData jsonExtendedData = new JsonExtendedData("gmoneda", "campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
         card.setJsonExtendedData(jsonExtendedData);
         smartcanvas.cards().insert(card);
     }
@@ -155,8 +155,6 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 	@Test
 	public void addJsonExtendedDatawithBuilder() throws IOException {
 		JsonExtendedData obj = new JsonExtendedData("gmoneda", "campinas", "Brasil", "www.google.com", "123124", "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg ", "Test User", "CEO", "This is a test company", "UN", "ISO9002", "1 July, 2015", 100, true, 2, 2);
-
-
 
 		Card buildCard = Card.newBuilder()
 				.withContentProvider(givenProvider())

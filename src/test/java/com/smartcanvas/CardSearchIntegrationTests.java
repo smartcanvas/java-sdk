@@ -70,9 +70,9 @@ public class CardSearchIntegrationTests extends AbstractSmartCanvasIntegrationTe
         //
         // CardId id = smartcanvas.cards().insert(card);
 
-        CardSearchRequest req = builder().categories("lorempixel")
-
-        // .query("fun")
+        CardSearchRequest req = builder()
+            .categories("lorempixel")
+            .query("fun")
         // .authorIds("fuechi@ciandt.com")
         // .fields("id", "mnemonic")
         // .maxAge(7)
@@ -83,7 +83,7 @@ public class CardSearchIntegrationTests extends AbstractSmartCanvasIntegrationTe
     }
 
     private CardSearchRequestBuilder builder() {
-        return CardSearchRequest.builder(true);
+        return CardSearchRequest.builder();
     }
 
 }

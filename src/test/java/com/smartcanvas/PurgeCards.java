@@ -20,21 +20,23 @@ public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
         System.out.println(JSON_FACTORY.toString(obj));
 
 
-        CardSearchRequest search = CardSearchRequest.builder(false, JSON_FACTORY)
+        CardSearchRequest search = CardSearchRequest.builder()
 //                .maxAge(2)
 //               .initDate(new DateTime("2014-07-15"))
+                .query("fabito")
 //                .status(CardStatus.APPROVED)
 //                .fields("id", "mnemonic")
 //                .limit(100)
 //                .offset(50)
                 /* Use a String to search jsonExtendedData */
                 //.jsonExtendedData("{\"name\":\"alan\",\"address\":\"campinas\"}")
-                .jsonExtendedData(obj)
+               // .jsonExtendedData(obj)
                 .build();
 
 
-        System.out.println(search);
+        System.out.println("Search: "+search);
         CardSearchResult result = smartcanvas.cards().search(search);
+
         System.out.println(result.getMeta());
 //        for (Card card : result.cards()) {
 //            System.out.println("Deleting: " + card.getId() + " - " + card.getMnemonic());
