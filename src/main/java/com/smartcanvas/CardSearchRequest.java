@@ -138,7 +138,7 @@ public class CardSearchRequest extends CardApiUrl {
 
         private CardSearchRequestBuilder(String directUrl) {
             this.directUrl = directUrl;
-            System.out.println("DirectURL 2 : "+ this.directUrl);
+            System.out.println("DirectURL: "+ this.directUrl);
         }
 
         private CardSearchRequestBuilder() {

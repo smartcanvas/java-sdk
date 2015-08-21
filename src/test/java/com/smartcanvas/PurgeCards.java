@@ -31,7 +31,7 @@ public class PurgeCards extends AbstractSmartCanvasIntegrationTests {
                 .offset(1)
                 /* Use a String to search jsonExtendedData */
                 //.jsonExtendedData("{\"name\":\"alan\",\"address\":\"campinas\"}")
-                .jsonExtendedData(obj)
+               // .jsonExtendedData(obj)
                 .build();
 
 
