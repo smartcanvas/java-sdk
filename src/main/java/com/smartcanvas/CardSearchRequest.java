@@ -50,37 +50,12 @@ public class CardSearchRequest extends CardApiUrl {
 
     private final static Joiner COMMA_JOINER = Joiner.on(',');
 
+
     private CardSearchRequest(String directUrl, String query, CardStatus status, String locale, Integer limit,
             Integer offset, String initDate, String endDate, Integer maxAge, Set<String> categories,
             Set<String> metaTags, Set<String> authorIds, Set<String> communityIds, Set<String> providerIds,
             Double decayment, Set<String> fields, Set<String> embed, Object jsonExtendedData, String mnemonic) {
-        super();
-        this.query = query;
-        this.status = status;
-        this.locale = locale;
-        this.limit = limit;
-        this.offset = offset;
-        this.initDate = initDate;
-        this.endDate = endDate;
-        this.maxAge = maxAge;
-        this.categories = join(categories);
-        this.metaTags = join(metaTags);
-        this.authorIds = join(authorIds);
-        this.communityIds = join(communityIds);
-        this.providerIds = join(providerIds);
-        this.decayment = decayment;
-        this.fields = join(fields);
-        this.embed = join(embed);
-        this.jsonExtendedData = jsonExtendedData;
-        this.mnemonic = mnemonic;
-    }
 
-
-    private CardSearchRequest(String query, CardStatus status, String locale, Integer limit,
-                              Integer offset, String initDate, String endDate, Integer maxAge, Set<String> categories,
-                              Set<String> metaTags, Set<String> authorIds, Set<String> communityIds, Set<String> providerIds,
-                              Double decayment, Set<String> fields, Set<String> embed, Object jsonExtendedData, String mnemonic) {
-        super();
         this.query = query;
         this.status = status;
         this.locale = locale;
@@ -162,12 +137,13 @@ public class CardSearchRequest extends CardApiUrl {
         private JsonFactory jsonFactory;
 
         private CardSearchRequestBuilder(String directUrl) {
-            this.directUrl = this.directUrl;
+            this.directUrl = directUrl;
+            System.out.println("DirectURL 2 : "+ this.directUrl);
         }
 
         private CardSearchRequestBuilder() {
             this.directUrl = new CardApiUrl().toString();
-            System.out.println("this.directUrl: "+this.directUrl);
+            System.out.println("this.directUrl sem parametro(default): "+this.directUrl);
         }
 
         public CardSearchRequestBuilder(String directUrl, JsonFactory jsonFactory) {

@@ -105,6 +105,7 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 				.withVideoAttachment("https://www.youtube.com/watch?v=h5peff8v7xw")
 				.withAutoApprove(true)
 				.build();
+		System.out.println(buildCard);
 		smartcanvas.cards().insert(buildCard);
 	}
 
@@ -136,7 +137,8 @@ public class CardCreationIntegrationTests extends AbstractSmartCanvasIntegration
 //                "http://angular.marketing/wp-content/uploads/google-in-depth-article-results.png");
 
 		String id = "6087103192498176";
-		smartcanvas.cards().update(card, id);
+		smartcanvas.cards().update(card, id, "https://api-sandbox.smartcanvas.com/");
+		System.out.println(card);
 	}
 
     @Test

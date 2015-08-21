@@ -70,7 +70,7 @@ public class CardSearchIntegrationTests extends AbstractSmartCanvasIntegrationTe
         //
         // CardId id = smartcanvas.cards().insert(card);
 
-        CardSearchRequest req = builder()
+        CardSearchRequest req = builder("sdfasd")
             .categories("lorempixel")
             .query("fun")
         // .authorIds("fuechi@ciandt.com")
@@ -78,12 +78,16 @@ public class CardSearchIntegrationTests extends AbstractSmartCanvasIntegrationTe
         // .maxAge(7)
                 .build();
         CardSearchResult result = smartcanvas.cards().search(req);
-        System.out.println(result.getMeta());
-        System.out.println(result.cards());
+      //  System.out.println(result.getMeta());
+       // System.out.println(result.cards());
     }
 
     private CardSearchRequestBuilder builder() {
         return CardSearchRequest.builder();
+    }
+
+    private CardSearchRequestBuilder builder(String directUrl) {
+        return CardSearchRequest.builder(directUrl);
     }
 
 }

@@ -779,4 +779,5 @@ public class Card extends GenericData {
         return new CardBuilder();
     }
 
+
 }

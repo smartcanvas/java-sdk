@@ -22,7 +22,7 @@ import com.smartcanvas.model.CardId;
 import com.smartcanvas.model.CardSearchResult;
 import com.smartcanvas.model.ModerationRequest;
 
-
+import javax.print.DocFlavor;
 
 
 public class Smartcanvas {
@@ -37,13 +37,30 @@ public class Smartcanvas {
     private String directUrl;
 
 
-    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret) throws JoseException {
+    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret ) throws JoseException {
         super();
         this.transport = Preconditions.checkNotNull(httpTransport,
                 "Required parameter httpTransport must be specified.");
         this.jsonFactory = Preconditions.checkNotNull(jsonFactory, "Required parameter jsonFactory must be specified.");
         this.authInitializer = new SmartcanvasAuthentication(clientId, clientSecret);
+
     }
+
+    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret, HttpExecuteInterceptor executeInterceptor) throws JoseException {
+        super();
+        this.transport = Preconditions.checkNotNull(httpTransport,
+                "Required parameter httpTransport must be specified.");
+        this.jsonFactory = Preconditions.checkNotNull(jsonFactory, "Required parameter jsonFactory must be specified.");
+        this.authInitializer = new SmartcanvasAuthentication(clientId, clientSecret);
+        this.executeInterceptor = new HttpExecuteInterceptor() {
+            @Override
+            public void intercept(HttpRequest request) throws IOException {
+            request.getHeaders().put("x-tenant-id", "labsfw");
+            }
+        };
+    }
+
+
 
 
     /**
@@ -79,8 +96,16 @@ public class Smartcanvas {
             return httpPostRequest(card).execute().parseAs(CardId.class);
         }
 
+        public CardId insert(Card card, String directUrl) throws IOException {
+            return httpPostRequest(card, directUrl).execute().parseAs(CardId.class);
+        }
+
         public CardId update(Card card, String id) throws IOException {
             return httpPutRequest(card, id).execute().parseAs(CardId.class);
+        }
+
+        public CardId update(Card card, String id, String directUrl) throws IOException {
+            return httpPutRequest(card, id, directUrl).execute().parseAs(CardId.class);
         }
 
         public CardId update(Long id, Card card) throws IOException {
@@ -106,6 +131,7 @@ public class Smartcanvas {
         }
 
         private HttpRequest getHttpRequest(CardSearchRequest searchRequest) throws IOException {
+            System.out.println("searchRequest: "+searchRequest);
             HttpRequest request = requestFactory().buildGetRequest(searchRequest);
             return request;
         }
@@ -118,8 +144,26 @@ public class Smartcanvas {
             return request;
         }
 
+        private HttpRequest httpPostRequest(final Card card, final String directUrl) throws IOException {
+            Boolean useUrl = true;
+            CardApiUrl url = new CardApiUrl(directUrl, useUrl);
+            System.out.println("CardApiUrl: "+url);
+            JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
+            HttpRequest request = requestFactory().buildPostRequest(url, content);
+            return request;
+        }
+
         private HttpRequest httpPutRequest(final Card card, String id) throws IOException {
-            CardApiUrl url = new CardApiUrl(id);
+            String put = "";
+            CardApiUrl url = new CardApiUrl(put,id);
+            JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
+            HttpRequest request = requestFactory().buildPutRequest(url, content);
+            return request;
+        }
+
+        private HttpRequest httpPutRequest(final Card card, String id, String directUrl) throws IOException {
+            String put = "";
+            CardApiUrl url = new CardApiUrl(put,id, directUrl);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             HttpRequest request = requestFactory().buildPutRequest(url, content);
             return request;

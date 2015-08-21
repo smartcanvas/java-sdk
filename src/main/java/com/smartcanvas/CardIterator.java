@@ -22,6 +22,7 @@ public class CardIterator implements Iterator<Card> {
     private int totalCount;
     private int limit = 100;
     private int pageSize = 100;
+    private String directUrl;
     
 
     public CardIterator(Smartcanvas smartcanvas, CardSearchRequestBuilder searchRequestBuilder) throws IOException {
