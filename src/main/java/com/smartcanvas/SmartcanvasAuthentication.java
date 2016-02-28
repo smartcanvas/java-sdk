@@ -47,10 +47,10 @@ public class SmartcanvasAuthentication implements HttpRequestInitializer, HttpEx
 
     @Override
     public void initialize(HttpRequest request) {
-        request.getHeaders().put(X_CLIENT_ID, getClientId());
-        request.getHeaders().put(X_ACCESS_TOKEN, accessToken);
         try {
-            this.accessToken = generateAccessToken();
+            accessToken = generateAccessToken();
+            request.getHeaders().put(X_CLIENT_ID, getClientId());
+            request.getHeaders().put(X_ACCESS_TOKEN, accessToken);
         } catch (JoseException e) {
             LOGGER.log(Level.SEVERE, "Unable to generate JWT token.", e);
         }
