@@ -1,4 +1,4 @@
-package com.smartcanvas.model;
+package com.smartcanvas;
 
 import com.google.api.client.util.Key;
 import com.google.api.client.util.Objects;

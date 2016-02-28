@@ -1,7 +1,5 @@
 package com.smartcanvas;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.util.UUID;
 
@@ -17,15 +15,13 @@ public class CardModerationIntegrationTests extends AbstractSmartCanvasIntegrati
         super();
     }
 
-//    @Test
-//    public void test() throws IOException {
-//       Card c = Card.newBuilder()
-//               .withMnemonic("moderador")
-//               .withContentProvider("Acme", "teste", UUID.randomUUID().toString())
-//               .withTitle(UUID.randomUUID().toString()).build();
-//       CardId id = smartcanvas.cards().insert(c);
-//        System.out.println(id);
-//        smartcanvas.moderations().approve(id);
-//    }
+    @Test
+    public void test() throws IOException {
+        Card c = Card.newBuilder()
+                .withContentProvider("Acme", null, UUID.randomUUID().toString())
+                .withTitle(UUID.randomUUID().toString()).build();
+        CardId id = smartcanvas.cards().insert(c);
+        smartcanvas.moderations().approve(id);
+    }
 
 }

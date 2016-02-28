@@ -2,7 +2,6 @@ package com.smartcanvas;
 
 import com.google.api.client.util.DateTime;
 import com.smartcanvas.model.Card.CardStatus;
-import com.smartcanvas.model.JsonExtendedData;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -10,8 +9,8 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CardSearchRequestBuilderTest  {
-
+public class CardSearchRequestBuilderTest {
+	
 	@Test
 	public void searchWithQuery() throws IOException {
 		String queryTerm = "queryTerm";
@@ -20,7 +19,6 @@ public class CardSearchRequestBuilderTest  {
                 .status(CardStatus.APPROVED)
                 .build();
 		assertEquals(queryTerm, searchRequest.get("q"));
-
 	}
 
 	@Test
@@ -33,7 +31,7 @@ public class CardSearchRequestBuilderTest  {
 
 	@Test
 	public void searchByMultipleAuthors() throws IOException {
-		CardSearchRequest searchRequest = CardSearchRequest.builder()
+		CardSearchRequest searchRequest = CardSearchRequest.builder(true)
 				.authorIds("fuechi@ciandt.com", "gmoneda@ciandt.com")
 				.build();
 		
@@ -136,7 +134,6 @@ public class CardSearchRequestBuilderTest  {
 	
 	@Test
 	public void searchByAllFields() throws IOException {
-		JsonExtendedData obj = new JsonExtendedData("gmoneda", null, null,null, null,null, null,null, null,null, null,null, null,null, null,null );
 		CardSearchRequest searchRequest = CardSearchRequest.builder()
 				.query("CI&T")
 				.status(CardStatus.APPROVED)
@@ -155,10 +152,8 @@ public class CardSearchRequestBuilderTest  {
 				.initDate(new DateTime("2015-15-01"))
 				.endDate(new DateTime("2015-15-03"))
 				//.decayment(0.5D)
-				//.jsonExtendedData(obj)
+				//.jsonExtendedData("Not Implemmented yet")
 				.build();
-
-
 		System.out.println(searchRequest);
 	}
 

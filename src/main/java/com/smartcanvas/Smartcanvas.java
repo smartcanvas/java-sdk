@@ -1,7 +1,6 @@
 package com.smartcanvas;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import org.jose4j.lang.JoseException;
 
@@ -22,46 +21,40 @@ import com.smartcanvas.model.CardId;
 import com.smartcanvas.model.CardSearchResult;
 import com.smartcanvas.model.ModerationRequest;
 
-import javax.print.DocFlavor;
-
 
 public class Smartcanvas {
 
-    private static final Logger LOGGER = Logger.getLogger(Smartcanvas.class.getSimpleName());
-    
     private static final int NUMBER_OF_RETRIES_DEFAULT = 3;
     private HttpTransport transport;
     private JsonFactory jsonFactory;
     private HttpExecuteInterceptor executeInterceptor;
     private HttpRequestInitializer authInitializer;
-    private String directUrl;
+    private boolean useSandbox = false;
 
+    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret)
+            throws JoseException {
+        this(httpTransport, jsonFactory, clientId, clientSecret, false);
+    }
 
-    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret ) throws JoseException {
+    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret,
+            boolean useSandbox) throws JoseException {
         super();
         this.transport = Preconditions.checkNotNull(httpTransport,
                 "Required parameter httpTransport must be specified.");
         this.jsonFactory = Preconditions.checkNotNull(jsonFactory, "Required parameter jsonFactory must be specified.");
-        this.authInitializer = new SmartcanvasAuthentication(clientId, clientSecret);
-
+        this.authInitializer = new SmartcanvasAuthentication(clientId, clientSecret, null);
+        this.useSandbox = useSandbox;
     }
 
-    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret, HttpExecuteInterceptor executeInterceptor) throws JoseException {
+    public Smartcanvas(HttpTransport httpTransport, JsonFactory jsonFactory, String clientId, String clientSecret,
+            boolean useSandbox, Long tokenExpirationMinInFuture) throws JoseException {
         super();
         this.transport = Preconditions.checkNotNull(httpTransport,
                 "Required parameter httpTransport must be specified.");
         this.jsonFactory = Preconditions.checkNotNull(jsonFactory, "Required parameter jsonFactory must be specified.");
-        this.authInitializer = new SmartcanvasAuthentication(clientId, clientSecret);
-        this.executeInterceptor = new HttpExecuteInterceptor() {
-            @Override
-            public void intercept(HttpRequest request) throws IOException {
-            request.getHeaders().put("x-tenant-id", "labsfw");
-            }
-        };
+        this.authInitializer = new SmartcanvasAuthentication(clientId, clientSecret, tokenExpirationMinInFuture);
+        this.useSandbox = useSandbox;
     }
-
-
-
 
     /**
      * An accessor for creating requests for the Cards resource.
@@ -69,7 +62,7 @@ public class Smartcanvas {
      * <p>
      * The typical use is:
      * </p>
-     * 
+     *
      * <pre>
      *   {@code SmartCanvas smartCanvas = new SmartCanvas(...);}
      *   {@code CardSearchResult result = smartCanvas.cards().search(parameters ...)}
@@ -80,8 +73,6 @@ public class Smartcanvas {
     public Cards cards() {
         return new Cards();
     }
-
-
 
     /**
      * The "cards" collection of methods.
@@ -96,128 +87,93 @@ public class Smartcanvas {
             return httpPostRequest(card).execute().parseAs(CardId.class);
         }
 
-        public CardId insert(Card card, String directUrl) throws IOException {
-            return httpPostRequest(card, directUrl).execute().parseAs(CardId.class);
-        }
-
         public CardId update(Card card, String id) throws IOException {
             return httpPutRequest(card, id).execute().parseAs(CardId.class);
-        }
-
-        public CardId update(Card card, String id, String directUrl) throws IOException {
-            return httpPutRequest(card, id, directUrl).execute().parseAs(CardId.class);
         }
 
         public CardId update(Long id, Card card) throws IOException {
             return update(card, String.valueOf(id));
         }
-        
+
         public void delete(Long id) throws IOException {
             delete(String.valueOf(id));
         }
-        
+
         public void delete(String id) throws IOException {
             httpDeleteRequest(id).execute();
         }
-        
+
         public Card get(Long id) throws IOException {
             return get(String.valueOf(id));
         }
-        
+
         public Card get(String id) throws IOException {
-            CardApiUrl url = new CardApiUrl(directUrl, id);
+            CardApiUrl url = new CardApiUrl(useSandbox, id);
             HttpRequest request = requestFactory().buildGetRequest(url);
             return request.execute().parseAs(Card.class);
         }
 
         private HttpRequest getHttpRequest(CardSearchRequest searchRequest) throws IOException {
-            System.out.println("searchRequest: "+searchRequest);
             HttpRequest request = requestFactory().buildGetRequest(searchRequest);
             return request;
         }
 
         private HttpRequest httpPostRequest(final Card card) throws IOException {
-            CardApiUrl url = new CardApiUrl();
-            System.out.println("CardApiUrl: "+url);
-            JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
-            HttpRequest request = requestFactory().buildPostRequest(url, content);
-            return request;
-        }
-
-        private HttpRequest httpPostRequest(final Card card, final String directUrl) throws IOException {
-            Boolean useUrl = true;
-            CardApiUrl url = new CardApiUrl(directUrl, useUrl);
-            System.out.println("CardApiUrl: "+url);
+            CardApiUrl url = new CardApiUrl(useSandbox);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             HttpRequest request = requestFactory().buildPostRequest(url, content);
             return request;
         }
 
         private HttpRequest httpPutRequest(final Card card, String id) throws IOException {
-            String put = "";
-            CardApiUrl url = new CardApiUrl(put,id);
-            JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
-            HttpRequest request = requestFactory().buildPutRequest(url, content);
-            return request;
-        }
-
-        private HttpRequest httpPutRequest(final Card card, String id, String directUrl) throws IOException {
-            String put = "";
-            CardApiUrl url = new CardApiUrl(put,id, directUrl);
+            CardApiUrl url = new CardApiUrl(useSandbox, id);
             JsonHttpContent content = new JsonHttpContent(jsonFactory, card);
             HttpRequest request = requestFactory().buildPutRequest(url, content);
             return request;
         }
 
         private HttpRequest httpDeleteRequest(String id) throws IOException {
-            CardApiUrl url = new CardApiUrl(id);
+            CardApiUrl url = new CardApiUrl(useSandbox, id);
             HttpRequest request = requestFactory().buildDeleteRequest(url);
             return request;
         }
 
     }
-    
+
     public Moderations moderations() {
         return new Moderations();
     }
 
     public class Moderations {
-        
+
         public void approve(Long cardId) throws IOException {
             moderate(ModerationRequest.approvalOf(cardId));
         }
-        
+
         public void approve(CardId id) throws IOException {
             moderate(ModerationRequest.approvalOf(id.id()));
         }
-        
+
         public void unapprove(Long cardId) throws IOException {
             moderate(ModerationRequest.pendingOf(cardId));
         }
-        
+
         public void reject(Long cardId) throws IOException {
             moderate(ModerationRequest.rejectionOf(cardId));
         }
-        
+
         private void moderate(ModerationRequest moderation) throws IOException {
             JsonHttpContent payload = new JsonHttpContent(jsonFactory, moderation);
-            HttpRequest request = requestFactory().buildPostRequest(moderation.url(), payload);
+            HttpRequest request = requestFactory().buildPostRequest(moderation.url(useSandbox), payload);
             request.execute();
         }
 
-        private void moderate(ModerationRequest moderation, String directUrl) throws IOException {
-            JsonHttpContent payload = new JsonHttpContent(jsonFactory, moderation);
-            HttpRequest request = requestFactory().buildPostRequest(moderation.url(directUrl), payload);
-            request.execute();
-        }
 
-        
     }
-
-
 
     private HttpRequestFactory requestFactory() {
         return transport.createRequestFactory(new HttpRequestInitializer() {
+            @Override
             public void initialize(HttpRequest request) throws IOException {
                 request.setParser(new JsonObjectParser(jsonFactory));
                 request.setNumberOfRetries(NUMBER_OF_RETRIES_DEFAULT);

@@ -1,10 +1,16 @@
 package com.smartcanvas.model;
 
-import com.google.api.client.util.*;
-import com.google.api.client.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-import java.lang.instrument.IllegalClassFormatException;
-import java.util.*;
+import com.google.api.client.util.DateTime;
+import com.google.api.client.util.GenericData;
+import com.google.api.client.util.Key;
+import com.google.api.client.util.Lists;
+import com.google.api.client.util.Objects;
+import com.google.api.client.util.Sets;
+import com.google.api.client.util.Value;
 
 public class Card extends GenericData {
 
@@ -53,7 +59,6 @@ public class Card extends GenericData {
     private Object jsonExtendedData;
     @Key
     private CardStatus status;
-    private String coordinates;
     @Key
     private List<UserActivity> userActivities;
     @Key
@@ -251,7 +256,7 @@ public class Card extends GenericData {
 
     public void addCategories(String... categories) {
         if (getCategories() == null) {
-            setCategories(Sets.<String>newHashSet());
+            setCategories(Sets.<String> newHashSet());
         }
         for (String category : categories) {
             this.categories.add(category);
@@ -260,11 +265,33 @@ public class Card extends GenericData {
 
     public void addMetaTags(String... metaTags) {
         if (getMetaTags() == null) {
-            setMetaTags(Sets.<String>newHashSet());
+            setMetaTags(Sets.<String> newHashSet());
         }
         for (String tag : metaTags) {
             this.metaTags.add(tag);
         }
+    }
+
+    public void addVideoAttachment(String videoUrl) {
+        Attachment video = Attachment.video(videoUrl);
+        this.addAttachment(video);
+    }
+
+    public void addPhotoAttachment(String photoUrl) {
+        Attachment photo = Attachment.photo(photoUrl);
+        this.addAttachment(photo);
+    }
+
+    public void addArticleAttachment(String articleUrl, String photoUrl) {
+        Attachment article = Attachment.article(articleUrl, photoUrl);
+        this.addAttachment(article);
+    }
+
+    public void addAttachment(Attachment attachment) {
+        if (getAttachments() == null) {
+            setAttachments(Lists.<Attachment> newArrayList());
+        }
+        this.attachments.add(attachment);
     }
 
     public static class Attachment {
@@ -351,7 +378,6 @@ public class Card extends GenericData {
             return videoattachment;
         }
 
-
         public static Attachment photo(String photoUrl) {
             Attachment photoAttachment = new Attachment(TypeEnum.PHOTO);
             photoAttachment.setContentURL(photoUrl);
@@ -362,7 +388,9 @@ public class Card extends GenericData {
         public static Attachment article(String articleUrl, String photoUrl) {
             Attachment articleAttachment = new Attachment(TypeEnum.ARTICLE);
             articleAttachment.setContentURL(articleUrl);
-            articleAttachment.addImage(photoUrl);
+            if (photoUrl != null && photoUrl != "") {
+                articleAttachment.addImage(photoUrl);
+            }
             return articleAttachment;
         }
 
@@ -595,7 +623,7 @@ public class Card extends GenericData {
         private Boolean autoApprove;
         private Set<String> categories;
         private Set<String> metaTags;
-        private List<Attachment> attachments = new ArrayList<>();
+        private List<Attachment> attachments;
         private Object jsonExtendedData;
         private Permission permission;
         private Set<String> locales;
@@ -642,19 +670,7 @@ public class Card extends GenericData {
             return this;
         }
 
-        public CardBuilder withAuthor(String id, String displayName, String imageURL) {
-            Author author = new Author();
-            author.setId(id);
-            author.setDisplayName(displayName);
-            author.setImageURL(imageURL);
-            this.author = author;
-            return this;
-        }
-
-        public CardBuilder withAuthor(String id, String displayName) {
-            Author author = new Author();
-            author.setId(id);
-            author.setDisplayName(displayName);
+        public CardBuilder withAuthor(Author author) {
             this.author = author;
             return this;
         }
@@ -675,22 +691,18 @@ public class Card extends GenericData {
             return this;
         }
 
-        public CardBuilder withCommunity(String id, String displayName) {
-            Community community = new Community();
-            community.setId(id);
-            community.setDisplayName(displayName);
+        public CardBuilder withCommunity(Community community) {
             this.community = community;
             return this;
         }
 
-        public CardBuilder withPublishDate(DateTime publishDate) {
-
-            this.publishDate = publishDate.toString();
+        public CardBuilder withPublishDate(String publishDate) {
+            this.publishDate = publishDate;
             return this;
         }
 
-        public CardBuilder withExpirationDate(DateTime expirationDate) {
-            this.expirationDate = expirationDate.toString();
+        public CardBuilder withExpirationDate(String expirationDate) {
+            this.expirationDate = expirationDate;
             return this;
         }
 
@@ -699,40 +711,25 @@ public class Card extends GenericData {
             return this;
         }
 
-        public CardBuilder withCategories(String... categories) {
-            Set<String> category = new HashSet<String>(Arrays.<String>asList(categories));
-            this.categories = category;
+        public CardBuilder withCategories(Set<String> categories) {
+            this.categories = categories;
             return this;
         }
 
-        public CardBuilder withMetaTags(String... metaTags) {
-            Set<String> metaTag = new HashSet<String>(Arrays.<String>asList(metaTags));
-            this.metaTags = metaTag;
+        public CardBuilder withMetaTags(Set<String> metaTags) {
+            this.metaTags = metaTags;
             return this;
         }
 
-        public CardBuilder withVideoAttachment(String videoUrl) {
-            Attachment video = Attachment.video(videoUrl);
-            return this.addAttachment(video);
-        }
-
-        public CardBuilder withPhotoAttachment(String photoUrl) {
-            Attachment photo = Attachment.photo(photoUrl);
-            this.addAttachment(photo);
+        public CardBuilder withAttachments(List<Attachment> attachments) {
+            this.attachments = attachments;
             return this;
         }
 
-        public CardBuilder withArticleAttachment(String articleUrl, String photoUrl) {
-            Attachment article = Attachment.article(articleUrl, photoUrl);
-            return this.addAttachment(article);
-        }
-
-        public CardBuilder addAttachment(Attachment attachment) {
-            this.attachments.add(attachment);
+        public CardBuilder withJsonExtendedData(Object jsonExtendedData) {
+            this.jsonExtendedData = jsonExtendedData;
             return this;
         }
-
-
 
         public CardBuilder withPermission(Permission permission) {
             this.permission = permission;
@@ -744,40 +741,15 @@ public class Card extends GenericData {
             return this;
         }
 
-        public CardBuilder withJsonExtendedData (Object jsonExtendedData) {
-            this.jsonExtendedData = jsonExtendedData;
-            return this;
-        }
-
-        private CardBuilder compareDate(String publishedDate, String expirationDate) {
-//            FIXME (VALIDATION OF PUBLISHED AND EXPIRATION!)
-            if ((publishedDate != null) && (expirationDate != null)) {
-                if (publishedDate.compareTo(expirationDate) < 1) {
-                    return this;
-                } else {
-                    System.out.println("PublishedDate: "+publishedDate);
-                    System.out.println("ExpirationDate: "+expirationDate);
-                    throw new IllegalStateException("ERROR: publishedDate must be less than expirationDate");
-                }
-            }
-            return this;
-        }
-
         public Card build() {
-                if ((publishDate != null) && (expirationDate != null)) {
-                    compareDate(publishDate.toString(),expirationDate.toString());
-                }
-                return new Card(mnemonic, title, summary, content, author, contentProvider, community, publishDate,
-                        expirationDate, autoApprove, categories, metaTags, attachments, jsonExtendedData, permission,
-                        locales);
-
-
-
+            return new Card(mnemonic, title, summary, content, author, contentProvider, community, publishDate,
+                    expirationDate, autoApprove, categories, metaTags, attachments, jsonExtendedData, permission,
+                    locales);
         }
     }
+
     public static CardBuilder newBuilder() {
         return new CardBuilder();
     }
-
 
 }

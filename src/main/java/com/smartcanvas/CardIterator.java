@@ -9,7 +9,7 @@ import com.smartcanvas.model.CardSearchResult;
 
 /**
  * Abstract Card API pagination complexities
- * 
+ *
  * @author fabio
  *
  */
@@ -19,11 +19,7 @@ public class CardIterator implements Iterator<Card> {
     private CardSearchRequestBuilder searchRequestBuilder;
     private CardSearchResult result;
     private int currentPosition;
-    private int totalCount;
     private int limit = 100;
-    private int pageSize = 100;
-    private String directUrl;
-    
 
     public CardIterator(Smartcanvas smartcanvas, CardSearchRequestBuilder searchRequestBuilder) throws IOException {
         super();
@@ -53,5 +49,5 @@ public class CardIterator implements Iterator<Card> {
     public void remove() {
         throw new UnsupportedOperationException();
     }
-    
+
 }

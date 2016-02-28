@@ -1,13 +1,18 @@
 package com.smartcanvas;
 
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.util.*;
-import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
-import com.smartcanvas.model.Card.CardStatus;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
+
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.util.DateTime;
+import com.google.api.client.util.Joiner;
+import com.google.api.client.util.Key;
+import com.google.api.client.util.Objects;
+import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.Sets;
+import com.smartcanvas.SmartcanvasUrls.CardApiUrl;
+import com.smartcanvas.model.Card.CardStatus;
 
 public class CardSearchRequest extends CardApiUrl {
 
@@ -32,7 +37,7 @@ public class CardSearchRequest extends CardApiUrl {
     @Key
     private final String metaTags;
     @Key
-    private final String mnemonic;    
+    private final String mnemonic;
     @Key
     private final String authorIds;
     @Key
@@ -50,12 +55,11 @@ public class CardSearchRequest extends CardApiUrl {
 
     private final static Joiner COMMA_JOINER = Joiner.on(',');
 
-
-    private CardSearchRequest(String directUrl, String query, CardStatus status, String locale, Integer limit,
+    private CardSearchRequest(boolean useSandbox, String query, CardStatus status, String locale, Integer limit,
             Integer offset, String initDate, String endDate, Integer maxAge, Set<String> categories,
             Set<String> metaTags, Set<String> authorIds, Set<String> communityIds, Set<String> providerIds,
             Double decayment, Set<String> fields, Set<String> embed, Object jsonExtendedData, String mnemonic) {
-
+        super(useSandbox);
         this.query = query;
         this.status = status;
         this.locale = locale;
@@ -83,15 +87,15 @@ public class CardSearchRequest extends CardApiUrl {
     }
 
     public static CardSearchRequestBuilder builder() {
-        return new CardSearchRequestBuilder();
+        return new CardSearchRequestBuilder(false);
     }
 
-    public static CardSearchRequestBuilder builder(String directUrl) {
-        return new CardSearchRequestBuilder(directUrl);
+    public static CardSearchRequestBuilder builder(boolean useSandbox) {
+        return new CardSearchRequestBuilder(useSandbox);
     }
 
-    public static CardSearchRequestBuilder builder(String directUrl, JsonFactory jsonFactory) {
-        return new CardSearchRequestBuilder(directUrl, jsonFactory);
+    public static CardSearchRequestBuilder builder(boolean useSandbox, JsonFactory jsonFactory) {
+        return new CardSearchRequestBuilder(useSandbox, jsonFactory);
     }
 
     public static class CardSearchRequestBuilder {
@@ -129,26 +133,20 @@ public class CardSearchRequest extends CardApiUrl {
         private Set<String> embed;
 
         private String jsonExtendedData;
-        
+
         private String mnemonic;
 
-        private String directUrl;
+        private boolean useSandbox;
 
         private JsonFactory jsonFactory;
 
-        private CardSearchRequestBuilder(String directUrl) {
-            this.directUrl = directUrl;
-            System.out.println("DirectURL: "+ this.directUrl);
+        private CardSearchRequestBuilder(boolean useSandbox) {
+            this.useSandbox = useSandbox;
         }
 
-        private CardSearchRequestBuilder() {
-            this.directUrl = new CardApiUrl().toString();
-            System.out.println("this.directUrl sem parametro(default): "+this.directUrl);
-        }
-
-        public CardSearchRequestBuilder(String directUrl, JsonFactory jsonFactory) {
+        public CardSearchRequestBuilder(boolean useSandbox, JsonFactory jsonFactory) {
             this.jsonFactory = jsonFactory;
-            this.directUrl = directUrl;
+            this.useSandbox = useSandbox;
         }
 
         public CardSearchRequestBuilder query(String query) {
@@ -238,7 +236,7 @@ public class CardSearchRequest extends CardApiUrl {
             this.mnemonic = mnemonic;
             return this;
         }
-        
+
         public CardSearchRequestBuilder fields(String... fieldsString) {
             if (this.fields == null)
                 this.fields = Sets.newHashSet();
@@ -279,7 +277,7 @@ public class CardSearchRequest extends CardApiUrl {
                 throw new IllegalStateException("maxAge can't be invoked with initDate or/and endDate");
             }
 
-            return new CardSearchRequest(this.directUrl, this.query, this.status, this.locale, this.limit,
+            return new CardSearchRequest(this.useSandbox, this.query, this.status, this.locale, this.limit,
                     this.offset, this.initDate, this.endDate, this.maxAge, this.categories, this.metaTags,
                     this.authorIds, this.communityIds, this.providerIds, this.decayment, this.fields, this.embed,
                     this.jsonExtendedData, this.mnemonic);
